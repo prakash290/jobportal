@@ -30,7 +30,7 @@
 	
 	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> 
 	       <beans:constructor-arg name="mongo" ref="mongo"/> 
-	       <beans:constructor-arg name="databaseName" value="blouda"/>
+	       <beans:constructor-arg name="databaseName" value="jobportal"/>
 	</beans:bean>
 	
 </beans:beans>
