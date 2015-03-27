@@ -1,0 +1,6 @@
+#findsection .col-md-3{
+	width: 20%;
+}
+.form-control{
+	border-radius: 2px;
+}

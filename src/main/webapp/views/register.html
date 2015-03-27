@@ -1,0 +1,37 @@
+<h1 class="text-center">Register Page</h1>
+<br>
+<div class="col-md-6 col-md-offset-3">
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="Enter your name" ng-model="name" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Skill sets</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="inputEmail3" ng-model="skillset" placeholder="Enter your skillsets" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Experience</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="inputEmail3" ng-model="experience"  placeholder="Enter your experience" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-3 control-label">Project Description</label>
+    <div class="col-sm-9">
+      <textarea class="form-control" rows="3" ng-model="description"></textarea>
+    </div>
+  </div>   
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <button type="submit" class="btn btn-success" ng-click="save()">Submit</button>
+    </div>
+  </div>
+</form>
+<a href="/#/home" class="pull-right"> Back to home</a>
+</div>
+

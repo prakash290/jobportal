@@ -1,0 +1,92 @@
+<div class="row">	
+	<div class="col-md-5" ng-show="analytics_process">
+		<p>Please Wait Data Is Loading.....</p>
+	</div>
+</div>
+<style type="text/css">
+	.panel-footer{
+		min-height: 50px;
+	}
+</style>
+
+<div ng-hide="analytics_process">
+	<div class="row">
+		<br/>	
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				  <div class="panel-heading text-center">By Industry Type</div>
+				  <div class="panel-body">
+				    <industry chartdata="industries" charttype="pie"></industry>
+				  </div>
+				  <div class="panel-footer" ng-init="indus = false" ng-mouseover="indus = true " ng-mouseleave="indus = false ">
+				  		<span ng-repeat="value in query.industry_type"> 		
+							   <button type="button" class="btn btn-primary btn-sm" ng-init="attribute='industry_type'" ng-click="remove($index,attribute)" tooltip="Remove" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+								  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{value}}
+								</button>
+				  		</span>		
+				  		<span ng-show ="indus">	  		
+				  		     <button ng-show ="query.industry_type.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  		</span>			
+				  </div>
+			</div>	    	   
+		</div>
+	    <div class="col-md-6">
+	    	<div class="panel panel-default">
+				  <div class="panel-heading text-center">By Location</div>
+				  <div class="panel-body">				  	
+				  		<location chartdata="locations" charttype="pie"></locaion>	  					  				    
+				  </div>
+				  <div class="panel-footer" ng-init="location = false" ng-mouseover="location = true " ng-mouseleave="location = false ">
+				  	<span ng-repeat="value in query.prefered_location">
+			  			<button type="button" class="btn btn-primary btn-sm" ng-init="attribute='prefered_location'" ng-click="remove($index,attribute)" tooltip="Remove" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+							  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{value}}
+						</button>
+				  	</span>
+				  	<span ng-show ="location">	  		
+				  		     <button ng-show ="query.prefered_location.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  	</span>	
+				  </div>
+			</div>	      	
+	    </div>
+</div>
+<div class="row">    
+	    <div class="col-md-6">
+	    	<div class="panel panel-default">
+				  <div class="panel-heading text-center">By Role</div>
+				  <div class="panel-body">
+				    <role chartdata="roles" charttype="pie"></role>
+				  </div>
+				  <div class="panel-footer" ng-init="role = false" ng-mouseover="role = true " ng-mouseleave="role = false ">
+				  	<span ng-repeat="value in query.role">
+				  		<button type="button" class="btn btn-primary btn-sm" ng-init="attribute='role'" ng-click="remove($index,attribute)" tooltip="Remove" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+							  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{value}}
+						</button>
+				  	</span>
+				  	<span ng-show ="role">	  		
+				  		     <button ng-show ="query.role.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  	</span>	
+				  </div>
+			</div>
+	    </div>
+	    <div class="col-md-6">
+	    	<div class="panel panel-default">
+				  <div class="panel-heading text-center">By Experience</div>
+				  <div class="panel-body">
+				    <experience chartdata="experiences" charttype="pie"></experience>				    
+				  </div>
+				  <div class="panel-footer" ng-init="experience = false" ng-mouseover="experience = true " ng-mouseleave="experience = false ">
+				  	<span ng-repeat="value in query.experience">
+				  			<button type="button" class="btn btn-primary btn-sm" ng-init="attribute='experience'" ng-click="remove($index,attribute)" tooltip="Remove" tooltip-trigger="mouseenter" tooltip-placement="bottom">
+								  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{value}}
+							</button>
+				  	</span>
+				  	<span ng-show ="experience">	  		
+				  		     <button ng-show ="query.experience.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  	</span>	
+				  </div>
+			</div>
+	    </div>			
+	</div>	
+</div>
+
+

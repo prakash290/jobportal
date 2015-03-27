@@ -1,0 +1,36 @@
+<div class="col-md-12" id="findsection">
+	<div class="col-md-3"> 
+		<label >Industry Type</label>
+		<input type="text" data-ng-model="industrytype" data-typeahead="state for state in industype | filter:$viewValue | limitTo:8" class="form-control" placeholder="Choose your industry type">
+	</div>
+	<div class="col-md-3">
+		<label >Skill Set</label>
+		<input type="text" data-ng-model="skills" class="form-control" placeholder="Skill Sets">
+	</div>
+	<div class="col-md-3">
+		<label >Experience</label>
+		<select ng-model="experience" class="form-control">	
+			<option value=''>Choose Experience</option>
+			<option value="Fresher"> Fresher </option>
+			<option value="1-2"> 1 - 2 years </option>
+			<option value="2-4"> 2 - 4 years </option>
+			<option value="5-10"> 5 - 10 years </option>
+			<option value="above 10"> above 10 years</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label >Salary Range</label>
+		<select ng-model="salarytype" class="form-control">
+			<option value=''>Choose Salary Range</option>
+			<option value="<1 lakh"> &lt 1 Lakh </option>
+			<option value="1 lakh- 2 lakh"> 1 Lakh- 3 Lakh </option>
+			<option value="3 lakh- 5 lakh"> 3 Lakh- 5 Lakh </option>
+			<option value="5 lakh- 10 lakh"> 5 Lakh- 10 Lakh </option>
+			<option value=">10 lakh"> &gt 10 Lakh </option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label >&nbsp;</label><br>
+		<button class="btn btn-primary" type="submit" ng-click="findresume()" ng-disabled="industrytype == undefined || industrytype == ''">Find</button>
+	</div>
+</div>
