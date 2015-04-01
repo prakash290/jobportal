@@ -16,14 +16,15 @@
 	</http>
 	<beans:bean
 	class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
-<!-- <beans:property name="driverClassName" value="mongodb.jdbc.MongoDriver" /> -->
+   <beans:property name="driverClassName" value="net.sf.mongodb_jdbc_driver.MongoDbDriver" /> 
+    
 	<beans:property name="url"
-		value="jdbc:mongo://localhost:27017/blouda" />
+		value="jdbc:mongodb://localhost:27017/jobportal" />
 	<beans:property name="username" value="" />
 	<beans:property name="password" value="" />
 </beans:bean>
 
-	<!-- <authentication-manager>
+	 <authentication-manager>
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
 
@@ -32,16 +33,9 @@
 					from User u where u.name=?"
 
 				authorities-by-username-query="
-					select u.name, p.name from User u, Privilege p where u.privilegeId = p.id and u.name =?" />
+					select u.name, u.privilege from User u where u.name =?" />
 		</authentication-provider>
-	</authentication-manager> -->
-	<authentication-manager>
-	  <authentication-provider>
-	    <user-service>
-		<user name="mohan" password="mohan" authorities="admin"/>
-		
-	    </user-service>
-	  </authentication-provider>
 	</authentication-manager>
+	
 
 </beans:beans>

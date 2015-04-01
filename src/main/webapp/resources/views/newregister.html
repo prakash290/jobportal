@@ -1,0 +1,208 @@
+<style type="text/css">
+.form-group{
+	margin-bottom: 8px;
+}
+.showError{
+	color: red;
+}
+</style>
+
+<div class="panel panel-primary">
+   <div class="panel-heading">
+      <h3 class="panel-title text-center">Register</h3>
+   </div>
+ <div class="panel-body">
+  	<!-- For Login -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Login Details</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal" name="employeeregisterlogin" novalidate>
+		  <div class="form-group">
+		    <label for="Email" class="col-sm-2 control-label" style="text-align:left">Email</label>
+		    <div class="col-sm-5">
+		      <input type="text" ng-model="email" name="mail" class="form-control" ng-pattern="/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/" placeholder="Email" required>
+		      <div  ng-show="employeeregisterlogin.mail.$dirty && employeeregisterlogin.mail.$invalid">
+				<span ng-show="employeeregisterlogin.mail.$error.required" class="showError">Enter ur mail id!!</span>
+				<span ng-show="employeeregisterlogin.mail.$error.pattern" class="showError">Example abc@mail.com</span>
+			 </div>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Password</label>
+		    <div class="col-sm-5">
+		      <input type="password" class="form-control" ng-model="password" placeholder="Password" name="password" required > 
+		      <div  ng-show="employeeregisterlogin.password.$dirty && employeeregisterlogin.password.$invalid">
+		      <div ng-show="employeeregisterlogin.password.$error.required">
+        		Field required</div>
+        	 </div>	
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Confirm Password</label>
+		    <div class="col-sm-5">
+		      <input type="password" class="form-control" ng-model="password_verify" name="confirm_password" required data-password-verify="password"
+		     placeholder="Password"> 
+		      <div  ng-show="employeeregisterlogin.confirm_password.$dirty && employeeregisterlogin.confirm_password.$invalid">
+		     <div ng-show="employeeregisterlogin.confirm_password.$error.required">
+	        Field required!</div>
+	      <div ng-show="employeeregisterlogin.confirm_password.$error.passwordVerify">
+	        Fields are not equal!</div>
+	    </div>
+		    </div>
+		  </div>		  
+		</form>
+	  </div>
+	</div>
+
+	<!-- For Contact Details -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Contact Details</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal" name="employeeregister">
+		  <div class="form-group">
+		    <label for="Full Name" class="col-sm-2 control-label" style="text-align:left">Full Name</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" ng-model="fullname" name="fullname" placeholder="Enter your full name" ng-pattern="/^[a-zA-Z][a-zA-Z.]*$/" required>
+		      <div ng-show="employeeregister.fullname.$dirty && employeeregister.fullname.$invalid">
+					<span ng-show="employeeregister.fullname.$error.required" class="showError">Enter ur name</span>
+					<span ng-show="employeeregister.fullname.$error.pattern" class="showError">Use only characters</span>
+			   </div>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Location</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="currentlocation" name="currentlocation" required>
+						  <option>Select</option>
+						  <option>Coimbatore</option>
+						  <option>Chennai</option>
+						  <option>Bangalore</option>
+						  <option>Delhi</option>						
+					</select>
+					<div ng-show="employeeregister.currentlocation.$dirty && employeeregister.currentlocation.$invalid">					
+						<span ng-show="employeeregister.currentlocation.$error.required" class="showError">Enter ur name</span>						
+			   		</div>
+		      </div>
+   		   </div>
+		  <div class="form-group">
+		    <label for="phonenumber" class="col-sm-2 control-label" style="text-align:left">Phone Number</label>
+		    <div class="col-sm-5">
+		      <input type="number" class="form-control" ng-model="phonenumber" ng-maxlength="10" name="phonenumber" placeholder="Phone Number" required>
+		      <div ng-show="employeeregister.phonenumber.$dirty && employeeregister.phonenumber.$invalid">					
+						<span ng-show="employeeregister.phonenumber.$error.maxlength" class="showError">Only 10 charectors only allowed.</span>					<span ng-show="employeeregister.phonenumber.$error.required" class="showError">Phone is required!</span>			
+			   	</div>
+		    </div>
+		  </div>		  
+		</form>
+	  </div>
+	</div>
+	
+	<!-- For  Employment Details -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Current Employement Details</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal">
+		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Years Of Exp</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="experience">
+						  <option>Select</option>
+						  <option>Fresher</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>
+						 <option>4</option>
+						  <option>5</option>
+					</select>
+		      </div>
+   		   </div>
+		  <div class="form-group">
+		    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+		    <div class="col-sm-5">
+		      <tagger ng-model="tags" options="options" placeholder="Give your Skill sets"/>
+		    </div>
+		  </div>		 		  
+		</form>
+	  </div>
+	</div>
+
+	<!-- For Educational Details -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Educational Details</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal">
+	    <div class="row">
+	    	<div class="col-md-6">	
+			  <div class="form-group">
+			      <label for="basic education" class="col-sm-4 control-label" style="text-align:left">Basic Education</label>
+			      <div class="col-sm-8">
+				        <select class="form-control" ng-model="basiceducation">
+							  <option>Select</option>
+							  <option>Not Pursuing Graduation</option>
+							  <option>B.E</option>
+							  <option>B.Sc</option>
+							  <option>B.A</option>
+							  <option>B.Com</option>
+						</select>
+			      </div>
+	   		  </div>
+			  <div class="form-group">
+			      <label for="master education" class="col-sm-4 control-label" style="text-align:left">Maters Education</label>
+			      <div class="col-sm-8">
+				        <select class="form-control" ng-model="mastereduction">
+							  <option>Select</option> 
+							  <option>M.E</option>
+							  <option>M.Sc</option>
+							  <option>M.A</option>
+							  <option>M.Com</option>
+						</select>
+			      </div>
+	   		  </div>
+			  <div class="form-group">
+			      <label for="doctorate education" class="col-sm-4 control-label" style="text-align:left">Doctorate Education</label>
+			      <div class="col-sm-8">
+				        <select class="form-control" ng-model="doctorateeducation">
+							  <option>Select</option>
+							  <option>Ph.D</option>
+							  <option>M.Phil</option>
+							  <option>Others</option>
+						</select>
+			      </div>
+	   		  </div>
+	   		</div>
+	   		<div class="col-md-6">
+	   			<div class="form-group">
+				    <label for="othercourse1" class="col-sm-4 control-label" style="text-align:left">Other Course1</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" ng-model="othercourse1" placeholder="Other Course">
+				    </div>
+		  		</div>
+		  		<div class="form-group">
+				    <label for="othercourse2" class="col-sm-4 control-label" style="text-align:left">Other Course2</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" ng-model="othercourse2" placeholder="Other Course">
+				    </div>
+		  		</div>
+		  		<div class="form-group">
+				    <label for="othercourse3" class="col-sm-4 control-label" style="text-align:left">Other Course3</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" ng-model="othercourse3" placeholder="Other Course">
+				    </div>
+		  		</div>
+	   		</div>
+   		   </div>		  
+		</form>
+	  </div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<span>
+
+				<button class="btn btn-success" type="submit" ng-click="registerUser()">Register</button>
+				<button class="btn btn-danger" type="submit" ng-click="reset()">Cancel</button>
+			</span>
+		</div>	
+	</div>
+  </div>
+</div>

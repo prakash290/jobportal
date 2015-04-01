@@ -124,6 +124,12 @@
 			<version>2.12.5</version>
 		</dependency>
 
+		<!-- mongo jdbc driver jar -->
+		<dependency>
+			<groupId>net.sf.mongojdbcdriver</groupId>
+			<artifactId>mongojdbcdriver</artifactId>
+			<version>0.0.2</version>
+		</dependency>
 
 
 	</dependencies>

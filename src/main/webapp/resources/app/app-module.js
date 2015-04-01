@@ -1,21 +1,31 @@
-var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate']);
+var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate','tagger','ngCookies']);
 
 bcloud.config(function($routeProvider){
 	
 	$routeProvider
 	
 	.when('/home',{
-		templateUrl : 'views/home.html',
+		templateUrl : 'resources/views/home.html',
 		controller : 'homeCtrl'
+	})
+
+	.when('/newregister',{
+		templateUrl : 'resources/views/newregister.html',
+		controller : 'newRegisterCtrl'
+	})
+
+	.when('/profile',{
+		templateUrl : 'resources/views/profile.html',
+		controller : 'profileCtrl'		
 	})
 	
 	.when('/register',{
-		templateUrl : 'views/register.html',
+		templateUrl : 'resources/views/register.html',
 		controller : 'registerCtrl'
 	})
 	
 	.when('/analytics',{
-		templateUrl : 'views/analytics.html',
+		templateUrl : 'resources/views/analytics.html',
 		controller : 'analyticsCtrl',
 		resolve : {			
 			industry_types: function(backend,$q){
@@ -63,10 +73,10 @@ bcloud.config(function($routeProvider){
 	})
 
 	.when('/hireme',{
-		templateUrl : 'views/hireme.html',
+		templateUrl : 'resources/views/hireme.html',
 		controller : 'hiremeCtrl'
 	})
-	
+		
 	.otherwise({
 		redirectTo: '/home'
 	});

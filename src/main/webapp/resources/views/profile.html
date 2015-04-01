@@ -1,0 +1,283 @@
+<style type="text/css">
+.form-group{
+	margin-bottom: 8px;
+}
+.showError{
+	color: red;
+}
+</style>
+
+<div class="row">
+	<div class="col-md-12" ng-show="newAccountactivated">
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	</div> 
+</div>
+<div class="panel panel-primary">
+   <div class="panel-heading">
+      <h3 class="panel-title text-center">Profile Details</h3>
+   </div>
+ <div class="panel-body">
+  	<!-- For Profile Information -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Profile Information</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal" name="employeeresume" novalidate>
+		 
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Resume Title</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" ng-model="resumetitle" placeholder="Profile Description" name="resumetitle" required > 
+		      <div  ng-show="employeeresume.resumetitle.$dirty && employeeresume.resumetitle.$invalid">
+				<span ng-show="employeeresume.resumetitle.$error.required" class="showError">Enter Your Resume Title</span>	
+			 </div>		     
+		    </div>
+		  </div>
+				  
+		</form>
+	  </div>
+	</div>
+
+	<!-- For Work Experience Details -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Work Experience</h3></div>
+	  <div class="panel-body">
+	    <form class="form-horizontal">
+	    	<!-- current industry -->
+		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="current_industry">
+						  <option>Select</option>
+						  <option>IT</option>
+						  <option>MECH</option>
+						  <option>ACCOUNTS</option>
+						  <option>BPO</option>
+						 <option>MEDICAL</option>
+						  <option>HR</option>
+					</select>
+		      </div>
+   		   </div>
+   		   <!-- role -->
+   		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Role</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="role">
+						  <option>Select</option>
+						  <option>Manager</option>
+						  <option>Assitant</option>
+						  <option>Software Develper</option>		  
+					</select>
+		      </div>
+   		   </div><br>
+
+   		   <h4><u>Current Position/Employer</u></h4><br>
+			<!--company name -->
+		   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="current_company_name" placeholder="Current Company Name" name="resumetitle" required > 
+			      <div  ng-show="employeeresume.currentcompanyname.$dirty && employeeresume.currentcompanyname.$invalid">
+					<span ng-show="employeeresume.currentcompanyname.$error.required" class="showError">Enter company name.</span>	
+				 </div>		     
+			    </div>
+	   	   </div>
+	   	   <!-- Desigantion -->
+	  	   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="current_designation" placeholder="Designation" name="resumetitle" required > 
+			      <div  ng-show="employeeresume.currentcompanydesignation.$dirty && employeeresume.currentcompanydesignation.$invalid">
+					<span ng-show="employeeresume.currentcompanydesignation.$error.required" class="showError">Designation</span>	
+				 </div>		     
+			    </div>
+	  	   </div>
+	  	   <!-- Annual Salary -->
+	  	    <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">AnnualSalary</label>
+		      <div class="col-sm-2">
+			        <select class="form-control" ng-model="salary_lakhs">
+						  <option>Select</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>		  
+						  <option>4</option>		  
+						  <option>5</option>		  
+					</select>
+		      </div>
+		      <div class="col-sm-1" style="padding-left:0px;padding-right:0px;">
+		      	<p style="padding-top:6px;">Lakhs</p>
+		      </div>
+		      <div class="col-sm-2" style="padding-left:0px;">
+			      	<div class="form-group">				 
+				        <select class="form-control" ng-model="salary_thousands">
+							  <option>Select</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+							  <option>4</option>		  
+							  <option>5</option>		  
+						</select>				     
+				  	</div>
+		      </div>
+		      <div class="col-sm-2">
+		      	<p style="padding-top:6px;">Thousands</p>
+		      </div>
+   		   </div>
+
+   		   <!-- Date Picker for From Date -->
+   		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+		      <div class="col-sm-3">
+			        <select class="form-control" ng-model="current_from_month">
+						  <option>Month</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>		  
+					</select>
+		      </div>
+		      <div class="col-sm-3">
+			        <select class="form-control" ng-model="current_from_year">
+						  <option>Year</option>
+						  <option>2001</option>
+						  <option>2002</option>
+						  <option>2003</option>		  
+					</select>
+		      </div>
+   		   </div>
+
+   		   <!-- Date Picker for To Date -->
+   		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+		      <div class="col-sm-3">
+			        <select class="form-control" ng-model="current_to_month">
+						  <option>Month</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>		  
+					</select>
+		      </div>
+		      <div class="col-sm-3">
+			        <select class="form-control" ng-model="current_to_year">
+						  <option>Year</option>
+						  <option>2001</option>
+						  <option>2002</option>
+						  <option>2003</option>		  
+					</select>
+		      </div>
+   		   </div>
+
+   		   <!-- notice period -->
+   		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Notice Period</label>
+		      <div class="col-sm-3">
+			        <select class="form-control" ng-model="notice_period">						  
+						  <option>1 Month</option>
+						  <option>2 Months</option>
+						  <option>3 Months</option>		  
+					</select>
+		      </div>		      
+   		   </div>
+
+   		   <!-- Job Profile -->
+   		   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+		      <div class="col-sm-5">
+			        <textarea class="form-control" rows="3" ng-model="jobdescription"></textarea>
+		      </div>		      
+   		   </div>
+
+   		   <!-- Previous Employee Details -->
+
+   		   <div ng-init="previous=false" ng-show="previous">
+   		   	<br>
+   		   	<h4><u>Previous Company Details</u></h4><br>
+	   		   	<!--company name -->
+			   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="previous1.companyname" placeholder="Previous Company Name"  required >			      	     
+			    </div>
+		   	   </div>
+		   	   <!-- Desigantion -->
+		  	   <div class="form-group">
+				    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" ng-model="previous1.companydesignation" placeholder="Designation" name="resumetitle" required > 			     		     
+				    </div>
+		  	   </div>
+		  	   
+
+	   		   <!-- Date Picker for From Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="previous1.from_month">
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="previous1.from_year">
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Date Picker for To Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="previous1.to_month">
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="previous1.to_year">
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Job Profile -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+			      <div class="col-sm-5">
+				        <textarea class="form-control" rows="3" ng-model="previous1.jobdescription"></textarea>
+			      </div>		      
+	   		   </div>
+   		   </div>
+
+   		   <div class="form-group">
+   		   		<div class="col-md-4 col-md-offset-2">
+   		   			<button type="button" class="btn btn-primary" ng-click="previous=true" ng-show="!previous">Add Previous Employee</button>
+   		   		</div>   		   		
+   		   </div>
+
+		   <div>
+		   </div>		 		  
+		</form>
+	  </div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<span>
+
+				<button class="btn btn-success" type="submit" ng-click="savemyprofile()">Submit</button>
+				
+			</span>
+		</div>	
+	</div>
+  </div>
+</div>

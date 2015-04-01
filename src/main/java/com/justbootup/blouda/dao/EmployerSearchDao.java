@@ -23,11 +23,15 @@ public class EmployerSearchDao {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	
 
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public List getAllIndustries() {
 		List<JSONObject> list = mongoTemplate.findAll(JSONObject.class,
 				"employeeuser");
+		
+		
 		return list;
 	}
 

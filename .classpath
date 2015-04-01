@@ -25,5 +25,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="mongo.jar"/>
+	<classpathentry kind="lib" path="mongojdbcdriver-0.0.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

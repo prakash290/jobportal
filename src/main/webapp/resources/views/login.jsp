@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="resources/css/signin.css" />
+<link rel="stylesheet" type="text/css" href="resources/app/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="resources/app/css/bootstrap/signin.css" />
 </head>
 <body style="background-color:black">
 <div class="container" style="margin-top:100px">

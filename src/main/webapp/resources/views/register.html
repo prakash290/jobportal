@@ -3,7 +3,7 @@
 <div class="col-md-6 col-md-offset-3">
 <form class="form-horizontal">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+    <label for="inputEmail3" class="col-sm-3 control-label">Name {{name}}</label>
     <div class="col-sm-9">
       <input type="text" class="form-control" id="inputEmail3" placeholder="Enter your name" ng-model="name" required>
     </div>
@@ -34,4 +34,8 @@
 </form>
 <a href="/#/home" class="pull-right"> Back to home</a>
 </div>
+
+<button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+  <hr>
+  
 

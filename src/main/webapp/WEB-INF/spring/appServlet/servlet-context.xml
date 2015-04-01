@@ -15,7 +15,7 @@
 
 	
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/views/" />
+		<beans:property name="prefix" value="/resources/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
@@ -31,6 +31,7 @@
 	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> 
 	       <beans:constructor-arg name="mongo" ref="mongo"/> 
 	       <beans:constructor-arg name="databaseName" value="jobportal"/>
+	       <beans:property name="writeResultChecking" value="EXCEPTION"></beans:property>	       
 	</beans:bean>
 	
 </beans:beans>

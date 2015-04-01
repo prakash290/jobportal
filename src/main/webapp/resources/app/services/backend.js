@@ -1,4 +1,5 @@
-bcloud.factory('backend',[ '$http','$q','requestNotificationChannel', function($http,$q,requestNotificationChannel){
+bcloud.factory('backend',[ '$http','$q','requestNotificationChannel', 
+	function($http,$q,requestNotificationChannel){
 	
 	var data1='';
 	var data2='';

@@ -13,9 +13,6 @@ public class HomeController {
 	
 	
 	
-
-	
-	
 	@RequestMapping(value = "/sample", method = RequestMethod.GET)
 	public String sample() {
 		

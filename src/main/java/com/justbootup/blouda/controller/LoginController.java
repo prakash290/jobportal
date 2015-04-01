@@ -7,21 +7,22 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.justbootup.blouda.serviceApi.IUserservice;
+import com.justbootup.blouda.serviceApi.IEmployeeService;
 
 @Controller
 public class LoginController {
 
 	@Autowired
-	private IUserservice userService;
+	private IEmployeeService userService;
 	
 	
-	@RequestMapping("/")
+	/*@RequestMapping("/")
 	public String userLogin()
 	{
+		System.out.println("login page");
 		return "login";
 	}
-	
+	*/
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)  
 	 public String executeSecurity(ModelMap model, Principal principal ) {  
 	   
