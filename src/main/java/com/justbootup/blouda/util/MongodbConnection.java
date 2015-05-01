@@ -3,6 +3,7 @@
  */
 
 package com.justbootup.blouda.util;
+
 import java.net.UnknownHostException;
 
 import com.mongodb.MongoClient;
@@ -23,5 +24,6 @@ public class MongodbConnection {
 		
 		MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
 		return mongoClient;
-	}
+	}	
+	
 }

@@ -1,0 +1,24 @@
+<div>
+    <div ng-show="!linkedinMsg.successMsg" id="linkedin-wrap">
+        <div ng-show="!linkedinMsg.loading" class="align-center double-pad-bottom">
+            <button id="login-btn" ng-click="onLinkedinAuthClick($event)" class="btn btn-primary">                        
+                                        Login with LinkedIn
+            </button>
+        </div>
+        <div ng-show="linkedinMsg.loading" class="padded">
+            <div class="align-center loading-wrap">
+                <i class="loading"></i> 
+                Waiting for LinkedIn Authorization
+            </div>
+        </div>
+        <div ng-show="!linkedinMsg.errorMsg && linkedinMsg.message" class="linkedin-msg padded align-center">
+            {{linkedinMsg.message}}
+        </div>
+    </div>
+    <div ng-show="linkedinMsg.errorMsg" class="color-red padded align-center">
+        <p class="color-red">{{linkedinMsg.errorMsg}}</p>
+    </div>
+    <div ng-show="linkedinMsg.successMsg" class="padded align-center">
+        {{linkedinMsg.successMsg}}
+    </div>
+</div>

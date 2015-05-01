@@ -1,5 +1,5 @@
-bcloud.controller('parent',['$scope','authentication',
-  function($scope,authentication){
+bcloud.controller('parent',['$scope','authentication','employerServices','$location',
+  function($scope,authentication,employerServices,$location){
 	
 	$scope.query={
 		industry_type:[],
@@ -18,68 +18,62 @@ bcloud.controller('parent',['$scope','authentication',
   $scope.$watch('query',function(o,v){    
   },true);
 
-  $scope.isUserLoggedIn = function(){
-    $scope.loginStatus = authentication.getUser();
+  $scope.loginUser = "";
+
+  $scope.isEmployeeLoggedIn = function(){
+    $scope.loginStatus = authentication.isEmployeeLoggedIn();
    if(angular.isUndefined($scope.loginStatus))
-   {
+   {      
       $scope.loginStatus = false;
+   }
+   else
+   {
+      $scope.loggedUserEmail = authentication.getEmployee();
    }
     return $scope.loginStatus;
   };
+
+  $scope.logout = function(){
+    authentication.logoutEmployee();
+    $location.path('/login');
+  };
+
+  $scope.showList = function(){
+
+    // To store selected values
+    employerServices.setShowList();
+    $location.path('/employerSearchResult');
+
+  };
+
+
 }]);
 
-bcloud.controller('homeCtrl',['$scope','backend','$http',function($scope,backend,$http){
-	  $scope.home="I am coming from home ctrl";
-	  $scope.filteredTodos = [];
-	  $scope.itemsPerPage = 5;
-	  $scope.currentPage = 1;
+bcloud.controller('homeCtrl',['$scope','employerServices',
+  function($scope,employerServices){
 
+   $scope.displayImg = false;
 
-  $scope.makeTodos = function() {
-    $scope.todos = [];
-    for (var i=1;i<=1000;i++) {
-      $scope.todos.push({ text:'todo '+i, done:false});
-    }
-  };
+   $scope.getImage = function(){
+      console.log("Inside Controller");
+      $scope.image = null;
+      employerServices.getImageinbytes().then(function(data){      
+      $scope.image = data.imagepath; 
+      console.log($scope.image);     
+    }); 
+      return $scope.image;
+    };
 
-  $scope.figureOutTodosToDisplay = function() {
-    var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
-    var end = begin + $scope.itemsPerPage;    
-    //backend.pagination(begin,end);
-    $scope.filteredTodos = $scope.todos.slice(begin, end);
-  };
-
-  $scope.makeTodos(); 
-  $scope.figureOutTodosToDisplay();
-
-  $scope.pageChanged = function() {
-    $scope.figureOutTodosToDisplay();
-  };	
-$scope.data=[];
-$scope.wholedata=[];
-
-
- userprofile=backend.getuserprofile();
- userprofile.then(function(data){
- 	
- 	for(var i=0;i<data.length;i++)
- 	{
- 		$scope.wholedata.push(data[i]); 		
- 		$scope.data.push(data[i].data);
- 	}
- 	
- });
 
 }]);
 
 bcloud.controller('registerCtrl',['$scope','$http',function($scope,$http){
-	$scope.name = "sadfsdf";
+	
 }]);
 
 
-bcloud.controller('analyticsCtrl',
-	['$scope','industry_types','locations','roles','experiences','backend','requestNotificationChannel',
-	function($scope,industry_types,locations,roles,experiences,backend,requestNotificationChannel){	
+bcloud.controller('analyticsCtrl',['$scope','industry_types','locations','roles','experiences','requestNotificationChannel',
+	function($scope,industry_types,locations,roles,experiences,requestNotificationChannel){	
 	 
 	   $scope.industries=jsontoarray(industry_types);   
      $scope.locations=jsontoarray(locations);
@@ -99,7 +93,7 @@ bcloud.controller('analyticsCtrl',
             }             
        });     
         requestNotificationChannel.dataUpdated();	 
-     }
+     }  
 
      $scope.search_query={
       industry_type :"search_industry()",
@@ -156,13 +150,26 @@ bcloud.controller('hiremeCtrl',['$scope','$http','requestNotificationChannel',fu
 }]);
 
 
-bcloud.controller('newRegisterCtrl',['$scope','$http','employeeServices','authentication','$location',
-  function($scope,$http,employeeServices,authentication,$location){
-  
-  $scope.registerUser = function (){
+bcloud.controller('newRegisterCtrl',['$scope','$http','employeeServices','authentication','$location','$timeout',
+  function($scope,$http,employeeServices,authentication,$location,$timeout){
+ 
+  if( angular.isUndefined (authentication.isEmployeeLoggedIn()) ) 
+  {
+          $scope.emailform = true;
+  }
+  else
+  {
+          $scope.emailform = false;
+              employeeServices.getUserProfile().then(function(data){
 
-    var industrytype = checkIndustryType($scope.tags);  
-    console.log(industrytype);
+                $scope.fullname = data.fullname;
+                $scope.currentlocation = data.currentlocation;
+                $scope.industrytype = data.industrytype;
+              
+          });
+  } 
+
+  $scope.registerUser = function (){
 
     var priority = {
       "subscribeuser" : false,
@@ -172,36 +179,37 @@ bcloud.controller('newRegisterCtrl',['$scope','$http','employeeServices','authen
     }
 
     $scope.user = {
-    "email" : $scope.email,
-    "password" : $scope.password,
-    "fullname" : $scope.fullname,
-    "priority" : priority,
-    "currentlocation": $scope.currentlocation,
-    "phonenumber" : $scope.phonenumber,
-    "industrytype" : industrytype,
-    "experience" : parseInt($scope.experience),
-    "skillset" : $scope.tags,
-    "basiceducation" : $scope.basiceducation,
-    "mastereduction" : $scope.mastereduction,
-    "doctorateeducation" : $scope.doctorateeducation,
-    "othercourse1" : $scope.othercourse1,
-    "othercourse2" : $scope.othercourse2,
-    "othercourse3" : $scope.othercourse3 
-
+        "email" : $scope.email,
+        "password" : $scope.password,
+        "fullname" : $scope.fullname,
+        "priority" : priority,
+        "currentlocation": $scope.currentlocation,
+        "phonenumber" : $scope.phonenumber,
+        "industrytype" : $scope.industrytype,
+        "experience" : $scope.experience,
+        "skillset" : $scope.tags,
+        "basiceducation" : $scope.basiceducation,
+        "mastereduction" : $scope.mastereduction,
+        "doctorateeducation" : $scope.doctorateeducation,
+        "othercourse1" : $scope.othercourse1,
+        "othercourse2" : $scope.othercourse2,
+        "othercourse3" : $scope.othercourse3,
+        "resume":$scope.myFile
     };    
+
+     var file = $scope.myFile;
+   
+     console.log($scope.user);
     $scope.newuser = null;
     employeeServices.insertEmployee($scope.user).then(function(data){
       $scope.newuser = data;
       employeeServices.newUserDetails($scope.newuser);
-      console.log($scope.newuser);
+      
       if(!angular.isUndefined($scope.newuser.user._id.timeSecond))
     {
       $location.path('/profile');
     }
     });
-
-  
-    
   };
 
   $scope.reset = function () {    
@@ -213,34 +221,62 @@ bcloud.controller('newRegisterCtrl',['$scope','$http','employeeServices','authen
                   "Verilog", "C#", "C/C++"];
   $scope.tags = [];
 
+  // This function is for third party user registeration 
+  $scope.thirdPartyUser = function(){
+  
+      var priority = {
+      "subscribeuser" : false,
+      "subscriberplan" : "",
+      "subscriber_fromdate" : "",
+      "subsriber_expireddate" : "",
+        }
+
+        console.log(authentication.isEmployeeLoggedIn());
+
+      $scope.thirdpartyemployee = {
+          "useremail" : authentication.isEmployeeLoggedIn(),          
+          "fullname" : $scope.fullname,
+          "priority" : priority,
+          "currentlocation": $scope.currentlocation,
+          "phonenumber" : $scope.phonenumber,
+          "industrytype" : $scope.industrytype,
+          "experience" : parseInt($scope.experience),
+          "skillset" : $scope.tags,
+          "basiceducation" : $scope.basiceducation,
+          "mastereduction" : $scope.mastereduction,
+          "doctorateeducation" : $scope.doctorateeducation,
+          "othercourse1" : $scope.othercourse1,
+          "othercourse2" : $scope.othercourse2,
+          "othercourse3" : $scope.othercourse3,
+              };
+              console.log($scope.thirdpartyemployee);
+          employeeServices.insertThirdPartyEmployee($scope.thirdpartyemployee).then(function(data){
+          
+              if(!angular.isUndefined(data.email))
+              {
+                $location.path('/profile');
+              }
+          });        
+
+  };//End of third Party User functions
+
+
+
 }]);
 
 
-bcloud.controller('profileCtrl',['$scope','employeeServices','$location',
-  function($scope, employeeServices,$location){
-    $scope.alerts = [
-                { type: 'success', msg: '' },    
-              ];
-    $scope.newAccountactivated = false;
-      $scope.closeAlert = function(index) {
-    $scope.newAccountactivated = false;
-      };
-
-    $scope.userobject = employeeServices.getNewUser();
-    console.log( $scope.userobject);    
-    $scope.alerts[0].msg = "HI '"+$scope.userobject.user.fullname+"'"+" Your account has been successfully created.";
-    $scope.newAccountactivated = true;
-   
-
-    $scope.savemyprofile = function(){
+bcloud.controller('profileCtrl',['$scope','employeeServices','$location','$rootScope','authentication',
+  function($scope, employeeServices,$location,$rootScope,authentication){
+    
+     $scope.savemyprofile = function(){
 
         $scope.currentcompanydetails = {
           "current_industry" : $scope.current_industry,
           "role":$scope.role,
           "current_company_name" : $scope.current_company_name,
           "current_designation" : $scope.current_designation,
-          "salary_lakhs" : $scope.salary_lakhs,
-          "salary_thousands" : $scope.salary_thousands,
+          "salary_lakhs" : parseInt($scope.salary_lakhs),
+          "salary_thousands" : parseInt($scope.salary_thousands),
           "current_from_month" : $scope.current_from_month,
           "current_from_year" : $scope.current_from_year,
           "current_to_month" : $scope.current_to_month,
@@ -254,7 +290,7 @@ bcloud.controller('profileCtrl',['$scope','employeeServices','$location',
         "resumetitle" : $scope.resumetitle,
         "currentcompanydetails" : $scope.currentcompanydetails,
         "previouscompanydetails" : $scope.previouscompanydetails,
-        "useremail" : $scope.userobject.user.email
+        "useremail" : authentication.getEmployee()
         };
 
         console.log($scope.employeeprofile);
@@ -268,6 +304,291 @@ bcloud.controller('profileCtrl',['$scope','employeeServices','$location',
     };
 
 }]);
+
+
+bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','$rootScope','$facebook',
+  function($scope, $auth,$location,employeeServices,$rootScope,$facebook) {
+    
+    $scope.loginAlert = false;
+    $scope.alerts = [
+    { type: 'danger', msg: 'Sorry! UserName or Password is wrong.' },    
+                  ];
+
+    $scope.closeAlert = function(index) {
+      $scope.loginAlert = false;
+    };
+  
+    $scope.newAccount = function(){      
+      $location.path("/newregister");
+    };
+
+    $scope.login = function(){
+      var loginStatus = employeeServices.employeeLogin($scope.employee);
+      loginStatus.then(function(data){
+        if(!data.login)
+        {
+          $scope.employee = "";
+          $scope.loginAlert = true;
+        }
+        else
+        {
+          $location.path('/home');
+        }
+        
+      });
+    };
+
+    $scope.linkedinMsg = {};
+    $scope.showLinkedinLogin = true;
+    $scope.showEmailForm = true;
+            
+    $scope.linkedinProfileDataCallback = function(linkedindata){
+          console.log('profileDataCallback',linkedindata);
+
+          $scope.linkedIn = {
+              "linkedinemail" : linkedindata.user_email
+          }
+
+          // To check if user email is already registerd with us.
+          var isUserExists = employeeServices.linkedInLogin($scope.linkedIn)
+
+          isUserExists.then(function(data){
+            alert(data.isUserExists);
+            if(!data.isUserExists)
+            {
+                      $scope.linkedInUser = {
+                        "email" : linkedindata.user_email,  
+                        "linkedinemail" : linkedindata.user_email,              
+                        "fullname" : linkedindata.first_name+" "+linkedindata.last_name,                
+                        "currentlocation": linkedindata.location,
+                        "industrytype" : linkedindata.industry               
+                      };   
+
+                       employeeServices.insertEmployee($scope.linkedInUser).then(function(newLinkedInUserdata){
+                          $scope.newuser = newLinkedInUserdata;
+                          //$rootScope.globalscope = $scope.newuser;
+                          
+                          //employeeServices.newLinkedInUser($scope.newuser);
+                          
+                          if(!angular.isUndefined($scope.newuser.user._id.timeSecond))
+                        {              
+                          $location.path('/newregister');
+                        }
+                        });
+            } // End If Loop
+
+            else
+            {
+              $location.path('/home');
+            }
+
+          }); // End of promises       
+
+    }; // End of linkedInProfileDataFunction
+
+
+
+     $scope.$on('event:google-plus-signin-success', function (event, authResult) {
+          // User successfully authorized the G+ App!
+          console.log(+event);
+          console.log(authResult);
+          console.log('Signed in!');
+          $scope.getUserInfo();
+
+    });
+    $scope.$on('event:google-plus-signin-failure', function (event, authResult) {
+          // User has not authorized the G+ App!
+          console.log('Not signed into Google Plus.');
+    });
+
+    // When callback is received, process user info.
+    $scope.userInfoCallback = function(userInfo) {
+        console.log(userInfo);
+        $scope.$apply(function() {
+            $scope.processUserInfo(userInfo);
+        });
+    };
+ 
+    // Request user info.
+    $scope.getUserInfo = function() {
+        gapi.client.request(
+            {
+                'path':'/plus/v1/people/me',
+                'method':'GET',
+                'callback': $scope.userInfoCallback
+            }
+        );
+    };
+
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+      $scope.status = $facebook.isConnected();
+      if($scope.status) {
+        $facebook.api('/me').then(function(user) {
+          console.log(user);
+          $scope.getFriends();
+          $scope.user = user;
+        });
+      }
+    });
+
+    $scope.loginToggle = function() {
+      if($scope.status) {
+        $facebook.logout();
+      } else {
+        $facebook.login();
+      }
+    };
+
+    $scope.getFriends = function() {
+      if(!$scope.status) return;
+      $facebook.cachedApi('/me/friends').then(function(friends) {
+        console.log(friends);
+        $scope.friends = friends.data;
+      });
+    };
+
+
+  }]);
+
+
+
+bcloud.controller('employerSearchResultCtrl',['$scope','$http','employerServices','getEmployeeProfiles',
+  function($scope,$http,employerServices,getEmployeeProfiles){
+    $scope.employeeProfiles = '';
+
+    var data = getEmployeeProfiles;
+
+    $scope.totalcount=data.result.length;  
+    
+     $scope.selectedvalue = employerServices.getShowList();
+
+     $scope.searchAttributes = employerServices.getShowList();
+
+     $scope.iterate = employerServices.getShowList();      
+     console.log($scope.iterate);
+
+     $scope.itemsPerPage = 3;
+     $scope.currentPage = 1;
+
+     $scope.$watch('itemsPerPage',function(newValue,oldValue){
+        if(newValue != oldValue)
+        {
+           $scope.figureOutTodosToDisplay();
+        }
+     },true);
+    
+    $scope.figureOutTodosToDisplay = function() {
+      console.log("itemsPerPage is : "+$scope.itemsPerPage);
+    var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    var end = parseInt(begin) + parseInt($scope.itemsPerPage);
+    
+    $scope.selectedvalue.begin = begin;
+    $scope.selectedvalue.end = (end-begin);  
+
+    $scope.isEmployeeProfileReady= false;
+
+    $scope.displayProfiles = employerServices.getEmployeeProfileswithPagination($scope.selectedvalue);
+
+    $scope.displayProfiles.then(function(data){
+      var profiles=employerServices.getEmployeeProfilesforChartData($scope.selectedvalue);
+      profiles.then(function(data){
+      
+          $scope.wholedata=[];
+          $scope.resultdata=data.result;
+
+        for(var i=0;i<$scope.resultdata.length;i++)
+          {
+            $scope.wholedata.push($scope.resultdata[i]);            
+          }          
+          $scope.isEmployeeProfileReady=true;
+      });
+      $scope.employeeProfiles = [];     
+      $scope.employeeProfiles = data.result;
+      console.log(data.result);     
+    }).catch(function(data){
+     
+    });
+
+
+    $scope.mySortFunction = function(item) {
+      if(isNaN(item[$scope.sortExpression]))
+        return item[$scope.sortExpression];
+      return parseInt(item[$scope.sortExpression]);
+    }
+    
+  };
+
+  $scope.figureOutTodosToDisplay();
+
+  $scope.pageChanged = function() {
+    $scope.figureOutTodosToDisplay();
+  }; 
+  
+}]);
+
+
+bcloud.controller('docSearchCtrl',['$scope','employeeDocServices',
+  function($scope,employeeDocServices){
+
+    $scope.wholeDoc = function(){
+      console.log($scope.search);
+      employeeDocServices.searchWholeDoc($scope.search)
+      .then(function(data){
+        $scope.noresultOfAdvancedSearch = false;
+        $scope.result=data;
+
+        if($scope.result.hasOwnProperty("noresult")){                         
+          $scope.noresultOfAdvancedSearch = true;                
+        }
+        else if ($scope.result.hasOwnProperty("result")){
+          $scope.employees = data.result; 
+        }  
+        else if ($scope.result.hasOwnProperty("error")){
+                // Change location to 404 for 
+        } 
+        else{
+            
+        }            
+        
+      });
+    };
+
+    $scope.multipleSearch = function(){
+       
+        employeeDocServices.multifieldSearch($scope.multikeyword)
+        .then(function(data){
+
+        $scope.noresultOfmultipleSearch = false;
+        $scope.multiresult=data;
+
+        if($scope.multiresult.hasOwnProperty("noresult")){                         
+          $scope.noresultOfmultipleSearch = true;                
+        }
+        else if ($scope.multiresult.hasOwnProperty("result")){
+          $scope.employeelist = data.result; 
+        }  
+        else if ($scope.multiresult.hasOwnProperty("error")){
+                // Change location to 404 for 
+        } 
+        else{
+            
+        } 
+      });
+    };
+
+    $scope.getResume = function(email){
+      var resumeQuery = {
+        "email":email
+      };
+      employeeDocServices.getResume(resumeQuery)
+        .then(function(data){        
+          console.log("Successfully Downloaded");
+        });
+    };
+
+}]);
+
 
 
 function emptycheck(value){

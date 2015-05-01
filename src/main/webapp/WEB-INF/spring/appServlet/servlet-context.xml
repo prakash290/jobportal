@@ -9,7 +9,7 @@
 
 	
 	<annotation-driven />
-
+	<context:annotation-config/>
 
 	<resources mapping="/resources/**" location="/resources/" />
 
@@ -33,5 +33,10 @@
 	       <beans:constructor-arg name="databaseName" value="jobportal"/>
 	       <beans:property name="writeResultChecking" value="EXCEPTION"></beans:property>	       
 	</beans:bean>
+	
+	<beans:bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+    </beans:bean>
+    <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
 	
 </beans:beans>

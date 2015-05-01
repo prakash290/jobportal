@@ -24,9 +24,13 @@
 								  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {{value}}
 								</button>
 				  		</span>		
-				  		<span ng-show ="indus">	  		
-				  		     <button ng-show ="query.industry_type.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  		<span ng-show ="indus">
+
+				  		     <button ng-show ="query.industry_type.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Filter Others {{query.length}}</button>
+				  		     <button ng-show ="query.industry_type.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="showList()" style="margin-right:20px;">Show List</button>
+
 				  		</span>			
+
 				  </div>
 			</div>	    	   
 		</div>
@@ -44,6 +48,7 @@
 				  	</span>
 				  	<span ng-show ="location">	  		
 				  		     <button ng-show ="query.prefered_location.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  		     <button ng-show ="query.prefered_location.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="showList()" style="margin-right:20px;">Show List</button>
 				  	</span>	
 				  </div>
 			</div>	      	
@@ -64,6 +69,7 @@
 				  	</span>
 				  	<span ng-show ="role">	  		
 				  		     <button ng-show ="query.role.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  		     <button ng-show ="query.role.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="showList()" style="margin-right:20px;">Show List</button>
 				  	</span>	
 				  </div>
 			</div>
@@ -81,7 +87,8 @@
 							</button>
 				  	</span>
 				  	<span ng-show ="experience">	  		
-				  		     <button ng-show ="query.experience.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>	
+				  		     <button ng-show ="query.experience.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="reDrawChart()">Submit</button>
+				  		     <button ng-show ="query.experience.length>0" type="button" class="btn btn-success btn-sm pull-right" ng-click="showList()" style="margin-right:20px;">Show List</button>	
 				  	</span>	
 				  </div>
 			</div>

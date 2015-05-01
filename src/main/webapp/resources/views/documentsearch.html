@@ -1,0 +1,147 @@
+<style type="text/css">
+	.tab:hover{
+		cursor: pointer;
+	}
+	.highlight{
+		background-color: yellow;
+	}
+</style>
+<div class="row">
+	<div class="col-sm-8 col-md-offset-2">
+	<div class="panel panel-primary">
+  	<div class="panel-heading">
+  		Document Search 
+  		<div style="float:right">
+	  		<span ng-click="multisearch=false" class="tab" style="margin-right:10px;">Advanced Search</span>
+	  		<span ng-click="multisearch=true" class="tab">Multi Search</span>
+  		</div>
+  	</div>
+	  	<div class="panel-body">
+	  	<div ng-init="multisearch=false" ng-show="!multisearch">
+	  	<form class="form-horizontal">  	
+		   	<div class="form-group">
+		      <label for="exp" class="col-sm-4 control-label" style="text-align:left">Industry</label>
+		      <div class="col-sm-8">
+			        <select class="form-control" ng-model="search.industrytype">					 
+						  <option>IT</option>
+						  <option>MECH</option>
+						  <option>ACCOUNTS</option>
+						  <option>BPO</option>
+						 <option>MEDICAL</option>
+						  <option>HR</option>
+					</select>
+		      </div>
+   		   </div> 	
+   		   <div class="form-group">
+				    <label for="othercourse1" class="col-sm-4 control-label" style="text-align:left">Enter KeyWords</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" ng-model="search.keywords" placeholder="Search for whole document...">
+				    </div>
+		  		</div>		    
+		    <div class="text-center">
+		  		<button class="btn btn-success" type="submit" 
+		  		ng-click="wholeDoc()">Search</button>
+		  	</div>
+		  </form>  
+		  </div>	
+		   <div ng-show="multisearch">
+		  <form class="form-horizontal">  	
+		  	<!-- This is for newUser-->
+		   <div class="form-group">
+		      <label for="exp" class="col-sm-4 control-label" style="text-align:left">Industry Type</label>
+		      <div class="col-sm-8">
+			        <select class="form-control" ng-model="multikeyword.industrytype">					 
+						  <option>IT</option>
+						  <option>MECH</option>
+						  <option>ACCOUNTS</option>
+						  <option>BPO</option>
+						 <option>MEDICAL</option>
+						  <option>HR</option>
+					</select>
+		      </div>
+   		   </div>
+		    	<div class="form-group">
+				    <label for="othercourse1" class="col-sm-4 control-label" style="text-align:left">Project Description</label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" ng-model="multikeyword.projectdescription" placeholder="Project Description">
+				    </div>
+		  		</div>
+		  		<div class="form-group">
+				    <label for="othercourse2" class="col-sm-4 control-label" style="text-align:left">Skills </label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" 
+				      ng-model="multikeyword.skills" placeholder="Skills">
+				    </div>
+		  		</div>
+		  		<div class="text-center">
+		  		<button class="btn btn-success" type="submit" 
+		  		ng-click="multipleSearch()">Search</button>
+		  		</div>
+		  	</form>	
+		    </div>
+  		</div>  		
+	</div>
+	</div><!-- /.col-lg-6 -->
+ 
+  
+</div>
+
+<!-- Advanced search part result -->
+<div class="row" ng-show="!multisearch">
+	<div class="result" ng-if="!noresultOfAdvancedSearch">
+		<div class="panel panel-default" ng-repeat="employee in employees">
+		  <div class="panel-body">
+		    <p>
+		    	<label>Name : </label> <b><span>{{employee.fullname | uppercase}}</span></b><br>
+		    	<label> Experience : </label> <b><span>{{employee.experience | uppercase}}</span></b><br>
+		    	<label> Loaction : </label> <b><span>{{employee.currentlocation | uppercase}}</span></b>
+		    </p>
+		    <p ng-bind-html="employee.docsmatching"></p>
+		    <div style="float:right;">
+		    	<button class="btn btn-success" type="submit" 
+			  		ng-click="getResume(employee.email)">Download Resume
+			 	</button>	
+			 </div>
+		  </div>
+		</div>		
+	</div>
+	<!-- For Empty Result -->
+	<div class="result" ng-if="noresultOfAdvancedSearch">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p style="font-color:red;">No Results Found. Please Try with some other keywords</p> 
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- MultiSearch part result -->
+<div class="row" ng-show="multisearch">
+	<div class="result" ng-if="!noresultOfmultipleSearch">
+		<div class="panel panel-default" ng-repeat="employee in employeelist">
+		  <div class="panel-body">
+		    <p>
+		    	<label>Name : </label> <b><span>{{employee.fullname | uppercase}}</span></b><br>
+		    	<label> Experience : </label> <b><span>{{employee.experience | uppercase}}</span></b><br>
+		    	<label> Loaction : </label> <b><span>{{employee.currentlocation | uppercase}}</span></b>
+		    </p>
+		    <p ng-bind-html="employee.docsmatching"></p>
+		    <div style="float:right;">
+		    	<button class="btn btn-success" type="submit" 
+			  		ng-click="getResume(employee.email)">Download Resume
+			 	</button>	
+			 </div>
+		  </div>
+		</div>		
+	</div>
+	<!-- For Empty Result -->
+	<div class="result" ng-if="noresultOfmultipleSearch">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p style="font-color:red;">No Results Found. Please Try with some other keywords</p> 
+			</div>
+		</div>
+	</div>
+</div>
+

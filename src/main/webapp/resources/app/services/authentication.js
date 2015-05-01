@@ -3,34 +3,29 @@ bcloud.factory('authentication',['$cookieStore',function($cookieStore){
 	var authtoken = $cookieStore.get("authentication");
 
 	return{
-
-			loginUser : function(user){				
-				if(user.username=="admin" && user.password=="admin")
-		  			{
-					  $cookieStore.put('authentication',true);	  				
-		  			  authtoken=$cookieStore.get('authentication');	  			
-		  			}
-		  		else
-		  			{
-		  			 $cookieStore.put('authentication',false);
-		  			authtoken=$cookieStore.get('authentication');			  			  			
-		  			}
-				 return authtoken;	
+			loginEmployee : function(employeeDetails){
+				console.log(employeeDetails);
+				$cookieStore.put('authentication',employeeDetails.email);	  				
+		  		authtoken=$cookieStore.get('authentication');
 			},
-
-			getUser : function(){
-				return authtoken;
-			},
-
-			logoutUser : function(){
-				$cookieStore.put('authentication',false);
+			logoutEmployee : function(){				
+				$cookieStore.remove('authentication');
 		  		authtoken=$cookieStore.get('authentication');
 		  		return authtoken;
 			},
 			newUser : function(userObject){
-				console.log("This is set be cookie of userobject id : "+userObject.user._id.timeSecond);
-				$cookieStore.put('authentication',true);	  				
+				$cookieStore.put('authentication',userObject.user.email);	  				
 		  		authtoken=$cookieStore.get('authentication');
+			},
+			newLinkedInUser : function(linkedinuserObject){
+				$cookieStore.put('authentication',linkedinuserObject.user.linkedinemail);	  				
+		  		authtoken=$cookieStore.get('authentication');
+			},
+			getEmployee : function(){
+				return authtoken;
+			},
+			isEmployeeLoggedIn :function(){
+				return authtoken;
 			}
 	}
 

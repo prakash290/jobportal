@@ -1,4 +1,4 @@
-bcloud.directive('industry',function(backend,$compile,requestNotificationChannel){
+bcloud.directive('industry',function(employerServices,$compile,requestNotificationChannel){
 
 	return{
 		restrict : 'EA',		
@@ -25,7 +25,7 @@ bcloud.directive('industry',function(backend,$compile,requestNotificationChannel
 						}
 						$scope.$apply();					
 				       
-				        backend.publicizingdatas($scope.$parent.query);
+				        employerServices.publicizingdatas($scope.$parent.query);
 				       // requestNotificationChannel.dataUpdated();				        			        	      			          			        				        	
 				        }
     				}
@@ -42,10 +42,10 @@ bcloud.directive('industry',function(backend,$compile,requestNotificationChannel
 				if($scope.$parent.publishEvent.industry_type)
 				{
 
-			  	search_criteria=backend.getpublicizingdatas();			  	
+			  	search_criteria=employerServices.getpublicizingdatas();			  	
 
 				console.log(search_criteria);
-			  	sorteddata=backend.search_industry(search_criteria);
+			  	sorteddata=employerServices.search_industry(search_criteria);
 
 			  	sorteddata.then(function(results){
 
@@ -77,7 +77,7 @@ bcloud.directive('industry',function(backend,$compile,requestNotificationChannel
 
 });
 
-bcloud.directive('location',function(backend,$compile,requestNotificationChannel){
+bcloud.directive('location',function(employerServices,$compile,requestNotificationChannel){
 
 	return{
 		restrict : 'EA',		
@@ -101,7 +101,7 @@ bcloud.directive('location',function(backend,$compile,requestNotificationChannel
 						}
 
 						$scope.$apply();				        
-				        backend.publicizingdatas($scope.$parent.query);
+				        employerServices.publicizingdatas($scope.$parent.query);
 				        //requestNotificationChannel.dataUpdated();				        
 				        }
     				}
@@ -111,12 +111,12 @@ bcloud.directive('location',function(backend,$compile,requestNotificationChannel
           									
 		},
 
-		controller: function($scope,requestNotificationChannel,backend){
+		controller: function($scope,requestNotificationChannel,employerServices){
 			var onDataUpdatedHandler=function(){				
 				if($scope.$parent.publishEvent.prefered_location)
 				{	
-					result=backend.getpublicizingdatas();
-					newlocation=backend.search_location(result);
+					result=employerServices.getpublicizingdatas();
+					newlocation=employerServices.search_location(result);
 					newlocation.then(function(results){
 					chart2result=jsontoarray(results);
 					if(chart2result != '')
@@ -146,7 +146,7 @@ bcloud.directive('location',function(backend,$compile,requestNotificationChannel
 
 });
 
-bcloud.directive('role',function(backend,$compile,requestNotificationChannel){
+bcloud.directive('role',function(employerServices,$compile,requestNotificationChannel){
 
 	return{
 		restrict : 'EA',		
@@ -170,7 +170,7 @@ bcloud.directive('role',function(backend,$compile,requestNotificationChannel){
 						}
 
 						$scope.$apply();				        
-				        backend.publicizingdatas($scope.$parent.query);				        
+				        employerServices.publicizingdatas($scope.$parent.query);				        
 				        //requestNotificationChannel.dataUpdated();				        
 				        }
     				}
@@ -180,12 +180,12 @@ bcloud.directive('role',function(backend,$compile,requestNotificationChannel){
           									
 		},
 
-		controller: function($scope,requestNotificationChannel,backend){
+		controller: function($scope,requestNotificationChannel,employerServices){
 			var onDataUpdatedHandler=function(){				
 				if($scope.$parent.publishEvent.role)
 				{	
-					result=backend.getpublicizingdatas();
-					newlocation=backend.search_role(result);
+					result=employerServices.getpublicizingdatas();
+					newlocation=employerServices.search_role(result);
 					newlocation.then(function(results){
 					chart3result=jsontoarray(results);
 					if(chart3result != '')
@@ -215,7 +215,7 @@ bcloud.directive('role',function(backend,$compile,requestNotificationChannel){
 
 });
 
-bcloud.directive('experience',function(backend,$compile,requestNotificationChannel){
+bcloud.directive('experience',function(employerServices,$compile,requestNotificationChannel){
 
 	return{
 		restrict : 'EA',		
@@ -238,7 +238,7 @@ bcloud.directive('experience',function(backend,$compile,requestNotificationChann
 						}
 
 						$scope.$apply();				        
-				        backend.publicizingdatas($scope.$parent.query);
+				        employerServices.publicizingdatas($scope.$parent.query);
 				        //requestNotificationChannel.dataUpdated();				        
 				        }
     				}
@@ -248,12 +248,12 @@ bcloud.directive('experience',function(backend,$compile,requestNotificationChann
            	chart4=c3.generate($scope.configuration);
           									
 		},
-		controller: function($scope,requestNotificationChannel,backend){
+		controller: function($scope,requestNotificationChannel,employerServices){
 			var onDataUpdatedHandler=function(){				
 				if($scope.$parent.publishEvent.experience)
 				{	
-					result=backend.getpublicizingdatas();
-					newlocation=backend.search_experience(result);
+					result=employerServices.getpublicizingdatas();
+					newlocation=employerServices.search_experience(result);
 					newlocation.then(function(results){
 					chart4result=jsontoarray(results);
 					if(chart4result != '')

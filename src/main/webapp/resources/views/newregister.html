@@ -13,7 +13,7 @@
    </div>
  <div class="panel-body">
   	<!-- For Login -->
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" ng-show="emailform">
 	  <div class="panel-heading"><h3 class="panel-title">Login Details</h3></div>
 	  <div class="panel-body">
 	    <form class="form-horizontal" name="employeeregisterlogin" novalidate>
@@ -62,7 +62,7 @@
 		  <div class="form-group">
 		    <label for="Full Name" class="col-sm-2 control-label" style="text-align:left">Full Name</label>
 		    <div class="col-sm-5">
-		      <input type="text" class="form-control" ng-model="fullname" name="fullname" placeholder="Enter your full name" ng-pattern="/^[a-zA-Z][a-zA-Z.]*$/" required>
+		      <input type="text" class="form-control" ng-model="fullname" name="fullname" placeholder="Enter your full name" ng-pattern="/^[a-zA-Z][a-zA-Z. ]*$/" required>
 		      <div ng-show="employeeregister.fullname.$dirty && employeeregister.fullname.$invalid">
 					<span ng-show="employeeregister.fullname.$error.required" class="showError">Enter ur name</span>
 					<span ng-show="employeeregister.fullname.$error.pattern" class="showError">Use only characters</span>
@@ -71,7 +71,9 @@
 		  </div>
 		  <div class="form-group">
 		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Location</label>
-		      <div class="col-sm-5">
+		      
+		      <!-- This is for normal User -->
+		      <div class="col-sm-5" ng-show="emailform">
 			        <select class="form-control" ng-model="currentlocation" name="currentlocation" required>
 						  <option>Select</option>
 						  <option>Coimbatore</option>
@@ -83,6 +85,12 @@
 						<span ng-show="employeeregister.currentlocation.$error.required" class="showError">Enter ur name</span>						
 			   		</div>
 		      </div>
+
+		      <!-- This is for third party login like linkedin -->
+		      <div class="col-sm-5" ng-show="!emailform">
+			      <input type="text" class="form-control" ng-model="currentlocation" required>     			      
+		      </div>
+
    		   </div>
 		  <div class="form-group">
 		    <label for="phonenumber" class="col-sm-2 control-label" style="text-align:left">Phone Number</label>
@@ -102,20 +110,47 @@
 	  <div class="panel-heading"><h3 class="panel-title">Current Employement Details</h3></div>
 	  <div class="panel-body">
 	    <form class="form-horizontal">
+	    	<!-- Industry Type -->
+
+	    	<!-- This is for third party industry type -->
+	      	<div class="form-group" ng-show="!emailform">
+			    <label for="Current Industry" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="industrytype" placeholder="Enter your full name"  required>	
+			    </div>
+		    </div>
+
+		    <!-- This is for newUser-->
+		   <div class="form-group" ng-show="emailform">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="industrytype">
+						  <option>Select</option>
+						  <option>IT</option>
+						  <option>MECH</option>
+						  <option>ACCOUNTS</option>
+						  <option>BPO</option>
+						 <option>MEDICAL</option>
+						  <option>HR</option>
+					</select>
+		      </div>
+   		   </div>
+
+	    	<!-- Experiences -->
 		   <div class="form-group">
 		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Years Of Exp</label>
 		      <div class="col-sm-5">
 			        <select class="form-control" ng-model="experience">
 						  <option>Select</option>
-						  <option>Fresher</option>
-						  <option>1</option>
-						  <option>2</option>
-						  <option>3</option>
-						 <option>4</option>
-						  <option>5</option>
+						  <option value='0.0'>Fresher</option>
+						  <option value='1.0'>1</option>
+						  <option value='2.0'>2</option>
+						  <option value='3.0'>3</option>
+						 <option value='4.0'>4</option>
+						  <option value='5.0'>5</option>
 					</select>
 		      </div>
-   		   </div>
+   		   </div>   		   
 		  <div class="form-group">
 		    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
 		    <div class="col-sm-5">
@@ -195,14 +230,27 @@
 	  </div>
 	</div>
 
+	<!-- For Resume Upload -->
+    <div class="panel panel-primary">
+	  <div class="panel-heading"><h3 class="panel-title">Resume Upload</h3></div>
+	  <div class="panel-body">
+	    <form method="POST" action="employeeCreate" enctype="multipart/form-data">		  
+		  <input type="file" class="form-control"  file-model="myFile" name="file" id="file"> 		  
+		</form>
+	  </div>
+	</div>
+
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<span>
 
-				<button class="btn btn-success" type="submit" ng-click="registerUser()">Register</button>
+				<button class="btn btn-success" type="submit" ng-click="registerUser()" ng-show="emailform">Register</button>
+				<button class="btn btn-success" type="submit" ng-click="thirdPartyUser()" ng-show="!emailform">Register</button>
+				
 				<button class="btn btn-danger" type="submit" ng-click="reset()">Cancel</button>
 			</span>
 		</div>	
 	</div>
   </div>
 </div>
+

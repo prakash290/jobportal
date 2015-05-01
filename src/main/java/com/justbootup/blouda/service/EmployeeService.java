@@ -3,37 +3,54 @@ package com.justbootup.blouda.service;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.justbootup.blouda.dao.EmployeeDao;
-import com.justbootup.blouda.domainObjects.User;
 import com.justbootup.blouda.serviceApi.IEmployeeService;
+import com.mongodb.BasicDBObject;
 
 @Service
 public class EmployeeService implements IEmployeeService {
 	
 	@Autowired
-	private EmployeeDao userDao;
+	private EmployeeDao employeeDao;
 
 	@Override
 	public List<JSONObject> getAllUsers() {
 		
-		return userDao.getAllUsers();
+		return employeeDao.getAllUsers();
 	}
 
 	@Override
-	public JSONObject saveUser(JSONObject json) {
+	public net.sf.json.JSONObject saveUser(MultipartFile resume,net.sf.json.JSONObject employeeDetails) {
 		
-		return userDao.saveUser(json);
+		return employeeDao.saveUser(resume,employeeDetails);
 	}
 
 	@Override
 	public JSONObject employeeUpdateProfile(JSONObject jsonEmployeeProfile) throws UnknownHostException {
 		
-		return userDao.employeeUpdateProfile(jsonEmployeeProfile);
+		return employeeDao.employeeUpdateProfile(jsonEmployeeProfile);
+	}
+
+	@Override
+	public BasicDBObject getEmployeeProfile(JSONObject employeeSession) throws UnknownHostException {
+		
+		return employeeDao.getEmployeeProfile(employeeSession);
+	}
+
+	@Override
+	public BasicDBObject emloyeeLogin(JSONObject employeeCredentials) throws UnknownHostException {
+	
+		return employeeDao.employeeLogin(employeeCredentials);
+	}
+
+	@Override
+	public BasicDBObject emloyeeLinkedInLogin(JSONObject employeeLinkedInCredentials) throws UnknownHostException {
+		
+		return employeeDao.emloyeeLinkedInLogin(employeeLinkedInCredentials);
 	}
 
 	

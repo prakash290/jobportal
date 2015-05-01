@@ -8,14 +8,18 @@
 
 <html ng-app="bcloud">
   <head>
+  
+   <base href="/blouda/">
+   
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="resources/app/css/bootstrap/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="resources/app/css/style.css">    
-    <link rel="stylesheet" type="text/css" href="resources/app/css/c3.css">      
-    <link rel="stylesheet" type="text/css" href="resources/app/css/ng-tags-input.bootstrap.css">   
-    <link rel="stylesheet" type="text/css" href="resources/app/css/ng-tags-input.css">   
+    <link rel="stylesheet" type="text/css" href="resources/app/css/c3.css">    
+     
     <link rel="stylesheet" type="text/css" href="resources/app/css/angular-tagger.css"> 
+    <link rel="stylesheet" type="text/css" href="resources/app/css/bootstrap-social.css"> 
+   
     <script type="text/javascript" src="resources/app/js/jquery-2.1.3.js" ></script>
     <script type="text/javascript" src="resources/app/js/d3.min.js" ></script>
     <script type="text/javascript" src="resources/app/js/c3.js" ></script>       
@@ -23,18 +27,31 @@
     <script type="text/javascript" src="resources/app/js/angular-cookies.js" ></script>   
      <script type="text/javascript" src="resources/app/js/angular-animate.js" ></script>  
     <script type="text/javascript" src="resources/app/js/ui-bootstrap-tpls-0.12.1.js" ></script>    
-    <script type="text/javascript" src="resources/app/js/angular-route.js" ></script>
-    <script type="text/javascript" src="resources/app/js/ng-tags-input.js" ></script>
+    <script type="text/javascript" src="resources/app/js/angular-route.js" ></script>   
     <script type="text/javascript" src="resources/app/js/angular-tagger.js" ></script>
+    <script type="text/javascript" src="resources/app/js/satellizer.js" ></script>
     <script type="text/javascript" src="resources/app/js/bootstrap.js" ></script>
+    <script type="text/javascript" src="resources/app/js/ngStorage.js" ></script>
+    <script type="text/javascript" src="resources/app/js/angular-sanitize.js" ></script>
+     <script type="text/javascript" src="resources/app/js/plugins/ngFacebook.js" ></script> 
+
+
     <script type="text/javascript" src="resources/app/app-module.js" ></script>  
+
+    <script type="text/javascript" src="resources/app/js/plugins/google-plus-signin.js" ></script>
+
     <script type="text/javascript" src="resources/app/services/backend.js" ></script>
     <script type="text/javascript" src="resources/app/services/employeeServices.js" ></script>
+    <script type="text/javascript" src="resources/app/services/employerServices.js" ></script>
+    <script type="text/javascript" src="resources/app/services/employerDocServices.js" ></script>
     <script type="text/javascript" src="resources/app/services/notification.js" ></script>
 
     <script type="text/javascript" src="resources/app/controllers/controller.js" ></script> 
     <script type="text/javascript" src="resources/app/directives/dynamic-chart-directive.js" ></script>  
-    <script type="text/javascript" src="resources/app/directives/front-chart-directive.js" ></script>   
+    <script type="text/javascript" src="resources/app/directives/front-chart-directive.js" ></script>
+    <script type="text/javascript" src="resources/app/js/browserUtil.js" ></script> 
+    <script type="text/javascript" src="resources/app/js/angular-linkedin-login.js" ></script>
+
     <script type="text/javascript" src="resources/app/js/angular-chart.js" ></script> 
     <script type="text/javascript" src="resources/app/services/authentication.js" ></script>
     <script type="text/javascript" src="resources/app/js/canvasjs.js" ></script>     
@@ -62,11 +79,12 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/home">Home</a></li>
-      	<li><a href="#/register">Register</a></li>
+      	<li><a href="#/newregister" ng-show="!isEmployeeLoggedIn()">Register</a></li>
       	<li><a href="#/analytics">Analytics</a></li>   
         <li><a href="#/hireme">Hire People</a></li>   
-        <li><a href="#/login" ng-show="!isUserLoggedIn()"> Login</a></li>    
-        <li><a href="" ng-click="logout()" ng-show="isUserLoggedIn()">Logout</a></li>    
+        <li><a href="#/login" ng-show="!isEmployeeLoggedIn()"> Login</a></li>    
+        <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">{{loggedUserEmail}}</a></li> 
+        <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">Logout</a></li>           
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

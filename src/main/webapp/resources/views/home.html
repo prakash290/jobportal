@@ -6,11 +6,16 @@
 
 <h1 class="text-center">Home Page</h1>
 
-<div ng-repeat="data in wholedata">
-    
-    <div class="col-md-12"> 
-        <userprofile1 data="data.data" wholedata="{{data.name}}"></userprofile1>    
-   </div>
+<div class="col-md-12">	
+	<button class="btn btn-primary" ng-click="getImage()">withResponse</button>		
+</div>
+
+<div class="col-md-12 text-center">
+	<img ng-src="Rchart"/>
+</div>
+
+<div class="col-md-12 text-center">
+	<img ng-src="data:image/png;base64,{{image}}"/>
 </div>
 
 

@@ -1341,6 +1341,7 @@
             button.style.margin = "0px 0px 0px 0px";
             button.style.padding = "3px 4px 0px 4px";
             button.style.cssFloat = "left";
+            button.style.visibility = "hidden";
             button.setAttribute("title", chart._cultureInfo[state + "Text"]);
             button.innerHTML = "<img style='height:16px;' src='" + base64Images[state].image + "' alt='" + chart._cultureInfo[state + "Text"] + "' />";
         }
@@ -1632,7 +1633,7 @@
         if (!this._creditLink) {
             this._creditLink = document.createElement("a");
             this._creditLink.setAttribute("class", "canvasjs-chart-credit");
-            this._creditLink.setAttribute("style", "outline:none;margin:0px;position:absolute;right:3px;top:" + (this.height - 14) + "px;color:dimgrey;text-decoration:none;font-size:10px;font-family:Lucida Grande, Lucida Sans Unicode, Arial, sans-serif");
+            this._creditLink.setAttribute("style", "visibility: hidden;;outline:none;margin:0px;position:absolute;right:3px;top:" + (this.height - 14) + "px;color:dimgrey;text-decoration:none;font-size:10px;font-family:Lucida Grande, Lucida Sans Unicode, Arial, sans-serif");
 
             this._creditLink.setAttribute("tabIndex", -1);
 

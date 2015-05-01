@@ -1,0 +1,84 @@
+<div class="container">	
+	<div class="row">
+		<!-- <div class="col-md-4">
+			<div class="form-group">
+				    <label>Show By:</label>
+				    <select ng-model="profileShow" class="form-control">
+					<option value="name">Graph</option>
+					<option value="role">Table</option>	
+				</select>
+				  </div>
+			</div> -->
+		<div class="col-md-12 text-right">
+			<form class="form-inline">
+				  <div class="form-group">
+				    <label>Search</label>
+				    <input type="text" class="form-control" placeholder="Enter Text" ng-model="search">
+				  </div>
+				  <div class="form-group">
+				    <label>Sort by:</label>
+				    <select ng-model="sortExpression" class="form-control">
+					<option value="name">Name</option>
+					<option value="role">Role</option>
+					<option value="$">All</option>			
+				</select>
+				  </div>
+				  
+			</form>
+			 			
+		 </div>
+		<div class="col-md-12">			
+			<table class="table table-bordered">
+			   <caption class="text-center">Matched Details</caption>
+			   <thead>
+			      <tr>
+			         <th>Name</th>
+			         <th>Role</th>			         
+			      </tr>
+			   </thead>
+			   <tbody>
+			      
+			      <tr ng-repeat="profile in employeeProfiles | filter:search | orderBy:mySortFunction">
+			         <td>{{profile.name}}</td>
+			         <td>{{profile.role}}</td>
+			      </tr>
+
+			   </tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4 text-center" >    
+		 <pagination boundary-links="true" 
+		    max-size="3" 
+		    items-per-page="itemsPerPage"
+		    total-items="totalcount" 
+		    ng-model="currentPage" 
+		    ng-change="pageChanged()"></pagination>
+		</div>
+		<div class="col-md-4 text-right" style="margin-top:20px;">
+			<form class="form-horizontal" >
+			<div class="form-group">
+		      <label for="exp" class="col-sm-8 control-label">No.of.Pages to Shown : </label>  
+		      
+		      <div class="col-sm-4">
+			        <select class="form-control" ng-model="itemsPerPage">
+						  <option>2</option>
+						  <option>3</option>						  						
+					</select>					
+		      </div>
+		      </form>
+   		   </div>
+		</div>
+	</div>
+	<div class="row">		
+		<div ng-repeat="data in wholedata">	    
+		    <div class="col-md-9 text-right"> 
+		        <userprofile1 data="data.data" wholedata="{{data.name}}"></userprofile1> 	
+			</div>
+			<div class="col-md-3">
+				<displayuserinfos resultdata="data"> </displayuserinfos>			
+			</div>  		 
+		</div>
+	</div>	
+</div>
