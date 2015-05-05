@@ -590,6 +590,35 @@ bcloud.controller('docSearchCtrl',['$scope','employeeDocServices',
 }]);
 
 
+bcloud.controller('firendSearchCtrl',['$scope','friendRequestServices','authentication','getCommonThingsforFriendSearch',
+  function($scope,friendRequestServices,authentication,getCommonThingsforFriendSearch){
+
+  $scope.wholecompanies=getCommonThingsforFriendSearch.wholecompanies;
+  $scope.wholelocations=getCommonThingsforFriendSearch.wholelocations;
+  $scope.wholeskills=getCommonThingsforFriendSearch.wholeskills;
+
+
+  
+
+  $scope.searchFriend = function(){
+      $scope.request={};
+      angular.forEach($scope.friendRequest, function(value, key) {
+            angular.forEach(value,function(val,ke){
+              if(ke == "name")
+              {            
+                $scope.request[key]=val;     
+              }
+            });
+      });   
+      $scope.request.email=authentication.getEmployee();
+      console.log($scope.request);
+      friendRequestServices.getFriendsList($scope.request).then(function(data){
+        console.log(data);
+      });
+  };
+
+}]);
+
 
 function emptycheck(value){
 	if(value == '')

@@ -1,0 +1,26 @@
+<div class="col-md-10 col-md-offset-1 well">
+	<h3 class="text-center" style="margin-top:0px;margin-bottom:20px;"> Search Friends</h3>
+	<form class="form-inline">
+	  <div class="form-group col-md-4">
+	    <label for="sel1">By Location:</label>
+	      <select ng-model="friendRequest.currentlocation" ng-options="location.name for location in wholelocations" class="form-control"> 
+			 <option value="">Select Locations</option>
+		  </select>
+	  </div>
+	  <div class="form-group col-md-4">
+	    <label for="sel1">By Company:</label>
+	      <select ng-model="friendRequest.company" ng-options="company.name for company in wholecompanies" class="form-control"> 
+			 <option value="">Select Company</option>
+		  </select>
+	  </div>
+	  <div class="form-group col-md-4">
+	    <label for="sel1">By Skills:</label>
+	      <select ng-model="friendRequest.skillset" ng-options="skill.name for skill in wholeskills" class="form-control"> 
+			 <option value="">Select Skill</option>
+		  </select>
+	  </div>
+	  <div class="col-md-4 col-md-offset-4" style="margin-top:20px;">
+  		<button type="submit" class="btn btn-success btn-block" ng-click="searchFriend()">Search</button>
+  	</div>
+</form>	
+</div>

@@ -9,7 +9,7 @@ bcloud.factory('backend',[ '$http','$q','requestNotificationChannel',
 	var role=[];
 
 	return{
-		
+
 		pass_attribute: function(val){
 			return $http.post('/_ah/api/useranalytics/v1/chartgeneration',val);
 		},	
@@ -154,6 +154,11 @@ bcloud.factory('backend',[ '$http','$q','requestNotificationChannel',
 				defer.reject(data);
 			});
 			return defer.promise;
+		},
+		getcommonThingsforFriendRequest:function()
+		{
+			commonThingsForFriends= $http.get('/blouda/getAllForFriendsRequest');			
+			return commonThingsForFriends;
 		}
 
 	}

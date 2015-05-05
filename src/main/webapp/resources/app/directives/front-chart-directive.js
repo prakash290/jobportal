@@ -146,7 +146,7 @@ bcloud.directive('location',function(employerServices,$compile,requestNotificati
 
 });
 
-bcloud.directive('role',function(employerServices,$compile,requestNotificationChannel){
+bcloud.directive('employeerole',function(employerServices,$compile,requestNotificationChannel){
 
 	return{
 		restrict : 'EA',		

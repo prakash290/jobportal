@@ -42,6 +42,7 @@
 
     <script type="text/javascript" src="resources/app/services/backend.js" ></script>
     <script type="text/javascript" src="resources/app/services/employeeServices.js" ></script>
+    <script type="text/javascript" src="resources/app/services/friendRequest.js" ></script>
     <script type="text/javascript" src="resources/app/services/employerServices.js" ></script>
     <script type="text/javascript" src="resources/app/services/employerDocServices.js" ></script>
     <script type="text/javascript" src="resources/app/services/notification.js" ></script>
@@ -83,8 +84,17 @@
       	<li><a href="#/analytics">Analytics</a></li>   
         <li><a href="#/hireme">Hire People</a></li>   
         <li><a href="#/login" ng-show="!isEmployeeLoggedIn()"> Login</a></li>    
-        <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">{{loggedUserEmail}}</a></li> 
-        <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">Logout</a></li>           
+        <!-- <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">{{loggedUserEmail}}</a></li>  -->
+        <!-- <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">Logout</a></li> --> 
+        <li  ng-show="isEmployeeLoggedIn()" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{loggedUserEmail}} <span class="caret"></span></a>
+          <ul class="dropdown-menu list-group" role="menu" style="min-width:190px;">
+            <li list-group-item ><a href="">Update Profile </a></li>
+            <li><a href="">Jobs Applied <span class="badge" style="float:right">14</span></a></li>
+            <li><a href="#/friendSearch">Search Friends</a></li>
+            <li><a href="">Friend Requests</a></li>
+            <li><a href="" ng-click="logout()">Logout</a></li>        
+          </ul>
+         </li>          
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

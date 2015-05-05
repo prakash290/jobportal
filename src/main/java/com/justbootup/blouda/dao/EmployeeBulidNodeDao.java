@@ -287,7 +287,7 @@ public class EmployeeBulidNodeDao {
 			LinkedHashMap<String, Object> currentCompanyDetails = new LinkedHashMap<String, Object>();
 			currentCompanyDetails = (LinkedHashMap<String, Object>) employeeProfile.get("currentcompanydetails");
 			
-			employeeProfileNode.append("merge ( `"+currentCompanyDetails.get("current_company_name").toString().toLowerCase()+"`:employer { `name` : \""+currentCompanyDetails.get("current_company_name").toString().toLowerCase()+"\" } ) ");
+			employeeProfileNode.append("merge ( `"+currentCompanyDetails.get("current_company_name").toString().toLowerCase()+"`:employer:company { `name` : \""+currentCompanyDetails.get("current_company_name").toString().toLowerCase()+"\" } ) ");
 			
 			ArrayList<Object> previousCompanyDetails = new ArrayList<Object>();
 			
@@ -296,7 +296,7 @@ public class EmployeeBulidNodeDao {
 			for(int i=0;i<previousCompanyDetails.size();i++)
 			{
 				LinkedHashMap<String, Object> previousCompany = (LinkedHashMap<String, Object>) previousCompanyDetails.get(i);
-				employeeProfileNode.append("merge ( `"+previousCompany.get("companyname").toString().toLowerCase()+"`:employer { `name` : \""+previousCompany.get("companyname").toString().toLowerCase()+"\" } ) ");			
+				employeeProfileNode.append("merge ( `"+previousCompany.get("companyname").toString().toLowerCase()+"`:employer:company { `name` : \""+previousCompany.get("companyname").toString().toLowerCase()+"\" } ) ");			
 			}
 			
 		}
