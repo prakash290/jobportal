@@ -7,7 +7,8 @@
 			 <option value="">Select Locations</option>
 		  </select>
 	  </div>
-	  <div class="form-group col-md-4">
+
+	  <div class="form-group col-md-4" >
 	    <label for="sel1">By Company:</label>
 	      <select ng-model="friendRequest.company" ng-options="company.name for company in wholecompanies" class="form-control"> 
 			 <option value="">Select Company</option>
@@ -23,4 +24,18 @@
   		<button type="submit" class="btn btn-success btn-block" ng-click="searchFriend()">Search</button>
   	</div>
 </form>	
+</div>
+<div ng-show="resultview">
+<div class="col-md-10 col-md-offset-1 well"   ng-repeat="friend in friendsList track by $index" id="{{$index}}"  hidedetails>		
+		<p>Name : {{friend.fullname}}</p>
+		<p>Location : {{friend.currentlocation}}</p>
+		<p>Company Name : <span style="color:red">{{friend.current_company_name}}</span></p>
+		<p>Experience : {{friend.experience}}</p>
+		<p>Skills are : <span ng-repeat="skill in friend.skillset" data-add-a-space-between>{{skill +" " }}</span></p>
+		<button class="btn btn-success" style="float:right" ng-click="sendRequest(friend.email,$index)">Send Friend Request</button>		
+	</div>
+</div>
+</div>
+<div class="col-md-10 col-md-offset-1 well" ng-show="noresultview">
+	<h4 class="text-center"> No Results Found. Please Try with some other options. </h4>
 </div>

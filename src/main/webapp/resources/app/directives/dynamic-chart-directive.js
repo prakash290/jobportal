@@ -134,3 +134,31 @@ bcloud.directive('fileModel', ['$parse', function ($parse) {
         }
     };
 }]);
+
+
+bcloud.directive('addASpaceBetween', [function () {
+        'use strict';
+        return function (scope, element) {
+            if(!scope.$last){
+                element.after('&nbsp;');
+            }
+            else
+            {
+            	console.log("This is last element : "+scope.$last);
+            }	
+        }
+    }
+]);
+
+
+bcloud.directive("hidedetails",[function(){
+	return{		
+		restrict : 'A',
+		link:function(scope,element,attrs){	
+			element.bind('click',function(){
+				$(this).hide(1000);
+			});
+		}		
+	}
+
+}]);

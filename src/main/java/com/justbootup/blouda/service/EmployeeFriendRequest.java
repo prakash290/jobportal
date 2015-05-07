@@ -19,8 +19,24 @@ public class EmployeeFriendRequest implements IEmployeeFriendsRequest{
 	private EmployeeFriendRequestDao employerFriendRequestDao;
 	
 	@Override
-	public void getFriendsList(JSONObject queryParams) {		
-		employerFriendRequestDao.getFriendsList(queryParams);
+	public JSONObject getFriendsList(JSONObject queryParams) {		
+		return employerFriendRequestDao.getFriendsList(queryParams);
+	}
+
+	@Override
+	public JSONObject sendFriendRequest(JSONObject employeeList) {		
+		return employerFriendRequestDao.sendFriendRequest(employeeList);
+	}
+
+	@Override
+	public JSONObject getRequestedFriends(JSONObject currentemployee) {
+		
+		return null;
+	}
+
+	@Override
+	public JSONObject getRequestedFriendsCount(JSONObject currentEmploye) {		
+		return employerFriendRequestDao.getRequestedFriendsCount(currentEmploye);
 	}
 	
 	

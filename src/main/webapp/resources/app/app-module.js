@@ -3,10 +3,35 @@ var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate','tagger
 bcloud.config(function($routeProvider,$locationProvider){
 	//$locationProvider.html5Mode(true);
 	$routeProvider
-	
+
 	.when('/home',{
 		templateUrl : 'resources/views/home.html',
-		controller : 'homeCtrl'		
+		controller : 'homeCtrl',
+		resolve:{
+			getRequestedFriendsCount:function(authentication,$q,$http){
+				if(authentication.getEmployee()!="null")
+				{
+					currentEmployeeForFriend = {
+						"email":authentication.getEmployee()
+					};
+					var defer=$q.defer();			
+					$http.post('/blouda/getRequestedFriendsCount',currentEmployeeForFriend)
+					.success(function(data){										
+						defer.resolve(data);					
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+				}
+				else
+				{
+					data ={
+						"count":0
+					}
+				}	
+				
+			}
+		}	
 	})
 
 	.when('/newregister',{
@@ -116,8 +141,7 @@ bcloud.config(function($routeProvider,$locationProvider){
 					}).error(function(data,status,config){
 						defer.reject(data);
 					});
-
-					return defer.promise;
+				return defer.promise;
 				}
 		}
 

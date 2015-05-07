@@ -60,7 +60,7 @@
     
     <title>Hello App Engine</title>
   </head>
-  <body ng-controller="parent">
+  <body ng-controller="parentCtrl">
   
   		<nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -91,7 +91,7 @@
             <li list-group-item ><a href="">Update Profile </a></li>
             <li><a href="">Jobs Applied <span class="badge" style="float:right">14</span></a></li>
             <li><a href="#/friendSearch">Search Friends</a></li>
-            <li><a href="">Friend Requests</a></li>
+            <li><a href="#/friendRequestList">Friend Requests <span class="badge" style="float:right" ng-if="ready">{{count}}</span></a></li>            
             <li><a href="" ng-click="logout()">Logout</a></li>        
           </ul>
          </li>          

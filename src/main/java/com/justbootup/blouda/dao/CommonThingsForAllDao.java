@@ -54,7 +54,10 @@ public class CommonThingsForAllDao {
 			System.out.println("Exception Raised in getAllCompanies Method of CommnThingsForAllDao");
 		}		
 		finally{
-			
+			if(mongoclient != null)
+			{
+				mongoclient.close();
+			}
 		}
 		return commonThings;
 	}
@@ -99,7 +102,10 @@ public class CommonThingsForAllDao {
 			System.out.println("Exception Raised in getAllCompanies Method of CommnThingsForAllDao");
 		}		
 		finally{
-			
+			if(mongoclient != null)
+			{
+				mongoclient.close();
+			}
 		}
 		
 		return commonThings;

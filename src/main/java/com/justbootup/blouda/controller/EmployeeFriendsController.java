@@ -17,8 +17,19 @@ public class EmployeeFriendsController {
 	IEmployeeFriendsRequest employeeFriendRequest;
 	
 	@RequestMapping(value="/getFriendsList",method=RequestMethod.POST)	
-	public @ResponseBody String getAllFriendsList(@RequestBody JSONObject queryParams){
-		employeeFriendRequest.getFriendsList(queryParams);
-		return "Sample";		
+	public @ResponseBody JSONObject getAllFriendsList(@RequestBody JSONObject queryParams){
+		
+		return employeeFriendRequest.getFriendsList(queryParams);
+		
+	}	
+	
+	@RequestMapping(value="/sendFriendRequest",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject sendFriendRequest(@RequestBody JSONObject employeeList){				
+		return employeeFriendRequest.sendFriendRequest(employeeList);		
+	}
+	
+	@RequestMapping(value="/getRequestedFriendsCount",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject getRequestedFriendsCount(@RequestBody JSONObject currentEmploye){				
+		return employeeFriendRequest.getRequestedFriendsCount(currentEmploye);		
 	}
 }

@@ -1,5 +1,5 @@
-bcloud.controller('parent',['$scope','authentication','employerServices','$location',
-  function($scope,authentication,employerServices,$location){
+bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$location','friendRequestServices',
+  function($scope,authentication,employerServices,$location,friendRequestServices){
 	
 	$scope.query={
 		industry_type:[],
@@ -45,13 +45,13 @@ bcloud.controller('parent',['$scope','authentication','employerServices','$locat
     $location.path('/employerSearchResult');
 
   };
-
-
+  $scope.count = 0;  
 }]);
 
-bcloud.controller('homeCtrl',['$scope','employerServices',
-  function($scope,employerServices){
-
+bcloud.controller('homeCtrl',['$scope','employerServices','getRequestedFriendsCount',
+  function($scope,employerServices,getRequestedFriendsCount){
+  var data = getRequestedFriendsCount;
+  console.log(data);
    $scope.displayImg = false;
 
    $scope.getImage = function(){
@@ -590,15 +590,12 @@ bcloud.controller('docSearchCtrl',['$scope','employeeDocServices',
 }]);
 
 
-bcloud.controller('firendSearchCtrl',['$scope','friendRequestServices','authentication','getCommonThingsforFriendSearch',
-  function($scope,friendRequestServices,authentication,getCommonThingsforFriendSearch){
+bcloud.controller('firendSearchCtrl',['$scope','$compile','friendRequestServices','authentication','getCommonThingsforFriendSearch',
+  function($scope,$compile,friendRequestServices,authentication,getCommonThingsforFriendSearch){
 
   $scope.wholecompanies=getCommonThingsforFriendSearch.wholecompanies;
   $scope.wholelocations=getCommonThingsforFriendSearch.wholelocations;
   $scope.wholeskills=getCommonThingsforFriendSearch.wholeskills;
-
-
-  
 
   $scope.searchFriend = function(){
       $scope.request={};
@@ -613,9 +610,35 @@ bcloud.controller('firendSearchCtrl',['$scope','friendRequestServices','authenti
       $scope.request.email=authentication.getEmployee();
       console.log($scope.request);
       friendRequestServices.getFriendsList($scope.request).then(function(data){
-        console.log(data);
-      });
+          if(!angular.equals({},data))
+          {
+            $scope.friendsList = data.result;
+            $scope.noresultview = false;
+            $scope.resultview = true;
+          }
+          else
+          {
+            $scope.resultview = false;
+            $scope.noresultview = true;
+          }
+      });      
   };
+
+  $scope.sendRequest = function(emailId,index){
+    alert(index);    
+    $scope.friendslistQueryParam = {
+      "employee":emailId,
+      "email":authentication.getEmployee()
+    };           
+    console.log($scope.friendslistQueryParam);
+    friendRequestServices.sendFriendRequest($scope.friendslistQueryParam).then(function(data){
+          if(data.status == "OK")
+          {
+
+          }
+    });
+  }
+
 
 }]);
 
