@@ -32,4 +32,19 @@ public class EmployeeFriendsController {
 	public @ResponseBody JSONObject getRequestedFriendsCount(@RequestBody JSONObject currentEmploye){				
 		return employeeFriendRequest.getRequestedFriendsCount(currentEmploye);		
 	}
+	
+	@RequestMapping(value="/getRequestedFriendsList",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject getRequestedFriendsList(@RequestBody JSONObject currentEmployee){				
+		return employeeFriendRequest.getRequestedFriends(currentEmployee);		
+	}
+	
+	@RequestMapping(value="/updateFriendRequest",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject updateFriendRequest(@RequestBody JSONObject employeeFriends){				
+		return employeeFriendRequest.updateFriendRequest(employeeFriends);		
+	}
+	
+	@RequestMapping(value="/showFriendsList",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject showFriendsList(@RequestBody JSONObject friendsList){				
+		return employeeFriendRequest.showFriends(friendsList);		
+	}
 }

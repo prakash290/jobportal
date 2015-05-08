@@ -6,32 +6,7 @@ bcloud.config(function($routeProvider,$locationProvider){
 
 	.when('/home',{
 		templateUrl : 'resources/views/home.html',
-		controller : 'homeCtrl',
-		resolve:{
-			getRequestedFriendsCount:function(authentication,$q,$http){
-				if(authentication.getEmployee()!="null")
-				{
-					currentEmployeeForFriend = {
-						"email":authentication.getEmployee()
-					};
-					var defer=$q.defer();			
-					$http.post('/blouda/getRequestedFriendsCount',currentEmployeeForFriend)
-					.success(function(data){										
-						defer.resolve(data);					
-					}).error(function(data){
-						defer.reject(data);
-					});			
-					return defer.promise;
-				}
-				else
-				{
-					data ={
-						"count":0
-					}
-				}	
-				
-			}
-		}	
+		controller : 'homeCtrl',			
 	})
 
 	.when('/newregister',{
@@ -141,10 +116,38 @@ bcloud.config(function($routeProvider,$locationProvider){
 					}).error(function(data,status,config){
 						defer.reject(data);
 					});
-				return defer.promise;
+					return defer.promise;
 				}
 		}
 
+	})
+
+	.when('/friendRequestList',{
+		templateUrl : 'resources/views/friendRequestList.html',
+		controller : 'friendRequestListCtrl'
+	})
+
+	.when('/friendsList',{
+		templateUrl : 'resources/views/friends.html',
+		controller : 'friendsListCtrl',
+		resolve : {
+			showFriendsList:function(authentication,$q,$http){
+				if(angular.isUndefined (authentication.getEmployee() ) | authentication.getEmployee() != "null")
+				{
+					employee={
+						"email" : authentication.getEmployee()
+					}
+					var defer=$q.defer();			
+					$http.post('/blouda/showFriendsList',employee)
+					.success(function(data){										
+						defer.resolve(data);					
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+				}				
+			}
+		}
 	})
 
 	.otherwise({

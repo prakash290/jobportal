@@ -1,13 +1,22 @@
 bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$location','friendRequestServices',
   function($scope,authentication,employerServices,$location,friendRequestServices){
 	
-	$scope.query={
+  $scope.query={
 		industry_type:[],
 		prefered_location:[],
 		role:[],
 		experience:[]
 	};
 
+  $scope.getRequestedFriendCount = function(){
+    $scope.currentemployee = {
+      "email":authentication.getEmployee()
+    };
+    friendRequestServices.getRequestedFriendsCount($scope.currentemployee).then(function(data){
+      $scope.count = data.count;
+    });
+  }
+  $scope.getRequestedFriendCount();
   $scope.publishEvent={
     industry_type:"",
     prefered_location:"",
@@ -39,19 +48,14 @@ bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$l
   };
 
   $scope.showList = function(){
-
     // To store selected values
     employerServices.setShowList();
     $location.path('/employerSearchResult');
-
-  };
-  $scope.count = 0;  
+  };   
 }]);
 
-bcloud.controller('homeCtrl',['$scope','employerServices','getRequestedFriendsCount',
-  function($scope,employerServices,getRequestedFriendsCount){
-  var data = getRequestedFriendsCount;
-  console.log(data);
+bcloud.controller('homeCtrl',['$scope','employerServices',
+  function($scope,employerServices){  
    $scope.displayImg = false;
 
    $scope.getImage = function(){
@@ -68,7 +72,7 @@ bcloud.controller('homeCtrl',['$scope','employerServices','getRequestedFriendsCo
 }]);
 
 bcloud.controller('registerCtrl',['$scope','$http',function($scope,$http){
-	
+
 }]);
 
 
@@ -332,7 +336,8 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
         }
         else
         {
-          $location.path('/home');
+          $scope.$parent.getRequestedFriendCount();
+          $location.path('/home');          
         }
         
       });
@@ -589,7 +594,6 @@ bcloud.controller('docSearchCtrl',['$scope','employeeDocServices',
 
 }]);
 
-
 bcloud.controller('firendSearchCtrl',['$scope','$compile','friendRequestServices','authentication','getCommonThingsforFriendSearch',
   function($scope,$compile,friendRequestServices,authentication,getCommonThingsforFriendSearch){
 
@@ -624,8 +628,7 @@ bcloud.controller('firendSearchCtrl',['$scope','$compile','friendRequestServices
       });      
   };
 
-  $scope.sendRequest = function(emailId,index){
-    alert(index);    
+  $scope.sendRequest = function(emailId,index){     
     $scope.friendslistQueryParam = {
       "employee":emailId,
       "email":authentication.getEmployee()
@@ -634,13 +637,85 @@ bcloud.controller('firendSearchCtrl',['$scope','$compile','friendRequestServices
     friendRequestServices.sendFriendRequest($scope.friendslistQueryParam).then(function(data){
           if(data.status == "OK")
           {
-
+            $scope.friendsList.splice(index, 1);
           }
     });
   }
 
 
 }]);
+
+
+
+bcloud.controller('friendRequestListCtrl',['$scope','authentication','friendRequestServices',
+  function($scope,authentication,friendRequestServices){
+  
+  $scope.currentEmployeeFriendList = {      
+      "email":authentication.getEmployee()
+    }; 
+  friendRequestServices.getRequestedFriendsList($scope.currentEmployeeFriendList).then(function(data){    
+    if(!angular.equals({},data))
+          {
+           $scope.friendRequestedList = data.result;
+            $scope.resultoffriendsListfail= false;
+            $scope.resultoffriendsListtrue = true;
+          }
+          else
+          {
+            $scope.resultoffriendsListtrue = false;
+            $scope.resultoffriendsListfail = true;
+          }
+  });
+
+  $scope.confirmRequest = function(employeeEmail,index,status){              
+    console.log(employeeEmail,index,status);
+    updatefriendslist = {
+      "email":authentication.getEmployee(),
+      "employee":employeeEmail,
+      "status":status
+    }
+    friendRequestServices.updateFriendRequest(updatefriendslist).then(function(data){
+      if(!angular.equals({},data))
+          {    
+            if(data.status == "OK")
+              {
+                $scope.friendRequestedList.splice(index, 1);
+                console.log($scope.friendRequestedList);
+                console.log($scope.friendRequestedList.length);
+                if($scope.friendRequestedList.length<=0)
+                {                  
+                  $scope.resultoffriendsListtrue = false;
+                  $scope.resultoffriendsListfail = true;
+                }
+                $scope.$parent.getRequestedFriendCount();
+              }       
+          }
+          else
+          {
+           
+          }
+    });
+  }
+
+}]);
+
+
+bcloud.controller('friendsListCtrl',['$scope','friendRequestServices','showFriendsList',
+  function($scope,friendRequestServices,showFriendsList){
+    console.log("!angular.equals({},showFriendsList) "+!angular.equals({},showFriendsList));
+    console.log("angular.equals({},showFriendsList)" +angular.equals({},showFriendsList));
+    if(!angular.equals({},showFriendsList))
+    {
+      $scope.employeefriendsListview=true;
+      $scope.employeeFriends = showFriendsList.result;
+    }
+    else
+    {
+      $scope.employeefriendsListview=false;
+    }
+}]);
+
+
 
 
 function emptycheck(value){

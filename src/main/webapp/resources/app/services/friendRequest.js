@@ -32,8 +32,37 @@ bcloud.factory('friendRequestServices',[ '$http','$q',
 					defer.reject(data);
 				});			
 				return defer.promise;
+			},			
+			getRequestedFriendsList:function(currentEmployeeFriendList){
+				var defer=$q.defer();			
+				$http.post('/blouda/getRequestedFriendsList',currentEmployeeFriendList)
+				.success(function(data){										
+					defer.resolve(data);					
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			updateFriendRequest:function(updatefriendslist){
+				var defer=$q.defer();			
+				$http.post('/blouda/updateFriendRequest',updatefriendslist)
+				.success(function(data){										
+					defer.resolve(data);					
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			showFriendsList:function(getfriendslist){
+				var defer=$q.defer();			
+				$http.post('/blouda/showFriendsList',getfriendslist)
+				.success(function(data){										
+					defer.resolve(data);					
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
 			}
-
 		}
 
 }]);

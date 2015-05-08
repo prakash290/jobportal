@@ -83,15 +83,15 @@
       	<li><a href="#/newregister" ng-show="!isEmployeeLoggedIn()">Register</a></li>
       	<li><a href="#/analytics">Analytics</a></li>   
         <li><a href="#/hireme">Hire People</a></li>   
-        <li><a href="#/login" ng-show="!isEmployeeLoggedIn()"> Login</a></li>    
-        <!-- <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">{{loggedUserEmail}}</a></li>  -->
-        <!-- <li><a href="" ng-click="logout()" ng-show="isEmployeeLoggedIn()">Logout</a></li> --> 
+        <li><a href="#/login" ng-show="!isEmployeeLoggedIn()"> Login</a></li>   
+        
         <li  ng-show="isEmployeeLoggedIn()" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{loggedUserEmail}} <span class="caret"></span></a>
           <ul class="dropdown-menu list-group" role="menu" style="min-width:190px;">
             <li list-group-item ><a href="">Update Profile </a></li>
             <li><a href="">Jobs Applied <span class="badge" style="float:right">14</span></a></li>
             <li><a href="#/friendSearch">Search Friends</a></li>
-            <li><a href="#/friendRequestList">Friend Requests <span class="badge" style="float:right" ng-if="ready">{{count}}</span></a></li>            
+            <li><a href="#/friendRequestList">Friend Requests <span class="badge" style="float:right">{{count}}</span></a></li>  
+            <li><a href="#/friendsList">My Friends</a></li>          
             <li><a href="" ng-click="logout()">Logout</a></li>        
           </ul>
          </li>          

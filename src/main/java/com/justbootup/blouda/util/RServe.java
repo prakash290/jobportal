@@ -81,6 +81,9 @@ public class RServe {
         // Query Result
         c.parseAndEval("queryresult <- mongo.find.all(mongo,collection,query,sort,projection)");
         
+        // Destroy or Close MongoDB Connection
+        c.parseAndEval("mongo.destroy(mongo)");
+        
         // Convert list to dataframe
         c.parseAndEval("dataframeObject <- do.call(rbind, lapply(queryresult, data.frame, stringsAsFactors=FALSE))");
         

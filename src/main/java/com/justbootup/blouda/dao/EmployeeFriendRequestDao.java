@@ -52,9 +52,9 @@ public class EmployeeFriendRequestDao {
 				if(!data.isEmpty())
 				{
 					for(int i=0;i<data.size();i++)
-					{
+					{						
 						ArrayList<Object> innerObject = (ArrayList<Object>) data.get(i);
-						getFriendDetailsFromMongoDB.add(innerObject.get(0));					
+						getFriendDetailsFromMongoDB.add(innerObject.get(0));				
 					}
 				}			
 				// call mongodb to get user details
@@ -113,11 +113,61 @@ public class EmployeeFriendRequestDao {
 		return result;
 	}
 	
-	
+	@SuppressWarnings("unchecked")	
 	public JSONObject getRequestedFriends(JSONObject currentEmployee)
 	{
 		
-		return null;
+		JSONObject result = new JSONObject();
+		JSONObject friendDetais = new JSONObject();
+		
+		BasicDBList findFrienddetails = new BasicDBList();
+		
+		
+		StringBuffer queryforfriendscount = new StringBuffer();
+		try {
+			//match(e:employee {email:"shankar@gmail.com"})<-[r:friend {status:"pending"}]-(e1:employee) return e1
+			queryforfriendscount.append("match (currentuser:employee { email : \""+currentEmployee.get("email")+"\" } ) ");
+			queryforfriendscount.append("<- [r:friend {status:\"pending\"}] - (allemployee:employee) return allemployee.email");
+			System.out.println(queryforfriendscount);
+			result = executeQuery( queryforfriendscount);
+			System.out.println("Before Result is : "+result);
+			if(!result.containsKey("error"))
+			{
+				//{"data":[["prakash@justbootup.com"]],"columns":["allemployee.email"]}
+				ArrayList<Object> checkingdata = (ArrayList<Object> ) result.get("data");
+				if(!checkingdata.isEmpty())
+				{
+
+					ArrayList<Object> data = (ArrayList<Object> )  result.get("data");
+					if(!data.isEmpty())
+					{
+						for(int i=0;i<data.size();i++)
+						{	
+							ArrayList<Object> innerObject = (ArrayList<Object>) data.get(i);
+							findFrienddetails.add(innerObject.get(0));
+						}
+					}	
+					friendDetais = getEmployeeDetails(findFrienddetails);
+					
+				}
+				else
+				{	
+					
+				}
+			}
+			else
+			{
+				// Error is happend.
+				
+			}
+			
+			System.out.println("Return Result from friends count method is : "+friendDetais);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception Raised in getFriendscount method of EmployeeFriendRequestDao class ");
+		}
+		return friendDetais;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -128,24 +178,24 @@ public class EmployeeFriendRequestDao {
 		try {
 			//match(e:employee {email:"shankar@gmail.com"})<-[r:friend {status:"pending"}]-(e1:employee) return e1
 			queryforfriendscount.append("match (currentuser:employee { email : \""+currentEmploye.get("email")+"\" } ) ");
-			queryforfriendscount.append("<- [r:friend {status:\"pending\"}] - (allemployee:employee) return count(allemployee)");
-			System.out.println(queryforfriendscount);
-			result = executeQuery( queryforfriendscount);
-			System.out.println("Before Result is : "+result);
+			queryforfriendscount.append("<- [r:friend {status:\"pending\"}] - (allemployee:employee) return count(allemployee)");			
+			result = executeQuery( queryforfriendscount);			
 			if(!result.containsKey("error"))
 			{
+				//{"data":[[1]],"columns":["count(allemployee)"]}
+				// {"data":[["shankar@gmail.com"],["prabha@kambaa.com"]],"columns":["allemployee.email"]}
+
 				ArrayList<Object> checkingdata = (ArrayList<Object> ) result.get("data");
 				if(!checkingdata.isEmpty())
 				{
 
-					ArrayList<Object> data = (ArrayList<Object> ) result.get("data");
+					ArrayList<Object> data = (ArrayList<Object> ) checkingdata.get(0);
 					if(!data.isEmpty())
 					{
 						for(int i=0;i<data.size();i++)
 						{
-							result.clear();
-							ArrayList<Object> innerObject = (ArrayList<Object>) data.get(i);
-							result.put("count",innerObject.toString());
+							result.clear();							
+							result.put("count",data.get(i));
 						}
 					}			
 					
@@ -170,6 +220,95 @@ public class EmployeeFriendRequestDao {
 			System.out.println("Exception Raised in getFriendscount method of EmployeeFriendRequestDao class ");
 		}
 		return result;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject updateFriendRequest(JSONObject employeeFriends)
+	{
+		
+		JSONObject result = new JSONObject();
+		StringBuffer query = new StringBuffer();
+		
+		try {
+			
+			//match (e:employee {email:"shankar@gmail.com"})<-[r:friend]-(em:employee {email:"prakash@justbootup.com"}) set r.status='rejected' return r
+			query.append("match ( user :employee { email : \""+employeeFriends.get("email")+"\" } ) ");
+			query.append("<-[r:friend] - ( otheremployee :employee { email : \""+employeeFriends.get("employee")+"\" } ) ");
+			query.append("set r.status = \""+employeeFriends.get("status")+"\"");
+			
+			result = executeQuery(query);
+			
+			if(!result.containsKey("error"))
+			{
+				result.clear();
+				result.put("status","OK");
+			}
+			else
+			{
+				result.clear();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception Raised in updateFriendRequest of EmployeeFriendRequestDao class ");
+		}
+		return result;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject showFriendsList(JSONObject friendsList)
+	{
+		JSONObject result = new JSONObject();
+		StringBuffer query = new StringBuffer();
+		BasicDBList getFriendsinfos = new BasicDBList();
+		JSONObject friendsInfos = new JSONObject();
+		try {
+			
+			//match ( user :employee { email : "shankar@gmail.com" } ) -[r:friend {status:'confirmed'}] - ( otheremployee :employee ) return otheremployee
+			query.append("match ( :employee { email : \""+friendsList.get("email")+"\" } ) ");
+			query.append("- [r:friend { status : \"confirmed\"} ] - (friends:employee) return friends.email");
+			System.out.println(query);
+			result = executeQuery(query);
+			
+			if(!result.containsKey("error"))
+			{
+				//{"data":[["prakash@justbootup.com"]],"columns":["allemployee.email"]}
+				ArrayList<Object> checkingdata = (ArrayList<Object> ) result.get("data");
+				if(!checkingdata.isEmpty())
+				{
+
+					ArrayList<Object> data = (ArrayList<Object> )  result.get("data");
+					if(!data.isEmpty())
+					{
+						for(int i=0;i<data.size();i++)
+						{	
+							ArrayList<Object> innerObject = (ArrayList<Object>) data.get(i);
+							getFriendsinfos.add(innerObject.get(0));
+						}
+					}	
+					friendsInfos = getEmployeeDetails(getFriendsinfos);
+					
+				}
+				else
+				{	
+					
+				}
+			}
+			else
+			{
+				// Error is happend.
+				
+			}
+			
+			System.out.println(friendsInfos);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Excepton Raised in showFriendsList of EmployerFriendRequestDao class");
+		}
+		return friendsInfos;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -280,7 +419,7 @@ public class EmployeeFriendRequestDao {
 				essentialFields.add("fullname");				
 				essentialFields.add("currentlocation");
 				essentialFields.add("experience");
-				essentialFields.add("skillset");
+				//essentialFields.add("skillset");
 				essentialFields.add("email");
 				//essentialFields.add("currentcompanydetails");
 				
@@ -364,6 +503,6 @@ public class EmployeeFriendRequestDao {
 		}
 		
 		return nodeQueryResult;
-	}
+	}	
 	
 }
