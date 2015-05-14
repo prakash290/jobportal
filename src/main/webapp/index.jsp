@@ -24,6 +24,11 @@
     <script type="text/javascript" src="resources/app/js/d3.min.js" ></script>
     <script type="text/javascript" src="resources/app/js/c3.js" ></script>       
     <script type="text/javascript" src="resources/app/js/angular.js" ></script>
+    <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+   
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/restangular/1.3.1/restangular.js"></script>-->
+
+
     <script type="text/javascript" src="resources/app/js/angular-cookies.js" ></script>   
      <script type="text/javascript" src="resources/app/js/angular-animate.js" ></script>  
     <script type="text/javascript" src="resources/app/js/ui-bootstrap-tpls-0.12.1.js" ></script>    
@@ -42,6 +47,7 @@
 
     <script type="text/javascript" src="resources/app/services/backend.js" ></script>
     <script type="text/javascript" src="resources/app/services/employeeServices.js" ></script>
+    <script type="text/javascript" src="resources/app/services/employeeSocialNetworkServices.js" ></script>
     <script type="text/javascript" src="resources/app/services/friendRequest.js" ></script>
     <script type="text/javascript" src="resources/app/services/employerServices.js" ></script>
     <script type="text/javascript" src="resources/app/services/employerDocServices.js" ></script>

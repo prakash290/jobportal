@@ -53,6 +53,12 @@ public class EmployeeService implements IEmployeeService {
 		return employeeDao.emloyeeLinkedInLogin(employeeLinkedInCredentials);
 	}
 
+	@Override
+	public JSONObject generateLinkedInAccessToken(JSONObject cookiecredentials) {
+		
+		return employeeDao.generateLinkedinAccessToken(cookiecredentials);
+	}
+
 	
 
 	

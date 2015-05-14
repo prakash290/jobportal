@@ -2,12 +2,8 @@ package com.justbootup.blouda.serviceApi;
 
 import java.net.UnknownHostException;
 import java.util.List;
-
-import org.bson.types.ObjectId;
 import org.json.simple.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.justbootup.blouda.domainObjects.User;
 import com.mongodb.BasicDBObject;
 
 public interface IEmployeeService {
@@ -18,4 +14,5 @@ public interface IEmployeeService {
 	public BasicDBObject getEmployeeProfile(JSONObject employeeSession) throws UnknownHostException;
 	public BasicDBObject emloyeeLogin(JSONObject employeeCredentials) throws UnknownHostException;
 	public BasicDBObject emloyeeLinkedInLogin(JSONObject employeeLinkedInCredentials) throws UnknownHostException;
+	public JSONObject generateLinkedInAccessToken(JSONObject cookiecredentials);
 }

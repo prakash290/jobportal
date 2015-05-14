@@ -1,6 +1,6 @@
 bcloud.directive('linkedinLogin',
-        ['$rootScope', '$interval',
-            function ($rootScope, $interval) {
+        ['$rootScope', '$interval','$cookieStore','linedinapikey',
+            function ($rootScope, $interval,$cookieStore,linedinapikey) {
                 return {
                     restrict: 'AE',
                     replace: true,
@@ -12,7 +12,7 @@ bcloud.directive('linkedinLogin',
                             linkedinLibInitialized = false;
             
                         window.linkedinLibInit = function(){
-                            linkedinLibInitialized = true;
+                            linkedinLibInitialized = true;                           
                         };
             
                         if(!linkedinLibLoaded){
@@ -22,7 +22,9 @@ bcloud.directive('linkedinLogin',
                             $.getScript("//platform.linkedin.com/in.js?async=true", function success() {
                                 IN.init({
                                     onLoad: "linkedinLibInit",
-                                    api_key: "75xcotynliiowz",
+                                    api_key: linedinapikey,
+                                    onAuth: "sample",
+                                    authorize: true,
                                     credentials_cookie: true
                                 });
                             });
@@ -66,6 +68,7 @@ bcloud.directive('linkedinLogin',
                             
                             scope.onLinkedinAuthClick = function($ev){
                                 authorizeLinkedin();
+                                console.log($ev);
                             };
                             
                             var authorizeLinkedin = function(){
@@ -99,6 +102,9 @@ bcloud.directive('linkedinLogin',
                             };
 
                             var linkedinAuthorized = function(){
+                                var cookiename = "linkedin_oauth_"+linedinapikey;                                
+                                var x =$cookieStore.get(cookiename);    
+                                $rootScope.$broadcast('eventOn', x);
                                 if(_profileDataHandler && typeof _profileDataHandler == 'function'){
                                     IN.API.Profile("me")
                                         .fields('id','first-name','last-name','location','industry','headline','picture-urls::(original)','email-address')
@@ -148,4 +154,9 @@ bcloud.directive('linkedinLogin',
                     }
                 }
             }
+
         ]);
+
+sample = function(){
+    alert("called");
+}

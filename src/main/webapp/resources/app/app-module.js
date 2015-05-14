@@ -1,4 +1,5 @@
 var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate','tagger','ngCookies','satellizer','ngStorage','ngFacebook','ngSanitize']);
+bcloud.value('linedinapikey', '75xcotynliiowz');
 
 bcloud.config(function($routeProvider,$locationProvider){
 	//$locationProvider.html5Mode(true);
@@ -157,7 +158,7 @@ bcloud.config(function($routeProvider,$locationProvider){
 
 
 bcloud.config(['$facebookProvider', function($facebookProvider) {
-    $facebookProvider.setAppId('423450941147620').setPermissions(['email','user_friends']);
+    $facebookProvider.setAppId('1603106119947122').setPermissions(['email','user_friends']);
   }]);
 
 bcloud.run(['$rootScope', '$window', function($rootScope, $window) {
@@ -172,3 +173,10 @@ bcloud.run(['$rootScope', '$window', function($rootScope, $window) {
       $window.dispatchEvent(new Event('fb.load'));
     });
   }]);
+
+bcloud.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    $httpProvider.defaults.withCredentials = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+   
+}]);

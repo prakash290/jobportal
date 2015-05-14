@@ -133,6 +133,58 @@ bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore'
 
 			},
 
+			generateLinkedInAccessToken:function(employeeCredentials){
+				
+				var defer=$q.defer();			
+				$http.post('/blouda/linkedInaccessToken',employeeCredentials)
+				.success(function(data){
+					console.log(data);
+					defer.resolve(data);
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			generatefbtoken:function(fb){
+				var defer=$q.defer();			
+				$http.post('/blouda/emloyeefaceBookLogin',fb)
+				.success(function(data){
+					console.log(data);
+					defer.resolve(data);
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			getGoogleContacts:function(token)
+			{	
+				console.log(token);
+				var tokenobj = {
+					"access_token":token
+				};
+
+				var meurl="https://www.googleapis.com/plus/v1/people/me";
+				var contacturl = "https://www.google.com/m8/feeds/contacts/default/full?alt=json";
+				var feedurl ="https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token="+token;
+				$http({
+			        url: feedurl, 			        
+			        method: "GET",
+			        /*headers:{
+			        	 'Authorization': 'Basic '+token,
+			        }*/			        
+			     }).success(function(data){
+			        console.log("Success");
+			     });
+
+				var xhr = new XMLHttpRequest();
+				var oauthToken = token;
+				xhr.open('GET',
+				  'https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + encodeURIComponent(token));
+				xhr.send();
+				
+
+			}
+
 		}
 }]);
 

@@ -2,7 +2,7 @@ package com.justbootup.blouda.controller;
 
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.justbootup.blouda.dao.EmployeeBulidNodeDao;
+import com.justbootup.blouda.dao.EmployeeDao;
 import com.justbootup.blouda.serviceApi.IEmployeeBuildGraph;
 import com.justbootup.blouda.serviceApi.IEmployeeService;
+import com.justbootup.blouda.util.SocialNetworkProperties;
 import com.mongodb.BasicDBObject;
 
 
@@ -29,6 +30,9 @@ public class EmployeeController {
 	 IEmployeeService employeeService;
 	
 	@Autowired
+	SocialNetworkProperties prop;
+	
+	@Autowired
 	 IEmployeeBuildGraph employeeBuildGraphService;
 	
 	
@@ -37,6 +41,24 @@ public class EmployeeController {
 	public @ResponseBody JSONObject employeePage(HttpServletRequest request) throws SQLException
 	{
 		JSONObject obj = new JSONObject();
+		//new EmployeeBulidNodeDao().createEmployeeNode();		
+		obj.put("name","sample");
+		return obj;
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/callback",method=RequestMethod.GET)
+	public @ResponseBody JSONObject employeePage1(HttpServletRequest request) throws SQLException
+	{
+		
+		String state = request.getParameter("state");
+		String code = request.getParameter("code");
+		System.out.println("state is : "+request.getParameter("state"));
+		System.out.println("code is : "+request.getParameter("code"));
+		JSONObject obj = new JSONObject();
+		new EmployeeDao().generateoauth2Token(state,code);
+		
+		
 		//new EmployeeBulidNodeDao().createEmployeeNode();
 		obj.put("name","sample");
 		return obj;
@@ -90,6 +112,28 @@ public class EmployeeController {
 		return employeeLinkedIn;
 	}
   
+	@RequestMapping(value="/emloyeefaceBookLogin",method=RequestMethod.POST)
+	public @ResponseBody BasicDBObject emloyeefacebookLogin(@RequestBody JSONObject facebookDetails) throws Exception
+	{
+		//BasicDBObject employeeLinkedIn = employeeService.emloyeeLinkedInLogin(facebookDetails);
+		BasicDBObject sample = new BasicDBObject();
+		sample.put("dsfsdf","sadfdsa");
+		new EmployeeDao().generateFacebooklongliveToken(facebookDetails);
+		return sample;
+	}
 	
+	
+	@RequestMapping(value="/newEmployeeGoogleLogin")
+	public @ResponseBody BasicDBObject employeeGoogleLogin(@RequestParam Map<String,String> allRequestParams) throws Exception
+	{
+		System.out.println(allRequestParams);		
+		//BasicDBObject employeeLinkedIn = employeeService.emloyeeLinkedInLogin(facebookDetails);
+		BasicDBObject sample = new BasicDBObject();
+		sample.put("dsfsdf","sadfdsa");
+		new EmployeeDao().googleOauth2Token(allRequestParams);
+		return sample;
+	}
+	
+  
 	
 }

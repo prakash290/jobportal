@@ -26,8 +26,9 @@ bcloud.directive('googlePlusSignin', ['$window', function ($window) {
           callback: 'signinCallback',
           cookiepolicy: 'single_host_origin',
           requestvisibleactions: 'http://schemas.google.com/AddActivity',
-          scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+          scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds',
           width: 'wide',
+          access_type: 'offline'          
         };
 
         defaults.clientid = attrs.clientid;
@@ -65,6 +66,7 @@ bcloud.directive('googlePlusSignin', ['$window', function ($window) {
 }]).
   run(['$window','$rootScope',function($window, $rootScope) {
     $window.signinCallback = function (authResult) {
+      console.log(authResult);
       if (authResult && authResult.access_token){
         $rootScope.$broadcast('event:google-plus-signin-success', authResult);
       } else {

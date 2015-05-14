@@ -12,16 +12,18 @@
 	<context:annotation-config/>
 
 	<resources mapping="/resources/**" location="/resources/" />
-
 	
+	
+		
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/resources/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
 	<context:component-scan base-package="com.justbootup.blouda" />
-	
-	 
+	<!--  Load All Properties File -->
+	<context:property-placeholder location="classpath:application.properties" />
+		 
 	<beans:bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
 	   <beans:property name="host" value="localhost"/>
 	   <beans:property name="port" value="27017" />
@@ -38,5 +40,11 @@
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
     </beans:bean>
     <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+    
+  <beans:bean class="com.justbootup.blouda.util.SocialNetworkProperties">
+  	<beans:property name="linkedin_clientId" value="${linkedin_clientid}"></beans:property>
+  	<beans:property name="linkedin_clientSecret" value="${linkedin_client_secret}"></beans:property>
+  	<beans:property name="linkedin_redirectUrl" value="${linkedin_redirecturl}"></beans:property>
+  </beans:bean>
 	
 </beans:beans>

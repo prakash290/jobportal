@@ -1,11 +1,15 @@
 package com.justbootup.blouda.controller;
+
 import java.security.Principal;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.justbootup.blouda.serviceApi.IEmployeeService;
 
@@ -13,7 +17,7 @@ import com.justbootup.blouda.serviceApi.IEmployeeService;
 public class LoginController {
 
 	@Autowired
-	private IEmployeeService userService;
+	private IEmployeeService employeeService;
 	
 	
 	/*@RequestMapping("/")
@@ -56,6 +60,17 @@ public class LoginController {
  
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/linkedInaccessToken", method = RequestMethod.POST)
+	public @ResponseBody JSONObject generateLinkedInAccessToken(@RequestBody JSONObject linkedInSecuredCookies) {
+		
+		JSONObject dummy = new JSONObject();
+		dummy.put("name", "ddd");
+		employeeService.generateLinkedInAccessToken(linkedInSecuredCookies);
+		return dummy;
+ 
+	}
 	
-	
+	 
+
 }

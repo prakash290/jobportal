@@ -16,7 +16,7 @@ bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$l
       $scope.count = data.count;
     });
   }
-  $scope.getRequestedFriendCount();
+  
   $scope.publishEvent={
     industry_type:"",
     prefered_location:"",
@@ -37,6 +37,7 @@ bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$l
    }
    else
    {
+      $scope.getRequestedFriendCount();
       $scope.loggedUserEmail = authentication.getEmployee();
    }
     return $scope.loginStatus;
@@ -54,8 +55,8 @@ bcloud.controller('parentCtrl',['$scope','authentication','employerServices','$l
   };   
 }]);
 
-bcloud.controller('homeCtrl',['$scope','employerServices',
-  function($scope,employerServices){  
+bcloud.controller('homeCtrl',['$scope','$http','employerServices','employeeSocialNetworkServices',
+  function($scope,$http,employerServices,employeesocialservices){  
    $scope.displayImg = false;
 
    $scope.getImage = function(){
@@ -67,6 +68,49 @@ bcloud.controller('homeCtrl',['$scope','employerServices',
     }); 
       return $scope.image;
     };
+
+    $scope.linkedIn = function(){
+
+      employeesocialservices.getLinkedInLoginUrl().then(function(data){
+        console.log(data);
+       window.location.replace(data.loginurl);
+      });
+      /*var param = {
+        "response_type":"code",
+        "client_id":"75ge19xj0x6olv",
+        "redirect_uri":"https://localhost:8443/blouda/callback",
+        "state":"DCEeFWf45A53sdfKef424"
+      }  
+     var url ="https://www.linkedin.com/uas/oauth2/authorization?client_id=75ge19xj0x6olv&redirect_uri=https://localhost:8443/blouda/callback&response_type=code&state=DCEeFWf45A53sdfKef424"
+   */   /*$http({
+        url: "https://www.linkedin.com/uas/oauth2/authorization", 
+        method: "GET",
+        params: param,
+        
+     }).success(function(data){
+        console.log("Success");
+     });*/
+    
+  }
+
+  $scope.googleAPI = function(){
+      scopes = "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds";
+      state =   "sadf564werdsf4353dsf";
+      googleclientId="639006534942-2flg7bu4be6du9ti5418p50ntif2nimd.apps.googleusercontent.com";
+      redirect = "https://localhost:8443/blouda/newEmployeeGoogleLogin";
+     var url1 ="https://accounts.google.com/o/oauth2/auth?scope="+scopes+"&state="+state+"&redirect_uri="+redirect+"&response_type=code&client_id="+googleclientId+"&access_type=offline&approval_prompt=force";
+     console.log(url1);
+     /*$http({
+        url: "https://www.linkedin.com/uas/oauth2/authorization", 
+        method: "GET",
+        params: param,
+        
+     }).success(function(data){
+        console.log("Success");
+     });*/
+  window.location.replace(url1);
+  
+  }
 
 
 }]);
@@ -310,8 +354,8 @@ bcloud.controller('profileCtrl',['$scope','employeeServices','$location','$rootS
 }]);
 
 
-bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','$rootScope','$facebook',
-  function($scope, $auth,$location,employeeServices,$rootScope,$facebook) {
+bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','$rootScope','$facebook','$http',
+  function($scope, $auth,$location,employeeServices,$rootScope,$facebook,$http) {
     
     $scope.loginAlert = false;
     $scope.alerts = [
@@ -355,7 +399,7 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
           }
 
           // To check if user email is already registerd with us.
-          var isUserExists = employeeServices.linkedInLogin($scope.linkedIn)
+          /*var isUserExists = employeeServices.linkedInLogin($scope.linkedIn)
 
           isUserExists.then(function(data){
             alert(data.isUserExists);
@@ -387,7 +431,7 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
               $location.path('/home');
             }
 
-          }); // End of promises       
+          }); // End of promises   */    
 
     }; // End of linkedInProfileDataFunction
 
@@ -395,8 +439,9 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
 
      $scope.$on('event:google-plus-signin-success', function (event, authResult) {
           // User successfully authorized the G+ App!
-          console.log(+event);
-          console.log(authResult);
+          console.log(+event);      
+          $scope.getRefreshToken(authResult);
+          $scope.gapitoken = authResult.access_token;
           console.log('Signed in!');
           $scope.getUserInfo();
 
@@ -409,8 +454,9 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
     // When callback is received, process user info.
     $scope.userInfoCallback = function(userInfo) {
         console.log(userInfo);
+        employeeServices.getGoogleContacts($scope.gapitoken);
         $scope.$apply(function() {
-            $scope.processUserInfo(userInfo);
+            //$scope.processUserInfo(userInfo);
         });
     };
  
@@ -425,7 +471,38 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
         );
     };
 
+    $scope.getRefreshToken = function(authResult)
+    {
+      scopes = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds';
+      clientId = "639006534942-2flg7bu4be6du9ti5418p50ntif2nimd.apps.googleusercontent.com";
+        clientsecret = "I7v4GrqA6Rb2nZX2oErDyfVi";
 
+
+        $http({
+              url: feedurl,               
+              method: "GET",
+              /*headers:{
+                 'Authorization': 'Basic '+token,
+              }*/             
+           }).success(function(data){
+              console.log("Success");
+           });
+
+        /*var xhr = new XMLHttpRequest();
+        var oauthToken = token;
+        xhr.open('GET',
+          'https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=' + encodeURIComponent(token));
+        xhr.send();*/
+
+
+       //gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
+    }
+
+    var handleAuthResult = function(refresh)
+    {
+      console.log("Referesh Token is said ");
+      console.log(refresh);
+    }
     $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
@@ -438,9 +515,16 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
     });
 
     $scope.loginToggle = function() {
+      
       if($scope.status) {
-        $facebook.logout();
+      console.log($facebook.getAuthResponse());
+        employeeServices.generatefbtoken ($facebook.getAuthResponse());
+        
+        //$facebook.logout();
       } else {
+        console.log($facebook.getAuthResponse());
+        employeeServices.generatefbtoken ($facebook.getAuthResponse());
+        
         $facebook.login();
       }
     };
@@ -453,6 +537,13 @@ bcloud.controller('LoginCtrl',['$scope','$auth','$location','employeeServices','
       });
     };
 
+    $scope.$on("eventOn",function(event,data){
+      console.log(data);
+      employeeServices.generateLinkedInAccessToken(data)
+      .then(function(data){
+        console.log(data);
+      });
+    });
 
   }]);
 
