@@ -1,0 +1,258 @@
+  <style>
+    .cropArea {
+      background: #E4E4E4;
+      overflow: hidden;
+      width:500px;
+      height:350px;
+    }
+    .imgPlace{
+    	background: #E4E4E4;
+     	overflow: hidden;
+    }
+  </style>
+<div class="row employeeregister">
+	<div class="empregister"> 
+		<div class="col-md-9">			
+			<div class="well"><!-- Register form -->
+				<div ng-show="successmsg" ng-init="successmsg=true">
+				<alert type="success" close="successmsg=false"><div class="text-center"><span class="text-center" >Welcome to JustBootUp {{newempolyee.email}}</span></div></alert>
+				</div>
+				<!-- For Profile Details -->
+			    <div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Profile Details</h3></div>
+				  <div class="panel-body"> 	  		 
+				    <form class="form-horizontal" name="employeeregister">
+					  <div class="form-group">
+					    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Resume Title</label>
+					    <div class="col-sm-5">
+					      <input type="text" class="form-control" ng-model="employeeProfile.profilesummary.title" placeholder="Profile Description" name="resumetitle" > 	   		     
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Profile Summary</label>
+					    <div class="col-sm-5">
+					       <textarea class="form-control" rows="3" ng-model="employeeProfile.profilesummary.summary" placeholder="Profile Summary"></textarea>
+					    </div>
+					  </div>
+					</form>
+				  </div>
+				</div>
+				
+				<!-- For Professional Details -->
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Professional Details</h3></div>
+				  <div class="panel-body">
+				  	<div ><!-- For experiencer -->
+				    <form class="form-horizontal" ng-show="newempolyee.employeementtype == 'experiencer'">
+				    	<h4><u>Current Employement Details</u></h4><br>
+						<!--company name -->
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.name" placeholder="Current Company Name" name="resumetitle">    	     
+						    </div>
+				   	   </div>
+				   	   <!-- Desigantion -->
+				  	   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.role"  placeholder="Designation" name="resumetitle" >    
+						    </div>
+				  	   </div>
+				  	   <!-- Annual Salary -->
+				  	   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">AnnualSalary</label>
+					      <div class="col-sm-2">
+						        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.salarylakhs"  >
+									  <option>Select</option>
+									  <option>1</option>
+									  <option>2</option>
+									  <option>3</option>		  
+									  <option>4</option>		  
+									  <option>5</option>		  
+								</select>
+					      </div>
+					      <div class="col-sm-1" style="padding-left:0px;padding-right:0px;">
+					      	<p style="padding-top:6px;">Lakhs</p>
+					      </div>
+					      <div class="col-sm-2" style="padding-left:0px;">
+						      	<div class="form-group">				 
+							        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.salarythousands">
+										  <option>Select</option>
+										  <option>1</option>
+										  <option>2</option>
+										  <option>3</option>		  
+										  <option>4</option>		  
+										  <option>5</option>		  
+									</select>				     
+							  	</div>
+					      </div>
+					      <div class="col-sm-2">
+					      	<p style="padding-top:6px;">Thousands</p>
+					      </div>
+			   		   </div>
+			   		   <!-- Date Picker for From Date -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+					      <div class="col-sm-3">
+						        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.frommonth">
+									  <option>Month</option>
+									  <option>1</option>
+									  <option>2</option>
+									  <option>3</option>		  
+								</select>
+					      </div>
+					      <div class="col-sm-3">
+						        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.fromyear">
+									  <option>Year</option>
+									  <option>2001</option>
+									  <option>2002</option>
+									  <option>2003</option>		  
+								</select>
+					      </div>
+			   		   </div>
+			   		   <!-- Date Picker for To Date -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+					      <div class="col-sm-3">
+						        <select class="form-control"ng-model="employeeProfile.professionaldetails.currentcompany.tomonth">
+									  <option>Month</option>
+									  <option>1</option>
+									  <option>2</option>
+									  <option>3</option>		  
+								</select>
+					      </div>
+					      <div class="col-sm-3">
+						        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.toyear">
+									  <option>Year</option>
+									  <option>2001</option>
+									  <option>2002</option>
+									  <option>2003</option>		  
+								</select>
+					      </div>
+			   		   </div>
+			   		   <!-- notice period -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Notice Period</label>
+					      <div class="col-sm-3">
+						        <select class="form-control" ng-model="employeeProfile.professionaldetails.currentcompany.noticeperiod">	  
+									  <option>1 Month</option>
+									  <option>2 Months</option>
+									  <option>3 Months</option>		  
+								</select>
+					      </div>		      
+			   		   </div>
+			   		   <!-- Job Description -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+					      <div class="col-sm-5">
+						        <textarea class="form-control" rows="3" ng-model="employeeProfile.professionaldetails.currentcompany.jobdescription"></textarea>
+					      </div>		      
+			   		   </div>
+						
+						<span id="spaceforpreviouscompany"></span>
+						<button class="btn btn-info addPreviousCompany" ng-click="addPreviousCompany()">Add Previous Company </button>
+					</form>
+					</div>	
+					<div><!-- For fresher -->	
+					<form class="form-horizontal" ng-show="newempolyee.employeementtype =='fresher'">
+				    	<h4><u>Academic Project Details</u></h4><br>
+				    	<!-- Project Details -->
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control" ng-model="employeeProfile.academicprojectdetails.project0.name" placeholder="Current Company Name" name="resumetitle" >  
+						    </div>
+				   	   </div>
+				   	   <!-- Project Cagetory -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label>
+					      <div class="col-sm-5">
+						        <select class="form-control" ng-model="employeeProfile.academicprojectdetails.project0.category">
+									  <option>Select</option>
+									  <option>IT</option>
+									  <option>MECH</option>
+									  <option>ACCOUNTS</option>
+									  <option>BPO</option>
+									 <option>MEDICAL</option>
+									  <option>HR</option>
+								</select>
+					      </div>
+						</div>
+						<!-- Skills Used -->
+						<div class="form-group">
+						    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+						    <div class="col-sm-5">
+						      <tagger  ng-model="employeeProfile.academicprojectdetails.project0.skillset" options="options" placeholder="Give your Skill sets"/>
+						    </div>
+					   </div>
+						<!--Project Description -->
+						<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label>
+						    <div class="col-sm-5">
+						       <textarea class="form-control" rows="3"  ng-model="employeeProfile.academicprojectdetails.project0.description"placeholder="Profile Summary"></textarea>
+						    </div>
+						</div>	
+
+						<!-- Add Project Details -->
+						<div id="spaceforprojects"></div>
+						<button class="btn btn-info addProjectButton" ng-click="addProjects()">Add More Projects</button>			
+					</form>
+					</div>
+				  </div>
+				</div>
+
+				<!-- For Social Details -->
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Social Networks</h3></div>
+				  <div class="panel-body">
+
+				    <form class="form-horizontal">
+				    	<div class="col-md-12">
+				    		<hr>
+				    	</div>
+				    	<div class="col-md-4">
+				    	<button ng-click="loginToggle()" class="btn btn-block btn-social btn-facebook"><i class="fa fa-twitter"></i>Facebook Profile</button>     
+				    	</div> 
+				    	<div class="col-md-4">       
+                            <button class="btn btn-block btn-social btn-linkedin" ng-click="linkedIn()"> <i class="fa fa-linkedin"></i>LinkedIn Profile</button>  
+                          </div>	
+						   <div class="col-md-4">  
+                            <button class="btn btn-block btn-social btn-google-plus" ng-click="googleAPI()"> <i class="fa fa-google-plus"></i>GooglePlus Profile</button>
+                           </div> 
+                        <div class="col-md-12">
+				    		<hr>
+				    	</div>           
+					</form>
+				  </div>
+				</div>
+				<!-- buttons -->	
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<span>
+
+							<button class="btn btn-success" type="submit" ng-click="savemyprofile()">Update</button>				
+							
+							<button class="btn btn-danger" type="submit" ng-click="reset()">Cancel</button>
+						</span>
+					</div>	
+				
+				</div>				
+			</div> <!-- End of register form/row -->
+		</div>
+	</div>
+	<div class="empadstab">
+		<div class="col-md-3">			
+				<div class="well">
+					<h5>This is add</h5>			
+				</div>
+		</div>
+	</div>	
+</div>
+
+
+
+<!-- <button class="btn btn-info adds" ng-click="addC()">Add course</button>
+<div id="newcc"></div> -->
+	   
+			

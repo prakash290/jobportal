@@ -1,0 +1,196 @@
+
+
+<span class="PreviousCompany"><hr> <h4><u>Previous Company</u></h4><br> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.name" placeholder="Previous Company Name"> </div> </div> <!-- Desigantion --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.role"  placeholder="Designation" name="resumetitle" > </div> </div> <!-- Date Picker for From Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.frommonth" > <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.fromyear" > <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Date Picker for To Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label> <div class="col-sm-3"> <select class="form-control"ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.tomonth"> <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.toyear"> <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Job Profile --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label> <div class="col-sm-5"> <textarea class="form-control" rows="3" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.description"></textarea> </div> </div> </span>
+
+	<span class="PreviousCompany">
+			   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.name" placeholder="Previous Company Name"  required >			      	     
+			    </div>
+		   	   </div>
+		   	   <!-- Desigantion -->
+		  	   <div class="form-group">
+				    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany '+previouscompanycount+'.role"  placeholder="Designation" name="resumetitle" required > 			     		     
+				    </div>
+		  	   </div>
+		  	   
+
+	   		   <!-- Date Picker for From Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.frommonth" >
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.fromyear" >
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Date Picker for To Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control"ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.tomonth">
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.toyear">
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Job Profile -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+			      <div class="col-sm-5">
+				        <textarea class="form-control" rows="3" ng-model="employeeProfile.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.description"></textarea>
+			      </div>		      
+	   		   </div>
+	</span>
+
+
+<!-- Projects -->
+
+<span class="projects"> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label> <div class="col-sm-5"> <input type="text" class="form-control"ng-model="employeeProfile.projectdetails.project'+projectCount+'.name" placeholder="Project Name" name="resumetitle" > </div> </div> <!-- Project Cagetory --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label> <div class="col-sm-5"> <select class="form-control" ng-model="employeeProfile.projectdetails.project'+projectCount+'.category" > <option>Select</option> <option>IT</option> <option>MECH</option> <option>ACCOUNTS</option> <option>BPO</option> <option>MEDICAL</option> <option>HR</option> </select> </div> </div> <!-- Skills Used --> <div class="form-group"> <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label> <div class="col-sm-5"> <tagger ng-model="employeeProfile.projectdetails.project'+projectCount+'.skillset"  options="options" placeholder="Give your Skill sets"/> </div> </div> <!--Project Description --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label> <div class="col-sm-5"> <textarea class="form-control" rows="3" ng-model="employeeProfile.projectdetails.project'+projectCount+'.description" placeholder="Profile Summary"></textarea> </div> </div> </span>
+
+
+
+
+
+<span class="projects">
+					   <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control"
+						       ng-model="employeeProfile.projectdetails.project'+projectCount+'.name" placeholder="Project Name" name="resumetitle" >  
+						    </div>
+				   	   </div>
+				   	   <!-- Project Cagetory -->
+			   		   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label>
+					      <div class="col-sm-5">
+						        <select class="form-control" ng-model="employeeProfile.projectdetails.project'+projectCount+'.category" >
+									  <option>Select</option>
+									  <option>IT</option>
+									  <option>MECH</option>
+									  <option>ACCOUNTS</option>
+									  <option>BPO</option>
+									 <option>MEDICAL</option>
+									  <option>HR</option>
+								</select>
+					      </div>
+						</div>
+						<!-- Skills Used -->
+						<div class="form-group">
+						    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+						    <div class="col-sm-5">
+						      <tagger ng-model="employeeProfile.projectdetails.project'+projectCount+'.skillset"  options="options" placeholder="Give your Skill sets"/>
+						    </div>
+					   </div>
+						<!--Project Description -->
+						<div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label>
+						    <div class="col-sm-5">
+						       <textarea class="form-control" rows="3" ng-model="employeeProfile.projectdetails.project'+projectCount+'.description" placeholder="Profile Summary"></textarea>
+						    </div>
+						</div>	
+</span>
+
+
+
+
+
+
+
+
+
+<!-- new one -->
+<span class="PreviousCompany">
+			   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.name" placeholder="Previous Company Name">			      	     
+			    </div>
+		   	   </div>
+		   	   <!-- Desigantion -->
+		  	   <div class="form-group">
+				    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.role"  placeholder="Designation" name="resumetitle"> 			     		     
+				    </div>
+		  	   </div>
+		  	   
+
+	   		   <!-- Date Picker for From Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.frommonth" >
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.fromyear" >
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Date Picker for To Date -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+			      <div class="col-sm-3">
+				        <select class="form-control"ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.tomonth">
+							  <option>Month</option>
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>		  
+						</select>
+			      </div>
+			      <div class="col-sm-3">
+				        <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.toyear">
+							  <option>Year</option>
+							  <option>2001</option>
+							  <option>2002</option>
+							  <option>2003</option>		  
+						</select>
+			      </div>
+	   		   </div>
+
+	   		   <!-- Job Profile -->
+	   		   <div class="form-group">
+			      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+			      <div class="col-sm-5">
+				        <textarea class="form-control" rows="3" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.description"></textarea>
+			      </div>		      
+	   		   </div>
+	</span>
+
+	<span class="PreviousCompany"> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.name" placeholder="Previous Company Name"> </div> </div> <!-- Desigantion --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.role"  placeholder="Designation" name="resumetitle"> </div> </div> <!-- Date Picker for From Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.frommonth" > <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.fromyear" > <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Date Picker for To Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label> <div class="col-sm-3"> <select class="form-control"ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.tomonth"> <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.toyear"> <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Job Profile --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label> <div class="col-sm-5"> <textarea class="form-control" rows="3" ng-model="employeeProfile.professionaldetails.experiencer.companydetails.previouscompanydetails.previouscompany'+previouscompanycount+'.description"></textarea> </div> </div> </span>

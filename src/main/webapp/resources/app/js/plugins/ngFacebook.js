@@ -11,11 +11,10 @@
 
 angular.module('ngFacebook', [])
   .provider('$facebook', function() {
-    var config = {
-      permissions:    'email',
-      appId:          null,
-      version:        'v1.0',
-      customInit:     {}
+    var config = {      
+      appId:null,
+       xfbml:true,
+      version:'v2.3'
     };
 
     this.setAppId = function(appId) {

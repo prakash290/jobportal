@@ -3,9 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	
 	<annotation-driven />
@@ -13,6 +16,7 @@
 
 	<resources mapping="/resources/**" location="/resources/" />
 	
+
 	
 		
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -33,18 +37,50 @@
 	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> 
 	       <beans:constructor-arg name="mongo" ref="mongo"/> 
 	       <beans:constructor-arg name="databaseName" value="jobportal"/>
-	       <beans:property name="writeResultChecking" value="EXCEPTION"></beans:property>	       
+	       <beans:property name="writeResultChecking" value="EXCEPTION"/>	       
 	</beans:bean>
 	
 	<beans:bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
     </beans:bean>
     <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+  
+  	<!-- mongodb -->
+  	<beans:bean id="mongoConnection" class="com.mongodb.MongoClient">
+  		<beans:constructor-arg name="host" value="localhost"/>
+  		<beans:constructor-arg name="port" value="27017"/>
+  	</beans:bean> 
+  	
+  	<!--  websocket  -->
+	<!-- <websocket:handlers>  	
+        <websocket:mapping path="/myHandler" handler="myHandler"/>         
+        
+         <websocket:sockjs client-library-url="https://localhost:8443/blouda/resources/app/js/plugins/socket-io.js"></websocket:sockjs>     
+             
+    </websocket:handlers>  
+
     
-  <beans:bean class="com.justbootup.blouda.util.SocialNetworkProperties">
-  	<beans:property name="linkedin_clientId" value="${linkedin_clientid}"></beans:property>
-  	<beans:property name="linkedin_clientSecret" value="${linkedin_client_secret}"></beans:property>
-  	<beans:property name="linkedin_redirectUrl" value="${linkedin_redirecturl}"></beans:property>
-  </beans:bean>
+    
+    <beans:bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">       
+    </beans:bean>
+
+    <beans:bean id="myHandler" class="com.justbootup.blouda.controller.Myhandler"/>  -->
+    
+   <!--  <websocket:message-broker application-destination-prefix="/app">
+   	
+       <websocket:stomp-endpoint path="/hello">
+            <websocket:sockjs/>
+       </websocket:stomp-endpoint>
+       <websocket:simple-broker prefix="/topic"/>     
+	</websocket:message-broker> -->
+    
+    <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/notify">
+            <websocket:sockjs client-library-url="https://localhost:8443/blouda/resources/app/js/plugins/socket-io.js"/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/queue, /topic"/> 
+           
+    </websocket:message-broker>
+    
 	
 </beans:beans>

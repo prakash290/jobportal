@@ -1,3 +1,10 @@
+<style type="text/css">
+	@media (min-width: 992px) {
+  .modal-lg {
+    width: 1050px;
+  }
+}
+</style>
 <div class="col-md-10 col-md-offset-1 well">
 	<h3 class="text-center" style="margin-top:0px;margin-bottom:20px;"> Search Friends</h3>
 	<form class="form-inline">
@@ -29,13 +36,100 @@
 <div class="col-md-10 col-md-offset-1 well"   ng-repeat="friend in friendsList track by $index" id="{{$index}}" >		
 		<p>Name : {{friend.fullname}}</p>
 		<p>Location : {{friend.currentlocation}}</p>
-		<p>Company Name : <span style="color:red">{{friend.current_company_name}}</span></p>
-		<p>Experience : {{friend.experience}}</p>
+		<p>Company Name : <span style="color:red">{{friend.currentcompanyname}}</span></p>
+		<p>Employee Category : {{friend.employeementtype}}</p>
 		<!-- <p>Skills are : <span ng-repeat="skill in friend.skillset" data-add-a-space-between>{{skill +" " }}</span></p> -->
 		<button class="btn btn-success" style="float:right" ng-click="sendRequest(friend.email,$index)">Send Friend Request</button>		
 </div>
 </div>
 </div>
+
 <div class="col-md-10 col-md-offset-1 well" ng-show="noresultview">
 	<h4 class="text-center"> No Results Found. Please Try with some other options. </h4>
 </div>
+ <script type="text/ng-template" id="connectionproversion.html">
+        <div class="modal-header">
+            <h2 class="modal-title">Pricing Plan</h2>
+        </div>
+        <div class="modal-body">    
+    
+	    <!-- Plans -->
+	    <section id="plans">
+	        <div>
+	            <div class="row">
+
+	                <!-- item -->
+	                <div class="col-md-3 col-md-offset-1 text-center">
+	                    <div class="panel panel-danger panel-pricing">
+	                        <div class="panel-heading">
+	                            <i class="fa fa-desktop"></i>
+	                            <h3>Plan 1</h3>
+	                        </div>
+	                        <div class="panel-body text-center">
+	                            <p><strong>$100 / Month</strong></p>
+	                        </div>
+	                        <ul class="list-group text-center">
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 10 FriendRequest</li>
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 10 Inmails</li>
+	                        </ul>
+	                        <div class="panel-footer">
+	                            <a class="btn btn-lg btn-block btn-danger" ng-click="ok('plan1')">BUY NOW!</a>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- /item -->
+
+	                <!-- item -->
+	                <div class="col-md-4 text-center">
+	                    <div class="panel panel-warning panel-pricing">
+	                        <div class="panel-heading">
+	                            <i class="fa fa-desktop"></i>
+	                            <h3>Plan 2</h3>
+	                        </div>
+	                        <div class="panel-body text-center">
+	                            <p><strong>$200 / Month</strong></p>
+	                        </div>
+	                        <ul class="list-group text-center">
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 30 FriendRequest</li>
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 30 Inmails</li>
+	                        </ul>
+	                        <div class="panel-footer">
+	                            <a class="btn btn-lg btn-block btn-warning" ng-click="ok('plan2')">BUY NOW!</a>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- /item -->
+
+	                <!-- item -->
+	                <div class="col-md-3 text-center">
+	                    <div class="panel panel-success panel-pricing">
+	                        <div class="panel-heading">
+	                            <i class="fa fa-desktop"></i>
+	                            <h3>Plan 3</h3>
+	                        </div>
+	                        <div class="panel-body text-center">
+	                            <p><strong>$300 / Month</strong></p>
+	                        </div>
+	                        <ul class="list-group text-center">
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 50 FriendRequest</li>
+	                            <li class="list-group-item"><i class="fa fa-check"></i> 50 Inmails</li>
+	                            
+	                        </ul>
+	                        <div class="panel-footer">
+	                            <a class="btn btn-lg btn-block btn-success" ng-click="ok('plan3')">BUY NOW!</a>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- /item -->
+
+	            </div>
+	        </div>
+	    </section>
+	    <!-- /Plans -->
+        </div>
+        <div class="modal-footer">            
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+ </script>
+
+	

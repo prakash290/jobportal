@@ -62,6 +62,26 @@ bcloud.factory('friendRequestServices',[ '$http','$q',
 					defer.reject(data);
 				});			
 				return defer.promise;
+			},
+			updateConnectionProPlan : function(plan){				
+				var defer=$q.defer();			
+				$http.post('/blouda/updateEmployeeFriendsRestriction',plan)
+				.success(function(data){										
+					defer.resolve(data);					
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			sendInmail : function(mailDetails){
+				var defer=$q.defer();			
+				$http.post('/blouda/sendInmail',mailDetails)
+				.success(function(data){										
+					defer.resolve(data);					
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
 			}
 		}
 

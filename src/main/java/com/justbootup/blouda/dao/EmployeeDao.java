@@ -1,53 +1,26 @@
 package com.justbootup.blouda.dao;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Scanner;
 
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.xml.ws.soap.AddressingFeature.Responses;
-
-import org.apache.http.HttpException;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
-import org.apache.oltu.oauth2.client.OAuthClient;
-import org.apache.oltu.oauth2.client.URLConnectionClient;
-import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
-import org.apache.oltu.oauth2.client.response.GitHubTokenResponse;
-import org.apache.oltu.oauth2.common.OAuthProviderType;
-import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.bson.types.ObjectId;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,12 +28,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -76,6 +45,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
+import com.mongodb.util.JSON;
 
 @Repository
 public class EmployeeDao {
@@ -127,11 +97,24 @@ public class EmployeeDao {
 		
 		DBCollection collection = db.getCollection("employee");
 		
-		BasicDBObject credentials = new BasicDBObject(employeeCredentials);
+		 Date currentDate = new Date( );
+	      SimpleDateFormat currenDateFormat = 
+	      new SimpleDateFormat ("dd-MM-yyyy hh:mm:ss");
+	      
 		
-		DBObject object = collection.findOne(credentials);
+		BasicDBObject credentials = new BasicDBObject(employeeCredentials);		
+		
+		BasicDBObject loggedInUpdateQuery = new BasicDBObject();
+		loggedInUpdateQuery.append("$set", new BasicDBObject().append("employeeSession.lastLoggedIn", currenDateFormat.format(currentDate)));
+		
+		DBObject object = collection.findAndModify(credentials, null, null, false, loggedInUpdateQuery, true, false);
+		
+		System.out.println(object);
+		
+		//collection.findOne(credentials);
 		
 		if(object != null)
+			
 		{
 			credentials.remove("password");
 			credentials.append("login", true);
@@ -156,8 +139,8 @@ public class EmployeeDao {
 		
 		DBCollection collection = db.getCollection("employee");
 		
-		String email = (String) jsonEmployeeProfile.get("useremail");
-		jsonEmployeeProfile.remove("useremail");
+		String email = (String) jsonEmployeeProfile.get("email");
+		jsonEmployeeProfile.remove("email");
 		
 		// Query condition for email
 		BasicDBObject condition = new BasicDBObject();
@@ -168,7 +151,9 @@ public class EmployeeDao {
 		updateQuery.append("$set",jsonEmployeeProfile);
 		System.out.println(updateQuery);		
 		
-		WriteResult result =collection.update(condition, updateQuery, true, false);
+		WriteResult result =collection.update(condition, updateQuery, false, false);
+		
+		System.out.println("Result of is updating : "+result.isUpdateOfExisting()+" Email is : "+email);
 		
 		JSONObject returnStatus = new JSONObject();
 		if(result.isUpdateOfExisting())
@@ -194,9 +179,8 @@ public class EmployeeDao {
 	{
 		System.out.println("user Dao Called");
 		return mongoTemplate.findAll(JSONObject.class,"User");
-	}
+	}	
 	
-	@SuppressWarnings("unchecked")
 	public BasicDBObject getEmployeeProfile(JSONObject employeeSession) throws UnknownHostException	
 	{		
 		MongodbConnection mongo = new MongodbConnection();
@@ -211,7 +195,7 @@ public class EmployeeDao {
 		
 		DBCursor cursor = collection.find(condition);		
 		
-		 BasicDBObject userProfile = new BasicDBObject();
+		BasicDBObject userProfile = new BasicDBObject();
 		 
 		try {
 		   while(cursor.hasNext()) {
@@ -226,51 +210,305 @@ public class EmployeeDao {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
+	public HashMap<String, Object> getEmployeeProfileForUpdate(JSONObject employee) 	
+	{	
+		HashMap<String, Object> userProfile = new HashMap<String, Object>();
+		try {
+			MongodbConnection mongo = new MongodbConnection();
+			MongoClient mongoclient = null;
+			mongoclient = mongo.connect();
+			
+			DB db = mongoclient.getDB("jobportal");
+			
+			DBCollection collection = db.getCollection("employee");
+			
+			BasicDBObject condition = new BasicDBObject(employee);
+			
+			BasicDBObject projection = new BasicDBObject();
+			projection.append("_id",0);
+			projection.append("password", 0);
+			projection.append("email", 0);
+			projection.append("employeeSession", 0);
+			projection.append("socialnetworkCredentials", 0);
+			projection.append("priority", 0);
+			
+			
+			BasicDBObject result = (BasicDBObject) collection.findOne(condition,projection);		
+			result.toString();
+			userProfile = result;
+		    userProfile.put("profilestatus",compareEmployeeProfile(userProfile));
+		    
+		    System.out.println(userProfile);
+		   
+		} catch (UnknownHostException e) {			
+			e.printStackTrace();
+			System.out.println("The Following Exception is Raised in EmployeeDao layer of getEmployeeProfileforUpdate method");
+		}
+		
+		
+		return userProfile;
+	}
+	
+
+	private ArrayList<LinkedHashMap<String, Object>> compareEmployeeProfile(HashMap<String, Object> employeeProfile)
+	{
+		ArrayList<LinkedHashMap<String, Object>> orderedResult = new ArrayList<LinkedHashMap<String,Object>>();
+		
+		try {
+			
+			//This object value is same as angularjs template name.
+			LinkedHashMap<String, Object> common = new LinkedHashMap<String, Object>();	
+			
+			common.put("personaldetails", "personaldetails");		
+			common.put("educationdetails","educationdetails");						
+			common.put("professionaldetails", "professionaldetails");
+			common.put("profilesummary","profilesummary");
+			common.put("resumeDetails","resumedetails");
+			common.put("academicprojectdetails","academicprojectdetails");
+			common.put("othercourses","courses");			
+			common.put("profileimagepath", "profileimage");
+			common.put("otherinfos","otherinfos");
+			common.put("socialnetworkCredentials","socialnetworkprofiles");
+			
+			for (Map.Entry<String, Object> entry : common.entrySet()) {
+			    String key = entry.getKey();			    
+			    LinkedHashMap<String,Object> result = new LinkedHashMap<String, Object>();				
+			    if(employeeProfile.containsKey(key))
+			    {			    	
+			    	result.put(entry.getValue().toString(), true);		
+			    	orderedResult.add(result);
+			    }
+			    else
+			    {
+			    	result.put(entry.getValue().toString(), false);
+			    	orderedResult.add(result);
+			    }
+			}
+			
+			
+			
+		} catch (Exception e) {			
+			e.printStackTrace();
+			System.out.println("Above exception is raised in employeedao layer of compareEmployerProfile method");
+		}
+		
+		System.out.println("Final Compare Result is : "+orderedResult);
+		return orderedResult;
+	}
+	
+	
+	public void objectIteration(HashMap<String, Object> Obj)
+	{
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	public JSONObject getEmployeeImageProfile(JSONObject employee){
+		
+		JSONObject result = new JSONObject();
+		MongodbConnection connection = new MongodbConnection();
+		MongoClient mongoclient = null;
+		
+		try {
+			
+			mongoclient = connection.connect(); 			
+			DB db = mongoclient.getDB("jobportal");					
+			DBCollection collection = db.getCollection("employee");
+			
+			BasicDBObject query = new BasicDBObject();
+			query.append("email", employee.get("email"));
+			
+			BasicDBObject projection = new BasicDBObject();
+			projection.put("_id",0);
+			projection.put("profileimagepath",1);
+						
+			BasicDBObject imagepath = (BasicDBObject) collection.findOne(query, projection);
+			
+			if(imagepath.containsKey("profileimagepath"))
+			{
+				result.put("image",readImagefile(imagepath.getString("profileimagepath")));
+				
+			}
+			else
+			{
+				result.put("error", "something went wrong");
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("The above exeception is raised in employeedao of getEmployeeImageProfile method");
+		}
+		return result;
+	}
+	
+	private byte[] readImagefile(String filePath) throws Exception{
+		
+		File fi = new File(filePath);
+		byte[] fileContent = Files.readAllBytes(fi.toPath());		
+		return fileContent;
+	}
+
+	@SuppressWarnings({ "unchecked" })
 	private JSONObject saveResume(MultipartFile file,net.sf.json.JSONObject userDetails) throws Exception 
 	{	
 		
 		JSONObject employeeFileDetails = new JSONObject();
 		
-		String emailID = userDetails.getString("email");
-		String industryType = userDetails.getString("industrytype");
-		final String rootDirectory = "D:\\resumes\\"+industryType;
 		
-		File createDirectory = new File(rootDirectory);		
-		
-		
-		if (!createDirectory.exists()) 		        
-		    createDirectory.mkdir();
-		
-		String fileName = file.getOriginalFilename();
-		String extension=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		
-		String modifiedFileName = fileName.substring(0,fileName.lastIndexOf(".")).concat("-"+emailID).concat(extension);
-		
-		employeeFileDetails.put("FileName",modifiedFileName);
-		
-		String modifiedFileNamewithDirectory = rootDirectory.concat("\\"+fileName.substring(0,fileName.lastIndexOf("."))).concat("-"+emailID).concat(extension);
-		System.out.println("Modified file Name is : "+modifiedFileNamewithDirectory);
-		
-		employeeFileDetails.put("FilePath", modifiedFileNamewithDirectory);
-		// Create File
-		File saveResume = new File(modifiedFileNamewithDirectory);
-		file.transferTo(saveResume);
-		
-		File checking = new File(modifiedFileNamewithDirectory);
-		if(checking.isFile())
-		{
-			System.out.println("Successfully created");
-		}
-		else
-		{
-			System.out.println("Failed to create");
+		try {
+			String emailID = userDetails.getString("email");
+			
+			String industryType =userDetails.getString("employeementtype");
+			
+			final String rootDirectory = "D:\\resumes\\"+industryType;
+			
+			File createDirectory = new File(rootDirectory);		
+			
+			
+			if (!createDirectory.exists()) 		        
+			    createDirectory.mkdir();
+			
+			String fileName = file.getOriginalFilename();
+			String extension=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			
+			String modifiedFileName = fileName.substring(0,fileName.lastIndexOf(".")).concat("-"+emailID).concat(extension);
+			
+			employeeFileDetails.put("FileName",modifiedFileName);
+			
+			String modifiedFileNamewithDirectory = rootDirectory.concat("\\"+fileName.substring(0,fileName.lastIndexOf("."))).concat("-"+emailID).concat(extension);
+			System.out.println("Modified file Name is : "+modifiedFileNamewithDirectory);
+			
+			employeeFileDetails.put("FilePath", modifiedFileNamewithDirectory);
+			// Create File
+			File saveResume = new File(modifiedFileNamewithDirectory);
+			file.transferTo(saveResume);
+			
+			File checking = new File(modifiedFileNamewithDirectory);
+			if(checking.isFile())
+			{
+				System.out.println("Successfully created");
+			}
+			else
+			{
+				System.out.println("Failed to create");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception raised in employee dao layer");
 		}
 		return employeeFileDetails;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public net.sf.json.JSONObject saveUser(MultipartFile resume,net.sf.json.JSONObject employeeDetails)
+	public JSONObject newEmployeeRegister(JSONObject newEmployee)
+	{
+		JSONObject signUpStatus = new JSONObject();
+		MongodbConnection connection = new MongodbConnection();
+		MongoClient mongoclient = null;
+		try
+		{
+			
+			mongoclient = connection.connect(); 			
+			DB db = mongoclient.getDB("jobportal");					
+			DBCollection collection = db.getCollection("employee");
+			
+			BasicDBObject query = new BasicDBObject();
+			query.append("email", newEmployee.get("email"));
+			
+			BasicDBObject projection = new BasicDBObject();
+			projection.put("_id",0);
+			projection.put("email",1);
+						
+			DBCursor result = collection.find(query,projection);
+			System.out.println("result count : "+result.count()+" result size : "+result.size());
+			if(result.count() > 0)
+			{
+				System.out.println("The user is already associated with us.");
+				signUpStatus.put("newEmployee", false);
+			}
+			else
+			{	
+				newEmployee.put("isRegistrationfromApp", true);
+				newEmployee.put("isRegistrationfromSocial", false);				
+				BasicDBObject employee = (BasicDBObject) JSON.parse(newEmployee.toJSONString());				
+				
+
+				 Date currentDate = new Date( );
+			      SimpleDateFormat currenDateFormat = 
+			      new SimpleDateFormat ("dd-MM-yyyy hh:mm:ss");
+			      
+			      
+				BasicDBObject timing = new BasicDBObject();		
+				
+				timing.append("createdAt",currenDateFormat.format(currentDate));	
+				timing.append("lastLoggedIn",currenDateFormat.format(currentDate));		
+				
+				employee.append("employeeSession", timing);
+				collection.insert(employee);				
+				// Create Backend Session Also.	
+				
+				
+				// Insert Employee Connection Collection
+				insertEmployeeConnection(newEmployee);
+				signUpStatus.put("email",newEmployee.get("email"));
+				
+			}
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("The above exception is raised in newEmployeeRegister method of employeedao class");
+		}
+		finally{
+			if(mongoclient != null)
+				mongoclient.close();
+		}
+		return signUpStatus;
+	}
+	
+	private void insertEmployeeConnection(JSONObject employee){
+		
+		MongodbConnection connection = new MongodbConnection();
+		
+		try {
+			
+			MongoClient mongoclient = connection.connect(); 
+			
+			DB db = mongoclient.getDB("jobportal");			
+			DBCollection collection = db.getCollection("employeeconnections");		
+			
+			BasicDBObject restriction = new BasicDBObject();			
+			
+			 Date currentDate = new Date( );
+		      SimpleDateFormat currenDateFormat = 
+		      new SimpleDateFormat ("dd-MM-yyyy");
+		      
+		    restriction.append("startdate", currenDateFormat.format(currentDate));
+		    restriction.append("totalfriendrequest", 10);	
+		    restriction.append("usedfriendrequest",0);
+		    restriction.append("remainingfriendrequest",10);
+		    restriction.append("totalinmails", 10);
+		    restriction.append("usedinmails",0);
+		    restriction.append("remaininginmails",10);		  
+		    
+			BasicDBObject insertQuery = new BasicDBObject();
+			insertQuery.append("email", employee.get("email"));
+			insertQuery.append("restriction", restriction);
+			
+			WriteResult result = collection.insert(insertQuery);
+			
+			System.out.println("Result is : "+result);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("The Following Exeception is raised in insertEmployeeConnection Method");
+		}
+		
+	}
+	
+	public net.sf.json.JSONObject saveUser(MultipartFile resume,net.sf.json.JSONObject employeeDetails,MultipartFile profileimage)
 	{
 		try {
 			if(employeeDetails.get("linkedinemail") == null) 
@@ -278,13 +516,61 @@ public class EmployeeDao {
 			System.out.println("Before Inserting Data is : "+employeeDetails);
 			ObjectId id = new ObjectId();
 			System.out.println("Inserted Id value is : "+id);
-			employeeDetails.put("_id", id);	
-			System.out.println(resume.getContentType());
+			//employeeDetails.put("_id", id);	
+			
+			MongodbConnection mongo = new MongodbConnection();
+			MongoClient mongoclient = null;
+			mongoclient = mongo.connect();
+		
+			DB db = mongoclient.getDB("jobportal");
+			
+			DBCollection collection = db.getCollection("employee");
+			
+			System.out.println("Get Address : "+mongoclient.getAddress());
+			
+			String email = employeeDetails.getString("email");
+			
+			//System.out.println("COntent Type is : "+resume.getContentType());
+			if(! (resume == null))
+			{
 			JSONObject employeeFileDetails = saveResume(resume, employeeDetails);			
-			
 			employeeDetails.put("resumeDetails", employeeFileDetails);
+			}
 			
-			mongoTemplate.insert(employeeDetails,"employee");
+			if(! (profileimage == null))
+			{
+				String imagePath = "D:\\employee profile images\\"+email+".jpg";
+				File profileImagepath = new File(imagePath);				
+				profileimage.transferTo(profileImagepath);
+				employeeDetails.put("profileimagepath",imagePath );
+			}	
+			
+			BasicDBObject obj = (BasicDBObject) JSON.parse(employeeDetails.toString());			
+			
+			System.out.println("Finale object is : "+obj);
+			
+			// Query condition for email
+			BasicDBObject condition = new BasicDBObject();
+			condition.append("email", email);	
+			
+			// update condition
+			BasicDBObject updateQuery = new BasicDBObject();
+			updateQuery.append("$set",obj);
+			System.out.println(updateQuery);		
+			
+			WriteResult result =collection.update(condition, updateQuery, true, false);
+			
+			if(result.isUpdateOfExisting())
+			{
+				System.out.println("Employee Registration Success");				
+			}
+			else
+			{
+				System.out.println("Employee Registration Failed");
+			}
+			//collection.insert(obj);
+			
+			//mongoTemplate.insert(employeeDetails,"employee");
 			}
 			else
 			{
@@ -292,7 +578,7 @@ public class EmployeeDao {
 				MongodbConnection mongo = new MongodbConnection();
 				MongoClient mongoclient = null;
 				mongoclient = mongo.connect();
-				
+			
 				DB db = mongoclient.getDB("jobportal");
 				
 				DBCollection collection = db.getCollection("employee");
@@ -320,7 +606,7 @@ public class EmployeeDao {
 			}
 			
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 			employeeDetails.put("error", "failure");
             return employeeDetails;
 		}
@@ -331,6 +617,232 @@ public class EmployeeDao {
 	
 	
 	@SuppressWarnings("unchecked")
+	public JSONObject updateEmployeeProfiles(JSONObject employeeProfile)
+	{
+		JSONObject updateStatus = new JSONObject();
+		try {
+			
+			System.out.println("Profile is : "+employeeProfile);
+			
+			HashMap<String, Object> newemplyeeProfile = (HashMap<String, Object>) employeeProfile.clone();
+			newemplyeeProfile.remove("email");
+			
+			System.out.println("Final Query is : "+newemplyeeProfile);
+			
+			MongodbConnection mongo = new MongodbConnection();
+			MongoClient mongoclient = null;
+			mongoclient = mongo.connect();
+		
+			DB db = mongoclient.getDB("jobportal");
+			
+			DBCollection collection = db.getCollection("employee");
+			
+			BasicDBObject query = new BasicDBObject();			
+			query.append("email",employeeProfile.get("email"));			
+			
+			if(newemplyeeProfile.containsKey("olddata"))
+			{
+				newemplyeeProfile.remove("olddata");					
+			}
+			
+			BasicDBObject updateQuery = new BasicDBObject();
+			//updateQuery.append("$set", prepareUpdateProfileQuery(employeeProfile));
+			updateQuery.append("$set", newemplyeeProfile);
+			
+			WriteResult result = collection.update(query, updateQuery);
+			if(result.isUpdateOfExisting())
+			{
+				System.out.println("Successfully updated");
+				updateStatus.put("status","success");
+			}
+			else
+			{
+				System.out.println("Something went wrong");
+				updateStatus.put("status","failure");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateStatus.put("status","failure");
+			System.out.println("The above exception is raised in employeedao of updateEmployeeProfiles.");
+		}
+		return updateStatus;
+	}
+	
+	@SuppressWarnings({  "unchecked" })
+	private JSONObject prepareUpdateProfileQuery(JSONObject employeeProfile)
+	{
+		JSONObject result = new JSONObject();
+		try {
+			Iterator<String> it = employeeProfile.keySet().iterator();
+			while (it.hasNext()) {
+				String keyname = it.next();
+				if(!keyname.equals("email"))
+				{
+					String updatProfileKeyname = keyname;
+					
+					HashMap<String, Object> profileObj = (HashMap<String, Object>) employeeProfile.get(keyname);					
+					for (Entry<String, Object> entry : profileObj.entrySet()) {
+						String filedname = entry.getKey();					   
+					    result.put(updatProfileKeyname+"."+filedname, profileObj.get(filedname));
+					}
+
+				}				
+				if(keyname.equals("professionaldetails.currentcompany"))
+				{
+					System.out.println("condition true");
+					result.put("employeementtype","experiencer");
+				}
+				
+			}
+			
+			System.out.println(result);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception raised in prepareUpdateProfileQuery Method");
+		}
+		return result;
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	public JSONObject updateEmployeeProfileImage(net.sf.json.JSONObject employee, MultipartFile profileimage)
+	{
+		JSONObject resultStatus = new JSONObject();
+		try {
+			
+			String email = employee.getString("email");
+			MongodbConnection mongo = new MongodbConnection();
+			MongoClient mongoclient = null;
+			mongoclient = mongo.connect();
+		
+			DB db = mongoclient.getDB("jobportal");
+			
+			DBCollection collection = db.getCollection("employee");
+			
+			BasicDBObject query = new BasicDBObject();
+			query.append("email", email);
+			
+			BasicDBObject updateImagePath = new BasicDBObject();
+			
+			
+			if(! (profileimage == null))
+			{
+				String imagePath = "D:\\employee profile images\\"+email+".jpg";
+				File profileImagepath = new File(imagePath);				
+				profileimage.transferTo(profileImagepath);
+				updateImagePath.put("profileimagepath",imagePath );
+			}	
+			BasicDBObject update = new BasicDBObject();
+			update.append("$set", updateImagePath);
+			
+			WriteResult result =collection.update(query, update);
+			
+			if(result.isUpdateOfExisting())
+			{
+				resultStatus.put("status","success");
+				System.out.println("Employee Registration Success");				
+			}
+			else
+			{
+				resultStatus.put("status","failure");
+				System.out.println("Employee Registration Failed");
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("The above exception is raised in updateEmployeeProfileImage method");
+		}
+		return resultStatus;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject updateEmployeeProfileResume(net.sf.json.JSONObject userDetails, MultipartFile file)
+	{
+		JSONObject resultStatus = new JSONObject();
+		try {
+			
+			MongodbConnection mongo = new MongodbConnection();
+			MongoClient mongoclient = null;
+			mongoclient = mongo.connect();
+		
+			DB db = mongoclient.getDB("jobportal");
+			
+			DBCollection collection = db.getCollection("employee");
+			
+			String emailID = userDetails.getString("email");
+			
+			BasicDBObject query = new BasicDBObject();
+			query.append("email", emailID);
+			
+			BasicDBObject employeeFileDetails = new BasicDBObject();
+			
+			String industryType =userDetails.getString("currentindustrytype");
+			
+			final String rootDirectory = "D:\\resumes\\"+industryType;
+			
+			File createDirectory = new File(rootDirectory);		
+			
+			
+			if (!createDirectory.exists()) 		        
+			    createDirectory.mkdir();
+			
+			String fileName = file.getOriginalFilename();
+			String extension=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			
+			String modifiedFileName = fileName.substring(0,fileName.lastIndexOf(".")).concat("-"+emailID).concat(extension);
+			
+			employeeFileDetails.put("FileName",modifiedFileName);
+			
+			String modifiedFileNamewithDirectory = rootDirectory.concat("\\"+fileName.substring(0,fileName.lastIndexOf("."))).concat("-"+emailID).concat(extension);
+			System.out.println("Modified file Name is : "+modifiedFileNamewithDirectory);
+			
+			employeeFileDetails.put("FilePath", modifiedFileNamewithDirectory);
+			// Create File
+			File saveResume = new File(modifiedFileNamewithDirectory);
+			file.transferTo(saveResume);
+			
+			File checking = new File(modifiedFileNamewithDirectory);
+			if(checking.isFile())
+			{
+				BasicDBObject resumeDetails = new BasicDBObject();
+				resumeDetails.put("resumeDetails",employeeFileDetails);
+				BasicDBObject update = new BasicDBObject();
+				update.append("$set", resumeDetails);
+				
+				WriteResult result =collection.update(query, update);
+				
+				if(result.isUpdateOfExisting())
+				{
+					resultStatus.put("status","success");
+					System.out.println("Employee Registration Success");				
+				}
+				else
+				{
+					resultStatus.put("status","failure");
+					System.out.println("Employee Registration Failed");
+				}
+				
+				
+				System.out.println("Successfully created");
+			}
+			else
+			{
+				resultStatus.put("status","failure");
+				System.out.println("Failed to create");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultStatus.put("status","failure");
+			System.out.println("Exception raised in employee dao layer");
+		}
+		return resultStatus;
+	}	
+	
+	
+	
 	public void generateFacebooklongliveToken(JSONObject facebook) throws Exception{
 		
 		getLongLivedAccessToken(facebook);
@@ -521,7 +1033,9 @@ public class EmployeeDao {
 			
 			System.out.println("with Refresh Token is : "+googleCredentials);			
 			
-			String refreshToken = googleCredentials.get("refresh_token").toString();
+			// This part is getting google access token using refresh token
+			
+			/*String refreshToken = googleCredentials.get("refresh_token").toString();
 			MultiValueMap<String,String> paramsForAccesTokenUsingRefreshToken=new LinkedMultiValueMap<String,String>();		
 		
 			paramsForAccesTokenUsingRefreshToken.add("client_id", client_id);
@@ -545,7 +1059,7 @@ public class EmployeeDao {
 			{
 				System.out.println("Two tokens are different");
 			}
-			System.out.println("New Access Token is : "+newgoogleCredentials);
+			System.out.println("New Access Token is : "+newgoogleCredentials);*/
 			
 			
 			
@@ -785,6 +1299,8 @@ public class EmployeeDao {
 		
 		return HMAC_SHA1_ALGORITHM;
 	}
+	
+	
 
 	
 }

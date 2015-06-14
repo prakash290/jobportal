@@ -8,7 +8,8 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.version>4.0.2.RELEASE</spring.version>
+		<!-- <spring.version>3.2.8.RELEASE</spring.version> -->
 		<spring.security.version>3.2.4.RELEASE</spring.security.version>
 		<es.version>1.4.4</es.version>
 		<lucene.version>3.6.2</lucene.version>
@@ -50,13 +51,12 @@
 	<version>4.4.1</version>
 </dependency>
 
-
-		
-		 <dependency>
-			<groupId>org.springframework.social1</groupId>
-			<artifactId>spring-social-facebook</artifactId>
-			<version>2.0.1.RELEASE</version>
-		</dependency>  
+<dependency>
+  <groupId>com.pusher</groupId>
+  <artifactId>pusher-http-java</artifactId>
+  <version>0.9.3</version>
+</dependency>
+ 
 		
 		<dependency>
 			<groupId>org.springframework.social</groupId>
@@ -88,11 +88,12 @@
 		</dependency>
 		
 		
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.0-alpha4</version>
-		</dependency>
+		</dependency> -->		
+	
 		
 		<dependency>
 				<groupId>org.apache.oltu.oauth2</groupId>
@@ -118,9 +119,20 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-websocket</artifactId>
+	        <version>4.0.2.RELEASE</version>
+		</dependency>
 		
-		
-
+	
+	<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-messaging</artifactId>
+	<version>4.0.2.RELEASE</version>
+</dependency>
+	
+	
 		<!-- spring mongo jar -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -165,10 +177,24 @@
 			<version>1.2</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+	        <groupId>javax.websocket</groupId>
+	        <artifactId>javax.websocket-api</artifactId>
+	        <version>1.0</version>
+	        <scope>provided</scope>
 		</dependency>
 
 		<!-- json jar -->
@@ -177,17 +203,7 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.7</version>
-		</dependency>
-
+	
 
 		<!-- spring validation jar -->
 		<dependency>
@@ -211,7 +227,7 @@
 		
 		<!-- R Dependency jar -->
 		<dependency>
-			<groupId>com.rserve</groupId>
+			<groupId>com.rengine</groupId>
 			<artifactId>rengine</artifactId>
 			<version>1</version>
 		</dependency>

@@ -1,0 +1,96 @@
+<div class="row">
+<div class="empprofile">
+	<div class="profiletab">		
+		<div class="col-md-9">
+			<div class="row">
+			<div class="profilecontent">
+				<img src="resources/images/profile.png" alt="Loading" class="img-circle default_profile img-responsive">
+				<p style="color:rgb(131, 123, 123);font-size:22px;" >{{employeePersonalDetails.fullname}}</p>
+				<p style="font-size:16px;">{{employeePersonalDetails.currentlocation}}</p>
+				<p style="font-size:16px;">{{employeePersonalDetails.phonenumber}}</p>
+				<p ng-switch on="employeePersonalDetails.phone">
+					<a ng-switch-when="undefined">Add Working Place</a>
+					{{employeePersonalDetails.phone}}
+				</p>
+				<!-- <p style="font-size:16px;">Working at : JustBootup</p> -->
+				<a href="" class="btn btn-primary pull-right" type="button">Friends <span class="badge">4</span></a>
+			</div>
+			</div>	
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Profile Summary</h2>
+			</div>
+			</div>
+
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Education</h2>
+				<p class="profilePara"><span>Basic Degree : </span><span>B.sc(It)</span></p>
+				<p class="profilePara">
+					<span ng-mouseover='toggleMouseover()'  ng-mouseout='toggleMouseover()' ng-style="editStyle" ng-click="Onshowmouseover && toggleMode()" ng-show="previewMode">
+					<span ng-style="innerStyle">{{Degreename}} : <span>M.sc(It)</span></span>&nbsp;&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true" ng-show="Onshowmouseover"></span>
+					</span>
+					<div ng-show="!previewMode"> 
+						<span> <input type="text" ng-model="Degreename"> </span>
+						<span>
+						<button class="btn btn-success" ng-click="updateProfile()">update</button>
+						<button class="btn btn-success">cancel</button>
+						</span>
+					</div>
+				</p>
+				<p class="profilePara"><span>Doctorate Degree : </span><span>N/A</span></p>
+
+			</div>
+			</div>
+
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Skills</h2>
+				<tagger ng-model="tags" options="options" placeholder="Give your Skill sets"/>		
+			</div>
+			</div>
+
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Professional Experience</h2>
+				<p class="profilePara companyname">JustbootUp</p>
+				<p class="profilePara">Java Developer</p>
+				<p class="profilePara">From - to</p>
+				<p class="profilePara">Description</p>
+				<p > Project Details</p>
+			</div>
+			</div>
+
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Other Infos</h2>
+			</div>
+			</div>
+
+
+		</div>		
+	</div><!-- End of profile tab -->
+	<div class="othertabcontent">
+		<div class="col-md-3">
+			<div class="profilecontent">
+				<h2>Profile Complition Tab</h2>
+			</div>
+		</div>
+	</div><!-- End of other tab -->
+</div>		
+</div><!-- Main Row Ending -->
+
+
+<div ng-repeat='employee in employees'>
+	<p>{{employee.name}}</p>
+
+	<p>
+	<span ng-repeat="course in employee.courses track by $index" class="xxx">{{course + " " + $index}}</span>	{{employeecourses}}<br>
+	<div ng-if="employee.courses.length<3"  >
+			<button class="btn btn-info adds" ng-click="addC()" ng-show="toggleCourse">Add course {{" "+toggleCourse}}</button>
+			<div id="newcc"></div>
+	</div>
+
+	</p>
+	<hr/>
+</div> 

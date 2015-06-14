@@ -1,31 +1,51 @@
 package com.justbootup.blouda.util;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class SocialNetworkProperties {
 	
+	@Value("${linkedin_clientid}")
 	public String linkedin_clientId;
+	
+	@Value("${linkedin_client_secret}")
 	public String linkedin_clientSecret;
+	
+	@Value("${linkedin_redirecturl}")
 	public String linkedin_redirectUrl;
+	
 	public String linkedin_state;
 	
+	@Value("${google_clientid}")
+	public String google_clientId;
 	
-	public String getLinkedin_clientId() {
-		return linkedin_clientId;
+	@Value("${google_client_secret}")
+	public String google_clientSecret;
+	
+	@Value("${google_scopes}")
+	public String google_scopes;
+	
+	@Value("${google_redirecturl}")
+	public String google_redirectUrl;
+	
+	public String google_state;	
+	
+	@Value("${facebook_clientid}")
+	public String facebook_clientId;
+	
+	@Value("${facebook_client_secret}")
+	public String facebook_clientSecret;	
+	
+
+	public String getGoogle_state() {
+		return google_state;
 	}
-	public void setLinkedin_clientId(String linkedin_clientId) {
-		this.linkedin_clientId = linkedin_clientId;
+	public void setGoogle_state(String google_state) {
+		this.google_state = google_state;
 	}
-	public String getLinkedin_clientSecret() {
-		return linkedin_clientSecret;
-	}
-	public void setLinkedin_clientSecret(String linkedin_clientSecret) {
-		this.linkedin_clientSecret = linkedin_clientSecret;
-	}
-	public String getLinkedin_redirectUrl() {
-		return linkedin_redirectUrl;
-	}
-	public void setLinkedin_redirectUrl(String linkedin_redirectUrl) {
-		this.linkedin_redirectUrl = linkedin_redirectUrl;
-	}	
+	
+	
 	public String getLinkedin_state() {
 		return linkedin_state;
 	}
@@ -33,5 +53,6 @@ public class SocialNetworkProperties {
 		this.linkedin_state = linkedin_state;
 	}
 	
+
 
 }

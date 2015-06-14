@@ -47,4 +47,16 @@ public class EmployeeFriendsController {
 	public @ResponseBody JSONObject showFriendsList(@RequestBody JSONObject friendsList){				
 		return employeeFriendRequest.showFriends(friendsList);		
 	}
+	
+	@RequestMapping(value="/updateEmployeeFriendsRestriction",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject updateEmployeeFriendsRestriction(@RequestBody JSONObject plan){				
+		return employeeFriendRequest.updateEmployeeFriendsRestriction(plan);		
+	}
+	
+	@RequestMapping(value="/sendInmail1",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject sendInmail1(@RequestBody JSONObject mailDetails){		
+		return employeeFriendRequest.sendInmail(mailDetails);
+	}
+	
+	
 }

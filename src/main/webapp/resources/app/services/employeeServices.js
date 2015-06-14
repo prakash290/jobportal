@@ -1,5 +1,5 @@
-bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore', 
-	function($http,$q,authentication,$cookieStore){
+bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore','$cookies', 
+	function($http,$q,authentication,$cookieStore,$cookies){
 		var newUser = null;
 		return {
 
@@ -13,33 +13,31 @@ bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore'
 
 				 formdata.append('data',angular.toJson(name));
         		formdata.append('file', userDetails.resume);        		        		      		
-				var defer=$q.defer();			
-				/*$http.post('/blouda/employeeCreate',formdata,
-				{
-					 transformRequest: function(data, headersGetterFunction) {
-        			return data; // do nothing! FormData is very good!
-    				}
-					  headers: {
-					    'Content-Type': 'multipart/form-data' 
-					  }
-
-				})*/
+        		if(!angular.isUndefined(userDetails.profileimage))
+		        {
+					formdata.append("profileimage",userDetails.profileimage);		               	
+		  		}
+				var defer=$q.defer();				
 				$http({
 				    method: 'POST',				   
 				    url: '/blouda/employeeCreate',
 				    headers: {'Content-Type': undefined},
-				    data: { resume: userDetails.resume, name:name  }	
+				    data: { resume: userDetails.resume, name:name,profileimage:userDetails.profileimage  }	
 				    ,
 				    transformRequest: function(data, headersGetterFunction) {
 				        var formData = new FormData();
-               			 formData.append("userDetails", angular.toJson(data.name));
+               			formData.append("userDetails", angular.toJson(data.name));
 		               	formData.append("file",data.resume);
-                	
-                			return formData; 
+		               	if(!angular.isUndefined(data.profileimage))
+		               	{
+							formData.append("profileimage",data.profileimage);		               	
+		               	}
+                		return formData; 
                 	}		
 				})
 				.success(function(data){
-					authentication.newUser(data);					
+					authentication.newUser(data);
+					authentication.setnewEmployeeProfile(data);	
 					defer.resolve(data);
 				}).error(function(data){
 					defer.reject(data);
@@ -75,6 +73,7 @@ bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore'
 					defer.reject(data);
 				});			
 				return defer.promise;
+
 			},			
 			getUserProfile : function(){
 				var defer=$q.defer();
@@ -148,8 +147,7 @@ bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore'
 			generatefbtoken:function(fb){
 				var defer=$q.defer();			
 				$http.post('/blouda/emloyeefaceBookLogin',fb)
-				.success(function(data){
-					console.log(data);
+				.success(function(data){					
 					defer.resolve(data);
 				}).error(function(data){
 					defer.reject(data);
@@ -183,8 +181,145 @@ bcloud.factory('employeeServices',[ '$http','$q','authentication','$cookieStore'
 				xhr.send();
 				
 
+			},
+			setSocialAPIResult : function(employeeInfo){
+				$cookieStore.put("loginUser",employeeInfo);				
+			},
+			getSocialAPIResult : function(){
+				return $cookieStore.get("loginUser");;
+			},
+			checkFBEmployeeExists : function(){
+
+			},
+			createNewEmployee : function(employeeCredentials){
+					var defer=$q.defer();			
+					$http.post('/blouda/createNewSocialAccount',employeeCredentials)
+					.success(function(data){										
+						defer.resolve(data);
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+			},
+			employeeSignUp : function(newEmployeeSignup){
+					var defer=$q.defer();			
+					$http.post('/blouda/newEmployeeRegister',newEmployeeSignup)
+					.success(function(data){										
+						defer.resolve(data);
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+			},
+			getProfileImage : function(){
+				var employee = 
+				{ "email" : authentication.getEmployee()};
+
+				var defer=$q.defer();			
+					$http.post('/blouda/getEmployeeProfileImage',employee)
+					.success(function(data){										
+						defer.resolve(data);
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+			},
+			updateEmployeeProfile : function(newProfile){
+				var defer=$q.defer();			
+				$http.post('/blouda/updateEmployeeProfiles',newProfile)
+				.success(function(data){										
+					defer.resolve(data);
+				}).error(function(data){
+					defer.reject(data);
+				});			
+				return defer.promise;
+			},
+			updateEmployeeProfileImage : function(EmployeeProfileImage){
+				var defer=$q.defer();				
+				$http({
+				    method: 'POST',				   
+				    url: '/blouda/updateEmployeeProfileImage',
+				    headers: {'Content-Type': undefined},
+				    data: { email: EmployeeProfileImage.email,profileimage:EmployeeProfileImage.profileimage  }	
+				    ,
+				    transformRequest: function(data, headersGetterFunction) {
+				        var formData = new FormData();
+               			formData.append("email",data.email);
+		               	if(!angular.isUndefined(data.profileimage))
+		               	{
+							formData.append("profileimage",data.profileimage);		               	
+		               	}
+                		return formData; 
+                	}		
+				})
+				.success(function(data){					
+					defer.resolve(data);
+				}).error(function(data){
+					defer.reject(data);
+				});	
+
+		
+				return defer.promise;
+			},
+			updateEmployeeProfileResume : function(EmployeeProfileResume)
+			{
+				EmployeeProfileResume.email = authentication.getEmployee();
+				
+				console.log(EmployeeProfileResume);
+				var defer=$q.defer();				
+				$http({
+				    method: 'POST',				   
+				    url: '/blouda/updateEmployeeProfileResume',
+				    headers: {'Content-Type': undefined},
+				    data: { userObject: angular.toJson(EmployeeProfileResume),profileresume:EmployeeProfileResume.myFile  },
+				    transformRequest: function(data, headersGetterFunction) {
+				        var formData = new FormData();
+               			formData.append("userobject",data.userObject);
+               			formData.append("profileresume",data.profileresume);
+               			console.log(data.profileresume);
+		               	if(!angular.isUndefined(data.userObject.myFile))
+		               	{
+									               	
+		               	}
+                		return formData; 
+                	}		
+				})
+				.success(function(data){					
+					defer.resolve(data);
+				}).error(function(data){
+					defer.reject(data);
+				});
+				return defer.promise;
+			},
+			storeSocialEmployeeProfile : function(data){
+				$cookieStore.put("commonEmployeeProfile",data);					
+			},
+			storeEmployeeProfile : function(){
+					var defer=$q.defer();			
+					console.log(authentication.getEmployee());
+					var employee = {
+						"email":authentication.getEmployee()
+					};
+					$http.post('/blouda/getemployeeProfileforUpdate',employee)
+					.success(function(data){										
+						defer.resolve(data);	
+						$cookieStore.put("commonEmployeeProfile",data);				
+					}).error(function(data){
+						defer.reject(data);
+					});			
+					return defer.promise;
+			},
+			getCommonEmployeeProfile : function(){
+				return $cookieStore.get("commonEmployeeProfile");
+			},
+			clearAllCookies : function(){
+				angular.forEach($cookies, function (v, k) {
+					    $cookieStore.remove(k);
+				});
 			}
 
 		}
 }]);
+
+
 

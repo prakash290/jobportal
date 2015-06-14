@@ -1,0 +1,336 @@
+  <style>
+    .cropArea {
+      background: #E4E4E4;
+      overflow: hidden;
+      width:500px;
+      height:350px;
+    }
+    .imgPlace{
+    	background: #E4E4E4;
+     	overflow: hidden;
+    }
+  </style>
+<div class="row employeeregister">
+	<div class="empregister">
+		<div class="col-md-9">			
+			<div class="well"><!-- Register form -->
+				<h3 class="text-center">Regiter with JustBootUp</h3>
+				<!-- For Contact Details -->
+			    <div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Personal Details</h3></div>
+				  <div class="panel-body">
+				  	<div class="col-sm-7">				  		  
+				    <form class="form-horizontal" name="employeeregister">
+					  <div class="form-group">
+					    <label for="Full Name" class="col-sm-4 control-label" style="text-align:left">Full Name</label>
+					    <div class="col-sm-8">
+					      <input type="text" class="form-control" ng-model="employeeInformation.personaldetails.fullname" name="fullname" placeholder="Enter your full name" ng-pattern="/^[a-zA-Z][a-zA-Z. ]*$/">
+					      <div ng-show="employeeregister.fullname.$dirty && employeeregister.fullname.$invalid">
+								<span ng-show="employeeregister.fullname.$error.required" class="showError">Enter ur name</span>
+								<span ng-show="employeeregister.fullname.$error.pattern" class="showError">Use only characters</span>
+						   </div>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					      <label for="exp" class="col-sm-4 control-label" style="text-align:left">Current Location</label>
+					      
+					      <!-- This is for normal User -->
+					      <div class="col-sm-8">
+						        <select class="form-control" ng-model="employeeInformation.personaldetails.currentlocation" name="currentlocation">
+									  <option>Select</option>
+									  <option>Coimbatore</option>
+									  <option>Chennai</option>
+									  <option>Bangalore</option>
+									  <option>Delhi</option>	
+								</select>
+								<div ng-show="employeeregister.currentlocation.$dirty && employeeregister.currentlocation.$invalid">	
+									<span ng-show="employeeregister.currentlocation.$error.required" class="showError">Enter ur name</span>	
+						   		</div>
+					      </div>
+			   		   </div>
+					  <div class="form-group">
+					    <label for="phonenumber" class="col-sm-4 control-label" style="text-align:left">Phone Number</label>
+					    <div class="col-sm-8">
+					      <input type="number" class="form-control" ng-model="employeeInformation.personaldetails.phonenumber" ng-maxlength="10" name="phonenumber" placeholder="Phone Number">
+					      <div ng-show="employeeregister.phonenumber.$dirty && employeeregister.phonenumber.$invalid">					
+									<span ng-show="employeeregister.phonenumber.$error.maxlength" class="showError">Only 10 charectors only allowed.</span>					<span ng-show="employeeregister.phonenumber.$error.required" class="showError">Phone is required!</span>			
+						   	</div>
+					    </div>
+					  </div>
+
+					</form>
+					</div>
+					<div class="col-sm-5 text-center">
+					<span class="profileregimg" ng-click='openFile()'>
+						<img src="resources/images/profile.png" alt="Loading" class="img-circle default_profile_reg img-responsive" id="profile_image" />
+						<span style="margin-top:10px;" ng-show="profile_imageCaption">Add a Photo</span>
+						<span style="margin-top:10px;" ng-show ="!profile_imageCaption">Change Photo</span>
+					</span>		
+					</div>
+				  </div>
+				</div>
+				
+				<!-- For Educational Details -->
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Educational Details</h3></div>
+				  <div class="panel-body">
+				    <form class="form-inline">
+				    <div class="col-md-12">
+						  <div class="form-group">
+						    <label for="exampleInputName2">Basic</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.basic.course" name="currentlocation">
+							   <option value="" selected>Select</option>
+							  <option>B.E</option>
+							  <option>B.Sc</option>
+							  <option>B.A</option>
+							  <option>B.Com</option>						
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">From</label>
+						    <!-- <select class="form-control" ng-model="employeeInformation.educationdetails.basic.from" name="currentlocation" required> -->
+							  <select ng-model="basic_from"   ng-change="employeeInformation.educationdetails.basic.from=(years|filter:{id:basic_from})[0].year" ng-options="year.id as year.year for year in years" class="form-control">
+						      <option value="">Choose</option>
+						    </select>				
+						  </div>
+						  <div class="form-group">
+						    <label for="from">To</label>
+						    <select class="form-control" ng-model="basic_to" ng-change="employeeInformation.educationdetails.basic.to=(years|filter:{id:basic_to})[0].year" ng-options="year.id as year.year for year in years"
+						   name="currentlocation">
+							  <option value="" selected>choose</option>
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">Marks</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.basic.marks" name="currentlocation">
+							  <option>70</option>
+							</select>
+						  </div>
+					</div>
+					<div class="col-md-12">
+						  <div class="form-group">
+						    <label for="exampleInputName2">Master</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.master.course" name="currentlocation" >
+						    	<option value="" selected>Select</option>
+							  <option>M.E</option>
+							  <option>M.Sc</option>
+							  <option>M.A</option>
+							  <option>M.Com</option>						
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">From</label>
+						    <select class="form-control" class="form-control" ng-model="master_form" ng-change="employeeInformation.educationdetails.master.from=(years|filter:{id:master_form})[0].year" ng-options="year.id as year.year for year in years">
+							  <option value="" selected> Choose</option>
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">To</label>
+						    <select class="form-control" ng-model="master_to" ng-change="employeeInformation.educationdetails.master.to=(years|filter:{id:master_to})[0].year" ng-options="year.id as year.year for year in years">
+							  <option value="" selected>Choose</option>
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">Marks</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.master.marks" name="currentlocation">
+							  <option>70</option>
+							</select>
+						  </div>
+					</div>
+					<div class="col-md-12">
+						  <div class="form-group">
+						    <label for="exampleInputName2">Doctorate</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.doctorate.course" name="currentlocation">
+							  <option value="" selected>Select</option>
+							  <option>Ph.D</option>
+							  <option>M.Phil</option>
+							  <option>Others</option>						
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">From</label>
+						    <select class="form-control" ng-model="doctorate_from" ng-change="employeeInformation.educationdetails.doctorate.from=(years|filter:{id:doctorate_from})[0].year" ng-options="year.id as year.year for year in years">
+							  <option value="" selected>Choose</option>
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">To</label>
+						    <select class="form-control" ng-model="doctorate_to" ng-change="employeeInformation.educationdetails.doctorate.to=(years|filter:{id:doctorate_to})[0].year" ng-options="year.id as year.year for year in years">
+							  <option value="" selected>Choose</option>
+							</select>
+						  </div>
+						  <div class="form-group">
+						    <label for="from">Marks</label>
+						    <select class="form-control" ng-model="employeeInformation.educationdetails.doctorate.marks" name="currentlocation">
+							  <option>70</option>
+							</select>
+						  </div>
+					</div>	
+					<div class="col-md-12"><br>
+						
+						<!-- 
+						<add-course></add-course> -->
+						<div id="spaceforregistercourse"></div>
+						<button class="btn btn-info adds" ng-click="addProfileCourse()">Add course</button>
+					</div>					
+					
+					</form>
+				  </div>
+				</div>
+
+				<!-- For  Employment Details -->
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Current Employement Details</h3></div>
+				  <div class="panel-body">				  	
+				  	<div class="radio">
+					  <label>
+					    <input type="radio" ng-model="employeeInformation.employeementtype" value="fresher" ng-change="updateExperienceType()">Fresher    
+					  </label>
+					  <label>
+					    <input type="radio" ng-model="employeeInformation.employeementtype" value="experiencer" ng-change="updateExperienceType()">Experiencer   
+					  </label>
+					</div>	
+					
+				    <form class="form-horizontal">
+				    <!-- For Experiencer -->
+				    <div ng-show="employeeInformation.employeementtype == 'experiencer'">  
+					   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+					      <div class="col-sm-5">
+						        <select class="form-control" ng-model="employeeInformation.currentindustrytype">
+									  <option>Select</option>
+									  <option>IT</option>
+									  <option>MECH</option>
+									  <option>ACCOUNTS</option>
+									  <option>BPO</option>
+									 <option>MEDICAL</option>
+									  <option>HR</option>
+								</select>
+					      </div>
+						</div>
+					   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Years Of Exp</label>
+					      <div class="col-sm-5">
+						        <select class="form-control" ng-model="employeeInformation.
+						        experiencedetails.experience">
+									  <option>Select</option>	  
+									  <option value='1.0'>1</option>
+									  <option value='2.0'>2</option>
+									  <option value='3.0'>3</option>
+									 <option value='4.0'>4</option>
+									  <option value='5.0'>5</option>
+								</select>
+					      </div>
+						   </div>   		   
+					   <div class="form-group">
+						    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+						    <div class="col-sm-5">
+						      <tagger ng-model="employeeInformation.
+						        keyskills" options="options" placeholder="Give your Skill sets" employeeInformation="employeeInformation"/>
+						    </div>
+					   </div>
+					</div> 
+
+					<!-- For Fresher --> 		 	
+					<div ng-show="employeeInformation.employeementtype == 'fresher'">
+						<div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+					      <div class="col-sm-5">
+						        <select class="form-control" ng-model="employeeInformation.currentindustrytype">
+									  <option>Select</option>
+									  <option>IT</option>
+									  <option>MECH</option>
+									  <option>ACCOUNTS</option>
+									  <option>BPO</option>
+									 <option>MEDICAL</option>
+									  <option>HR</option>
+								</select>
+					      </div>
+						</div>  
+					   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Education Qualification</label>
+					      <div class="col-sm-5">
+						     <select class="form-control" ng-model="employeeInformation.fresherdetails.currenteduation">
+									  <option>Select</option>
+									  <option value='0.0'>B.Sc(IT)</option>
+									  <option value='1.0'>M.SC</option>
+									  <option value='2.0'>B.E(C.sc)</option>
+									  <option value='3.0'>M.E(IT)</option>		 
+								</select> 
+					      </div>
+						   </div>
+					   <div class="form-group">
+					      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Passout Year</label>
+					      <div class="col-sm-5">
+						        <tagger ng-model="employeeInformation.
+						        keyskills" options="options" placeholder="Give your Skill sets" employeeInformation="employeeInformation"/>
+					      </div>
+						   </div>
+						</div>	
+
+					</form>
+				  </div>
+				</div>
+
+				<!-- For Resume Upload -->
+				<div class="panel panel-primary">
+				  <div class="panel-heading"><h3 class="panel-title">Resume Upload</h3></div>
+				  <div class="panel-body">
+				    <form>		  
+					  <input type="file" class="form-control"  file-model="myFile" name="file" id="file"> 		  
+					</form>
+				  </div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<span>
+
+							<button class="btn btn-success" type="submit" ng-click="registerUser()">Register</button>				
+							
+							<button class="btn btn-danger" type="submit" ng-click="reset()">Cancel</button>
+						</span>
+					</div>	
+				
+				</div>				
+			</div> <!-- End of register form/row -->
+		</div>
+	</div>
+	<div class="empadstab">
+		<div class="col-md-3">			
+				<div class="well">
+					<h5>This is add</h5>			
+				</div>
+		</div>
+	</div>	
+</div>
+
+ <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h2 class="modal-title">Profile Image</h2>
+        </div>
+        <div class="modal-body">
+                       
+        	<button class="btn btn-info" ng-click='changeImage()'>Change Picture</button>
+        	<br><br>
+            <div class="row">
+            	<div class="col-md-6">
+            		<div class="imgPlace" ng-style="imgSyle">
+				    	<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+				  	</div>
+            	</div>
+            	<div class="col-md-6 text-center" >
+            		<h4 >Image Preview : </h4>	  
+					  	<img ng-src="{{myCroppedImage}}" />			
+            	</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()" >Update</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+<!-- <button class="btn btn-info adds" ng-click="addC()">Add course</button>
+<div id="newcc"></div> -->
+

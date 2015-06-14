@@ -4,3 +4,158 @@
 .form-control{
 	border-radius: 2px;
 }
+textarea {
+   resize: none;
+}
+
+body{
+	background-color: #F4F4F4;
+}
+/* employeeProfile page */
+.profilecontent{
+	min-height: 200px;
+	background-color: #fff;
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #e8e8e8;
+}
+
+.profilecontent > *{
+	margin-top: 0px;
+}
+
+.default_profile{
+	width: 130px;
+	height: 130px;
+	background-color: #f4f4f4;	
+	float: left;
+	margin-right: 50px;
+}
+
+.profiletitle{
+	color: #6B6B6B;
+	font-size: 22px;
+	border-bottom: 1px solid #e8e8e8;
+	padding-bottom: 5px;
+}
+
+.profiletitle h2{
+	margin-bottom: 0px;
+}
+
+.profilecontent p{
+
+	padding-left: 20px;
+	line-height: 18px;
+}
+
+.profilePara {
+	font-size: 16px;
+
+}
+
+.profiletitle p:first-child {
+	padding-top: 10px;
+}
+
+.currentcompany p {
+	padding-left: 0px;
+}
+
+/* end of employeeProfile page */
+
+/* employeeRegister page */
+
+.employeeregister .well{
+	background-color: white;
+}
+.employeeregister .well > * {
+	margin-top: 0px;
+	margin-bottom: 15px;
+}
+
+.employeeregister .form-inline .form-group label{	
+	width: 75px;
+}
+
+.employeeregister .form-inline .form-control{
+	margin-right: 10px;
+}
+
+.employeeregister .form-inline .col-md-12{
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-bottom: 15px;
+}
+
+
+.default_profile_reg{
+	width: 130px;
+	height: 130px;
+	background-color: #f4f4f4;	
+	margin: 0px auto;	
+}
+
+.profileregimg:hover{
+	cursor: pointer;
+}
+/* end of employeeRegister page */
+
+/* employeeUpdateProfile page */
+
+#profile_imageforupdate:hover{
+	cursor: pointer;
+}
+
+.addprofilecontent{
+	min-height: 100px;
+	background-color: #fff;
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #e8e8e8;
+}
+
+.addProfileSection:hover{
+	cursor: pointer;
+}
+/* end of employeeUpdateProfile page */
+
+/* Pricing Table Css */
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css");
+
+.panel-pricing {
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -webkit-transition: all .3s ease;
+}
+.panel-pricing:hover {
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+}
+.panel-pricing .panel-heading {
+  padding: 20px 10px;
+}
+.panel-pricing .panel-heading .fa {
+  margin-top: 10px;
+  font-size: 58px;
+}
+.panel-pricing .list-group-item {
+  color: #777777;
+  border-bottom: 1px solid rgba(250, 250, 250, 0.5);
+}
+.panel-pricing .list-group-item:last-child {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.panel-pricing .list-group-item:first-child {
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.panel-pricing .panel-body {
+  background-color: #f0f0f0;
+  font-size: 25px;
+  color: #777777;
+  padding: 20px;
+  margin: 0px;
+}
+
+/* End of Pricing Table css */

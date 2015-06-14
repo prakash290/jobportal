@@ -5,8 +5,8 @@
 	<div class="col-md-12 well"   ng-repeat="friend in friendRequestedList track by $index" id="{{$index}}" >		
 			<p>Name : {{friend.fullname}}</p>
 			<p>Location : {{friend.currentlocation}}</p>
-			<p>Company Name : <span style="color:red">{{friend.current_company_name}}</span></p>
-			<p>Experience : {{friend.experience}}</p>
+			<p>Company Name : <span style="color:red">{{friend.currentcompanyname}}</span></p>
+			<p>Experience : {{friend.employeementtype}}</p>
 			<!-- <p>Skills are : <span ng-repeat="skill in friend.skillset" data-add-a-space-between>{{skill +" " }}</span></p> -->
 			<span style="float:right">
 				<button class="btn btn-success" ng-click="confirmRequest(friend.email,$index,'confirmed')">Accept</button>	

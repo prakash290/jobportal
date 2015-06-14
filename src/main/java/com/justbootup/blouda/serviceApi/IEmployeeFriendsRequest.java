@@ -10,5 +10,7 @@ public interface IEmployeeFriendsRequest {
 	public JSONObject getRequestedFriendsCount(JSONObject currentEmploye);
 	public JSONObject updateFriendRequest(JSONObject employeeFriends);
 	public JSONObject showFriends(JSONObject friendsList);
+	public JSONObject updateEmployeeFriendsRestriction(JSONObject plan);
+	public JSONObject sendInmail(JSONObject sendmail);
 	
 }

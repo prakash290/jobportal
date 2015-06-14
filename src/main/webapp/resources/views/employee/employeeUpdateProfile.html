@@ -1,0 +1,1165 @@
+<!-- Add New Profile Part -->
+<div class="row">
+	<div class="col-md-9">
+		<div class="addnewprofilebox">
+			<div ng-repeat="status in addemlployeeProfileStatus track by $index" ng-init="val = $index">
+				<div ng-repeat="(obj,value) in status">
+					<div ng-show="!value && obj != 'educationdetails' " class="col-md-4">
+						<div class="addprofilecontent addProfileSection" ng-click="opentemplate(obj,val)">
+							<h5 class="text-center">ADD YOUR {{obj | uppercase}}</h5>
+						</div>					
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- New Profile Update Section -->
+<div ng-init="templateView=true" ng-show="templateView">
+	<div class="row">
+		<div class="col-md-9">
+			 <div ng-include="template">		
+			 </div>  	
+			<!-- <dynamic-template template="template"></dynamic-template> -->				
+		</div>
+	</div>	
+</div>
+
+<!-- Update Profile Part -->
+<div class="row">
+<div class="empprofile">
+	<div class="profiletab">		
+		<div class="col-md-9">
+			<!-- Personal Details -->	
+			<div class="row">
+			<div class="profilecontent" ng-show="emlployeeProfileStatus.personaldetails">
+				<span ng-show="!emlployeeProfileStatus.profileimage && !dynamicprofileimage" ng-click='openFile()'>
+					<img src="resources/images/profile.png" alt="Loading" class="img-circle default_profile img-responsive" id="profile_imageforupdate" />
+				</span>
+
+				<span ng-show="emlployeeProfileStatus.profileimage">
+					<img ng-src="data:image/png;base64,{{employeeprofileimage}}" alt="Loading" class="img-circle default_profile img-responsive" id="dynamicProfileImage">
+				</span>
+
+				<span ng-init="dynamicprofileimage=false"ng-show="dynamicprofileimage">
+					<img ng-src="{{employeeprofileimage}}" alt="Loading" class="img-circle default_profile img-responsive" id="dynamicProfileImage">
+				</span>
+				
+
+				<p style="color:rgb(131, 123, 123);font-size:22px;" >{{employeePersonalDetails.fullname}}</p>
+				<p style="font-size:16px;">{{employeePersonalDetails.currentlocation}}</p>
+				<p style="font-size:16px;">{{employeePersonalDetails.phonenumber}}</p>
+				<!-- <p style="font-size:16px;">Working at : JustBootup</p> -->
+				<a href="" class="btn btn-primary pull-right" type="button">Friends <span class="badge">4</span></a>
+			</div>
+			</div>	
+
+			<!-- Profile Summary -->
+		    <div class="row">
+			        <div class="profilecontent" ng-show="emlployeeProfileStatus.profilesummary" ng-mouseover = "showEditButton('profileEdit')" ng-mouseleave = "hideEditButton('profileEdit')">    
+			        <h2 class="profiletitle">Profile Summary </h2>
+			        <div ng-init="profilePreviewMode = true" ng-show="profilePreviewMode">
+			        	<h5>
+				          <label>Resume Title : </label>
+				          {{employeeProfilesummary.title}}
+				        </h5>
+				        <h5>
+				          <label>Profile Summary : </label>
+				          {{employeeProfilesummary.summary}}
+				        </h5>
+
+				        <button ng-show="profileEdit" class="btn btn-info" ng-click="togglePreviewMode('profilePreviewMode',employeeProfilesummary,'employeeProfilesummary','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Edit</button>
+			        </div>
+			        <div ng-show="profileLoading">
+			        	<p>Loading...</p>
+			        </div>
+					<div ng-show="!profilePreviewMode">
+			        	<form class="form-horizontal" name="employeeregister">
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Resume Title</label>
+						    <div class="col-sm-5">
+						      <input type="text" class="form-control" ng-model="employeeProfilesummary.title" placeholder="Profile Description" name="resumetitle" > 	   		     
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Profile Summary</label>
+						    <div class="col-sm-5">
+						       <textarea class="form-control" rows="3" ng-model="employeeProfilesummary.summary" placeholder="Profile Summary"></textarea>
+						    </div>
+					  	   </div>
+					  	   <button class="btn btn-success" ng-click="updateEmployeeProfile('profilesummary',employeeProfilesummary,'profilePreviewMode')" ng-disabled="isEligibleemployeeProfile">Update</button>
+					  	   <button class="btn btn-success" ng-click="cancelEmpProfile('profilePreviewMode','employeeProfilesummary','profilesummary')">Cancel</button>
+						</form>
+			        </div>	
+
+			        
+			      </div>
+		    </div>
+
+			<!-- Educational Details -->
+			<div class="row">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Educations</h2>
+				<p class="profilePara">
+					<!-- Basic Education Preview Mode -->
+					<div class="education" ng-init="basicEducationPreviewMode = true">
+						<div ng-show ="checkUndefined(employeeEducationDetails.educationdetails.basic) && basicEducationPreviewMode" ng-mouseover = "showEditButton('basicedEdit')" ng-mouseleave = "hideEditButton('basicedEdit')">
+							<span><label>Basic Degree : </label></span><span>{{employeeEducationDetails.educationdetails.basic.course}}</span><span><label>&nbsp;&nbsp;&nbsp;&nbsp;From : &nbsp;</label>{{employeeEducationDetails.educationdetails.basic.from}}</span> <span><label>&nbsp;&nbsp;&nbsp;&nbsp;To : &nbsp;</label>{{employeeEducationDetails.educationdetails.basic.to}}</span>
+							<button ng-show="basicedEdit" class="btn btn-info" ng-click="togglePreviewMode('basicEducationPreviewMode',employeeEducationDetails.educationdetails.basic,'employeeEducationDetails.educationdetails.basic','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Edit</button>
+							<br>
+						</div>		
+						<div ng-show="!checkUndefined(employeeEducationDetails.educationdetails.basic) && basicEducationPreviewMode">
+							<a ng-click="togglePreviewMode('basicEducationPreviewMode',employeeEducationDetails.educationdetails.basic,'employeeEducationDetails.educationdetails.basic','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Add Basic Degree</a>
+						</div>
+					</div>	
+					<!-- Basic Educatin Preview Mode End -->
+					<!-- Basic Eduction Edit Mode -->
+					<div ng-show="!basicEducationPreviewMode">
+						<form class="form-horizontal">
+						    <div class="col-md-12">
+								  <div class="form-group">
+								    <label for="exampleInputName2" class="col-sm-2 control-label" style="text-align:left">Basic</label>
+								    <div class="col-sm-5">
+								    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.basic.course" name="currentlocation">
+									   <option value="" selected>Select</option>
+									  <option>B.E</option>
+									  <option>B.Sc</option>
+									  <option>B.A</option>
+									  <option>B.Com</option>
+									</select>
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">From</label>
+								    <!-- <select class="form-control" ng-model="employeeInformation.educationdetails.basic.from" name="currentlocation" required> -->
+								    <div class="col-sm-5">
+									  <select ng-model="basic_from"   ng-change="employeeEducationDetails.educationdetails.basic.from=(years|filter:{id:basic_from})[0].year" ng-options="year.id as year.year for year in years" class="form-control">
+								      <option value="">Choose</option>
+								    </select>
+								    </div>				
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">To</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="basic_to" ng-change="employeeEducationDetails.educationdetails.basic.to=(years|filter:{id:basic_to})[0].year" ng-options="year.id as year.year for year in years"
+									   name="currentlocation">
+										  <option value="" selected>choose</option>
+										</select>
+									</div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">Marks</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.basic.marks" name="currentlocation">
+										  <option>70</option>
+										</select>
+									</div>
+								  </div>
+							</div>
+							<button class="btn btn-success" ng-click="updateEmployeeProfileForEducation('educationdetails',employeeEducationDetails,'basicEducationPreviewMode','basic')" ng-disabled="isEligibleemployeeProfile">Update</button>
+					  	   <button class="btn btn-success" ng-click="cancelEmpProfileforEducation('basicEducationPreviewMode','basic')">Cancel</button>	
+						</form>	
+					</div>
+					<!-- Basic Eduction Edit Mode End -->
+
+					<!-- Master Education Preview Mode -->
+					<div ng-init="masterEducationPreviewMode = true">
+						<div ng-show ="checkUndefined(employeeEducationDetails.educationdetails.master) && masterEducationPreviewMode" ng-mouseover = "showEditButton('masteredEdit')" ng-mouseleave = "hideEditButton('masteredEdit')">
+								<span><label>Mater Degree : </label></span><span>{{employeeEducationDetails.educationdetails.master.course}}</span><span><label>&nbsp;&nbsp;&nbsp;&nbsp;From : &nbsp;</label>{{employeeEducationDetails.educationdetails.master.from}}</span> <span><label>&nbsp;&nbsp;&nbsp;&nbsp;To : &nbsp;</label>{{employeeEducationDetails.educationdetails.master.to}}</span>
+								<button ng-show="masteredEdit" class="btn btn-info" ng-click="togglePreviewMode('masterEducationPreviewMode',employeeEducationDetails.educationdetails.master,'employeeEducationDetails.educationdetails.master','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Edit</button>
+							<br>
+						</div>		
+						<div ng-show="!checkUndefined(employeeEducationDetails.educationdetails.master) && masterEducationPreviewMode">
+							<a ng-click="togglePreviewMode('masterEducationPreviewMode',employeeEducationDetails.educationdetails.master,'employeeEducationDetails.educationdetails.master','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Add Master Degree</a>
+						</div>	
+					</div>
+					<!-- Mater Education Preview Mode End -->
+					<!-- Master Eduction Edit Mode -->
+					<div ng-show="!masterEducationPreviewMode">
+						<form class="form-horizontal">
+						    <div class="col-md-12">
+								  <div class="form-group">
+								    <label for="exampleInputName2" class="col-sm-2 control-label" style="text-align:left">Master</label>
+								    <div class="col-sm-5">
+								    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.master.course" name="currentlocation">
+									   <option value="" selected>Select</option>
+									  <option>M.E</option>
+									  <option>M.Sc</option>
+									  <option>M.A</option>
+									  <option>M.Com</option>
+									</select>
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">From</label>
+								    <!-- <select class="form-control" ng-model="employeeInformation.educationdetails.basic.from" name="currentlocation" required> -->
+								    <div class="col-sm-5">
+									  <select ng-model="master_from"   ng-change="employeeEducationDetails.educationdetails.master.from=(years|filter:{id:master_from})[0].year" ng-options="year.id as year.year for year in years" class="form-control">
+								      <option value="">Choose</option>
+								    </select>
+								    </div>				
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">To</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="master_to" ng-change="employeeEducationDetails.educationdetails.master.to=(years|filter:{id:master_to})[0].year" ng-options="year.id as year.year for year in years"
+									   name="currentlocation">
+										  <option value="" selected>choose</option>
+										</select>
+									</div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">Marks</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.master.marks" name="currentlocation">
+										  <option>70</option>
+										   <option>80</option>
+										    <option>90</option>
+										</select>
+									</div>
+								  </div>
+							</div>
+							<button class="btn btn-success" ng-click="updateEmployeeProfileForEducation('educationdetails',employeeEducationDetails,'masterEducationPreviewMode','master')" ng-disabled="isEligibleemployeeProfile">Update</button>
+					  	   <button class="btn btn-success" ng-click="cancelEmpProfileforEducation('masterEducationPreviewMode','master')">Cancel</button>	
+						</form>	
+					</div>
+					<!-- Master Eduction Edit Mode End -->
+					
+					<!-- Doctorate Preview Mode -->
+					<div ng-init="doctorateEducationPreviewMode = true">
+						<div ng-show ="checkUndefined(employeeEducationDetails.educationdetails.doctorate) && doctorateEducationPreviewMode" ng-mouseover = "showEditButton('doctorateedEdit')" ng-mouseleave = "hideEditButton('doctorateedEdit')">		
+								<span><label>Doctorate Degree :</label> </span><span>{{employeeEducationDetails.educationdetails.doctorate.course}}</span><span><label ng-model="doctorate_from" ng-init="doctorate_from = employeeEducationDetails.educationdetails.doctorate.from">&nbsp;&nbsp;&nbsp;&nbsp;From : &nbsp;</label>{{employeeEducationDetails.educationdetails.doctorate.from}} </span> <span><label>&nbsp;&nbsp;&nbsp;&nbsp;To : &nbsp;</label>{{employeeEducationDetails.educationdetails.doctorate.to}}</span>
+								<button ng-show="doctorateedEdit" class="btn btn-info" ng-click="togglePreviewMode('doctorateEducationPreviewMode',employeeEducationDetails.educationdetails.doctorate,'employeeEducationDetails.educationdetails.doctorate','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Edit</button>
+								<br>
+						</div>		
+						<div ng-show ="!checkUndefined(employeeEducationDetails.educationdetails.doctorate) && doctorateEducationPreviewMode ">
+							<a ng-click="togglePreviewMode('doctorateEducationPreviewMode',employeeEducationDetails.educationdetails.doctorate,'employeeEducationDetails.educationdetails.doctorate','isEligibleemployeeProfile')" ng-init="isEligibleemployeeProfile = false">Add Doctorate Degree</a>
+						</div>	
+					</div>
+					<!-- Doctorate Preview Mode End -->
+					<!-- Doctorate Eduction Edit Mode -->
+					<div ng-show="!doctorateEducationPreviewMode">
+						<form class="form-horizontal">
+						    <div class="col-md-12">
+								  <div class="form-group">
+								    <label for="exampleInputName2" class="col-sm-2 control-label" style="text-align:left">Master</label>
+								    <div class="col-sm-5">
+								    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.doctorate.course" name="currentlocation">
+									  <option value="" selected>Select</option>
+									  <option>Ph.D</option>
+									  <option>M.Phil</option>
+									  <option>Others</option>	
+									</select>
+								    </div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left" ng-model="doctorate_from" ng-init="doctorate_from = employeeEducationDetails.educationdetails.doctorate.from">From</label>
+								   
+								    <div class="col-sm-5">
+									  <select ng-model="doctorate_from"   ng-change="employeeEducationDetails.educationdetails.doctorate.from=(years|filter:{id:doctorate_from})[0].year" ng-options="year.id as year.year for year in years" class="form-control">
+								      <option value="">Choose</option>
+								    </select>
+								    </div>				
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">To</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="doctorate_to" ng-change="employeeEducationDetails.educationdetails.doctorate.to=(years|filter:{id:doctorate_to})[0].year" ng-options="year.id as year.year for year in years"
+									   name="currentlocation">
+										  <option value="" selected>choose</option>
+										</select>
+									</div>
+								  </div>
+								  <div class="form-group">
+								    <label for="from" class="col-sm-2 control-label" style="text-align:left">Marks</label>
+								    <div class="col-sm-5">
+									    <select class="form-control" ng-model="employeeEducationDetails.educationdetails.doctorate.marks" name="currentlocation">
+										  <option>70</option>
+										</select>
+									</div>
+								  </div>
+							</div>
+
+							<button class="btn btn-success" ng-click="updateEmployeeProfileForEducation('educationdetails',employeeEducationDetails,'doctorateEducationPreviewMode','doctorate')" ng-disabled="isEligibleemployeeProfile">Update</button>
+					  	   <button class="btn btn-success" ng-click="cancelEmpProfileforEducation('doctorateEducationPreviewMode','doctorate')">Cancel</button>	
+						</form>	
+					</div>
+					<!-- Doctorate Eduction Edit Mode End -->
+				</p>
+			</div>
+			</div>			
+			<!-- Other courses -->
+			<div class="row">
+				<div class="profilecontent" ng-show="emlployeeProfileStatus.courses">			
+					<h2 class="profiletitle">Course</h2>					
+					<div ng-repeat="courses in employeeOtherCourses track by $index" class="courses" 
+					ng-init="val=$index" ng-mouseover = "showcourseEditButton('courseEdit')" ng-mouseleave = "hidecourseEditButton('courseEdit')">
+						<div ng-repeat="(name,coursedetails) in courses" class="courses">
+							<!-- Course Preview Mode -->
+							<div ng-show="coursePreviewMode{{val}}">
+							 	<span>
+							 		<label> Course : </label>{{coursedetails.course}}
+							 	</span>		
+							 	<span>
+							 		<label> From : </label>{{coursedetails.from}}
+							 	</span>	
+							 	<span>
+							 		<label> To : </label>{{coursedetails.to}}
+							 	</span>	<br>			
+							 	<button ng-show="courseEdit{{val}}" class="btn btn-info" ng-int="isEligibleemployeecourese{{val}} = true" ng-click="togglePreviewModeForArrays('coursePreviewMode',coursedetails,'employeeOtherCourses','course','isEligibleemployeecourse')" >Edit</button>
+							</div>
+							<!-- Course Preview Mode End -->
+							<!-- Course Edit Mode -->
+							<div ng-show="!coursePreviewMode{{val}}">	<form class="form-horizontal" name="employeeregister" class="courses">
+								  <div class="form-group">
+								    <label for="Full Name" class="col-sm-3 control-label" style="text-align:left">Full Name</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control" ng-model="coursedetails.course" name="fullname" placeholder="Course">      
+								    </div>
+								  </div>
+								  <div class="form-group">
+								      <label for="exp" class="col-sm-3 control-label" style="text-align:left">From</label>
+								      
+											
+								      <!-- This is for normal User -->
+								      <div class="col-sm-4">
+									        <select class="form-control" ng-model="coursedetails.from" name="currentlocation"> 
+												<option value="" selected>Choose</option>
+												<option>2001</option>
+												<option>2003</option> 
+												<option>2004</option>
+												<option>2007</option> 
+
+											</select>			
+								      </div>
+								  </div>
+								  <div class="form-group">
+								      <label for="exp" class="col-sm-3 control-label" style="text-align:left">To</label>
+								      
+											
+								      <!-- This is for normal User -->
+								      <div class="col-sm-4">
+									        <select class="form-control" ng-model="coursedetails.to" name="currentlocation"> 
+												<option value="" selected>Choose</option>
+												<option>2002</option> 
+											</select>			
+								      </div>
+								  </div>
+								  <button class="btn btn-success" ng-click="updateEmployeeProfileforCourse('coursedetails',coursedetails,'coursePreviewMode',val,'othercourses.course')" ng-disabled="isEligibleemployeecourse{{val}}">Update</button>
+					  	   			<button class="btn btn-success" ng-click="cancelEmpProfileforArrays('coursePreviewMode')">Cancel</button>
+								  
+								</form>
+							</div>
+					 	</div> 							
+					</div>
+							<div ng-if="employeeOtherCourses.length<3">
+								<div id="spaceforUpdateCourse"></div>
+								<button class="btn btn-info adds" ng-click="addCourseforUpdate()" ng-show="toggleCourse">Add More Courses</button>					
+							</div>
+									
+				</div>
+			</div>
+
+			<!-- Skillsets -->
+			<!-- <div class="row">
+				<div class="profilecontent">			
+					<h2 class="profiletitle">Skills</h2>
+					<tagger ng-model="tags" options="options" placeholder="Give your Skill sets"/>		
+				</div>
+			</div> -->
+			
+			<!-- Professional Details-->	
+			<div>
+				<!-- For Companies --> 
+				<div class="row" ng-show="employeeProfessionalDetails">
+					
+					<div class="profilecontent">
+					<h2 class="profiletitle">Professional Experience </h2>
+					<!-- For current company -->					
+					<div ng-mouseover = "showEditButton('currentCompanyEdit')" ng-mouseleave = "hideEditButton('currentCompanyEdit')">	
+					<h4><u>Current Company </u></h4>
+						<!-- Preview Mode -->	
+						<div class="currentcompany" ng-init="currentcompanyPreviewMode = true" ng-show="currentcompanyPreviewMode" >				
+							<p class="profilePara companyname">
+								<label>company Name :&nbsp;&nbsp; </label>{{employeeCurrentcompany.name}}
+							</p>
+							<p class="profilePara">
+								<label>Role: &nbsp;&nbsp;</label>	{{employeeCurrentcompany.role}}
+							</p>
+							<p class="profilePara">
+								<label>From: &nbsp;&nbsp;</label>month : {{employeeCurrentcompany.frommonth}} - year : {{employeeCurrentcompany.fromyear}}<br>
+								<label>To: &nbsp;&nbsp;</label>month : {{employeeCurrentcompany.tomonth}} -
+								year : {{employeeCurrentcompany.toyear}}
+							</p>
+							<p class="profilePara">
+								<label>Notice Period: &nbsp;&nbsp;</label>	{{employeeCurrentcompany.noticeperiod}}
+							</p>
+
+							<p class="profilePara">
+								<label>Description: &nbsp;&nbsp;</label>{{employeeCurrentcompany.jobdescription}}
+							</p>	
+
+							<button ng-show="currentCompanyEdit" class="btn btn-info" ng-int="isEligibleemployeeCurrentcompany = true" ng-click="togglePreviewMode('currentcompanyPreviewMode',employeeCurrentcompany,'employeeCurrentcompany','isEligibleemployeeCurrentcompany')" >Edit</button>
+							<hr/>
+						</div> <!-- End of current comapny preview mode -->
+						<!-- Edit Mode of current company -->
+						<div ng-show="!currentcompanyPreviewMode">
+							<!-- Edit Mode -->	
+							<form class="form-horizontal">    	
+								<!--company name -->
+							   <div class="form-group">
+								    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+								    <div class="col-sm-5">
+								      <input type="text" class="form-control" ng-model="employeeCurrentcompany.name" placeholder="Current Company Name" name="resumetitle">    	     
+								    </div>
+						   	   </div>
+						   	   <!-- Desigantion -->
+						  	   <div class="form-group">
+								    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+								    <div class="col-sm-5">
+								      <input type="text" class="form-control" ng-model="employeeCurrentcompany.role"  placeholder="Designation" name="resumetitle" >    
+								    </div>
+						  	   </div>
+						  	   <!-- Annual Salary -->
+						  	   <div class="form-group">
+							      <label for="exp" class="col-sm-2 control-label" style="text-align:left">AnnualSalary</label>
+							      <div class="col-sm-2">
+								        <select class="form-control" ng-model="employeeCurrentcompany.salarylakhs"  >
+											  <option>Select</option>
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>		  
+											  <option>4</option>		  
+											  <option>5</option>		  
+										</select>
+							      </div>
+							      <div class="col-sm-1" style="padding-left:0px;padding-right:0px;">
+							      	<p style="padding-top:6px;">Lakhs</p>
+							      </div>
+							      <div class="col-sm-2" style="padding-left:0px;">
+								      	<div class="form-group">				 
+									        <select class="form-control" ng-model="employeeCurrentcompany.salarythousands">
+												  <option>Select</option>
+												  <option>1</option>
+												  <option>2</option>
+												  <option>3</option>		  
+												  <option>4</option>		  
+												  <option>5</option>		  
+											</select>				     
+									  	</div>
+							      </div>
+							      <div class="col-sm-2">
+							      	<p style="padding-top:6px;">Thousands</p>
+							      </div>
+					   		   </div>
+					   		   <!-- Date Picker for From Date -->
+					   		   <div class="form-group">
+							      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+							      <div class="col-sm-3">
+								        <select class="form-control" ng-model="employeeCurrentcompany.frommonth">
+											  <option>Month</option>
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>		  
+										</select>
+							      </div>
+							      <div class="col-sm-3">
+								        <select class="form-control" ng-model="employeeCurrentcompany.fromyear">
+											  <option>Year</option>
+											  <option>2001</option>
+											  <option>2002</option>
+											  <option>2003</option>		  
+										</select>
+							      </div>
+					   		   </div>
+					   		   <!-- Date Picker for To Date -->
+					   		   <div class="form-group">
+							      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+							      <div class="col-sm-3">
+								        <select class="form-control"ng-model="employeeCurrentcompany.tomonth">
+											  <option>Month</option>
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>		  
+										</select>
+							      </div>
+							      <div class="col-sm-3">
+								        <select class="form-control" ng-model="employeeCurrentcompany.toyear">
+											  <option>Year</option>
+											  <option>2001</option>
+											  <option>2002</option>
+											  <option>2003</option>		  
+										</select>
+							      </div>
+					   		   </div>
+					   		   <!-- notice period -->
+					   		   <div class="form-group">
+							      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Notice Period</label>
+							      <div class="col-sm-3">
+								        <select class="form-control" ng-model="employeeCurrentcompany.noticeperiod">	  
+											  <option>1 Month</option>
+											  <option>2 Months</option>
+											  <option>3 Months</option>		  
+										</select>
+							      </div>		      
+					   		   </div>
+					   		   <!-- Job Description -->
+					   		   <div class="form-group">
+							      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+							      <div class="col-sm-5">
+								        <textarea class="form-control" rows="3" ng-model="employeeCurrentcompany.jobdescription"></textarea>
+							      </div>		      
+					   		   </div>
+								<button class="btn btn-success" ng-click="updateEmployeeProfileForCurrentCompany('professionaldetails.currentcompany',employeeCurrentcompany,'currentcompanyPreviewMode')" ng-disabled="isEligibleemployeeCurrentcompany">Update</button>
+					  	   		<button class="btn btn-success" ng-click="cancelEmpProfile('currentcompanyPreviewMode','employeeCurrentcompany','professionaldetails.currentcompany')">Cancel</button>
+							</form>
+						</div><!-- End of Edit Mode current company -->
+					</div><!-- End of current comapny-->
+					
+						<div ng-show="employeeCompanydetails.length>0">
+						<!-- Previous company -->		
+						<div class="previouscompanies">
+							<h4><u>Previous Company</u></h4>
+							<div ng-repeat="companies in employeeCompanydetails track by $index" ng-init="val = $index"> 
+							<div ng-mouseover = "showPCEditButton('previouscompanyEdit')" ng-mouseleave = "hidePCEditButton('previouscompanyEdit')">
+								<div ng-repeat="(company,previousCompany) in companies" class="employeecompany companies">
+									<div ng-show="previouscompanyPreviewMode{{val}}">
+									<h5><label>Name: </label>{{previousCompany.name}}</h5>
+									<h5><label ng-mouseover="mouse=true">Role : </label>{{previousCompany.role}}</h5>
+
+									
+
+									<button ng-show="previouscompanyEdit{{val}}" class="btn btn-info" ng-int="isEligibleemployeepreviouscompany{{val}} = true" ng-click="togglePreviewModeForArrays('previouscompanyPreviewMode',previousCompany,'employeeCompanydetails','previouscompany','isEligibleemployeepreviouscompany')" >Edit</button>			
+									</div>
+									<div ng-show="!previouscompanyPreviewMode{{val}}">
+										<form class="form-horizontal updatenewcompany">
+								         <div class="form-group">
+								          <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+								          <div class="col-sm-5">
+								            <input type="text" class="form-control" ng-model="previousCompany.name" placeholder="Company Name">                   
+								          </div>
+								           </div>
+								           <!-- Desigantion -->
+								           <div class="form-group">
+								            <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+								            <div class="col-sm-5">
+								              <input type="text" class="form-control" ng-model="previousCompany.role"  placeholder="Designation" name="resumetitle">                    
+								            </div>
+								           </div>
+								           
+
+								           <!-- Date Picker for From Date -->
+								           <div class="form-group">
+								            <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+								            <div class="col-sm-3">
+								                <select class="form-control" ng-model="previousCompany.frommonth" >
+								                <option>Month</option>
+								                <option>1</option>
+								                <option>2</option>
+								                <option>3</option>      
+								            </select>
+								            </div>
+								            <div class="col-sm-3">
+								                <select class="form-control" ng-model="previousCompany.fromyear" >
+								                <option>Year</option>
+								                <option>2001</option>
+								                <option>2002</option>
+								                <option>2003</option>     
+								            </select>
+								            </div>
+								           </div>
+
+								           <!-- Date Picker for To Date -->
+								           <div class="form-group">
+								            <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+								            <div class="col-sm-3">
+								                <select class="form-control"ng-model="previousCompany.tomonth">
+								                <option>Month</option>
+								                <option>1</option>
+								                <option>2</option>
+								                <option>3</option>      
+								            </select>
+								            </div>
+								            <div class="col-sm-3">
+								                <select class="form-control" ng-model="previousCompanytoyear">
+								                <option>Year</option>
+								                <option>2001</option>
+								                <option>2002</option>
+								                <option>2003</option>     
+								            </select>
+								            </div>
+								           </div>
+
+								           <!-- Job Profile -->
+								           <div class="form-group">
+								            <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+								            <div class="col-sm-5">
+								                <textarea class="form-control" rows="3" ng-model="previousCompany.description"></textarea>
+								            </div>          
+								           </div>
+								           <button class="btn btn-success" ng-click="updateEmployeeProfileofpreviouscompany('previousCompany',previousCompany,'previouscompanyPreviewMode',val,'professionaldetails.previouscompanydetails.previouscompany')" ng-disabled="isEligibleemployeepreviouscompany{{val}}">Update</button>
+					  	   					<button class="btn btn-success" ng-click="cancelEmpProfileofpreviouscompany('previouscompanyPreviewMode',previousCompany,'previouscompany','employeeCompanydetails')">Cancel</button>
+      									</form> 
+									</div>	
+
+									<hr/>
+								</div> 
+								
+							</div>		
+							</div> 	
+						</div>						
+						</div>
+						<!-- Add Company Details -->
+						<div ng-show="employeeCompanydetails.length<3">
+							<div id="spaceforUpdatecompany"></div>
+							<button class="btn btn-info UpdateCompanyButton" ng-click="updatenewCompany()" ng-show="toggleCompany">Add More Company</button>
+						</div>
+
+					</div>
+					
+				</div>
+				<!-- For Frehser --> 
+				<div class="row" ng-show="academicprojectdetailsmainsection">
+					<div class="profilecontent">			
+						<h2 class="profiletitle">Project Details </h2>
+						<div ng-repeat="projects in employeeProjectdetails track by $index" ng-init="val = $index">					
+							<div ng-repeat="(project,projectdetails) in projects" class="employeeproject projects" ng-mouseover = "showcourseEditButton('projectEdit')" ng-mouseleave = "hidecourseEditButton('projectEdit')">
+								<div  ng-show="projectPreviewMode{{val}}">
+								<h5><label>Name : </label>{{projectdetails.name}}</h5>
+								<h5><label>Category : </label>{{projectdetails.category}}</h5>
+								<h5><label>Skill Set : </label>
+									<span ng-repeat="skill in projectdetails.skillset"><button type="button" class="btn btn-success btn-sm">{{skill}} </button> &nbsp;&nbsp;</span>	
+								</h5>
+								<button ng-show="projectEdit{{val}}" class="btn btn-info" ng-int="isEligibleemployeeproject{{val}} = true" ng-click="togglePreviewModeForArrays('projectPreviewMode',projectdetails,'employeeProjectdetails','project','isEligibleemployeeproject')" >Edit</button>							
+								<hr/>
+								</div>	
+
+								<!-- Project Edit Mode -->
+							<div ng-show="!projectPreviewMode{{val}}">	<!-- Update Project Details -->
+								<form class="form-horizontal ">
+								    <!-- Project Details -->
+								     <div class="form-group">
+								        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label>
+								        <div class="col-sm-5">
+								          <input type="text" class="form-control" ng-model="projectdetails.name" placeholder="Project Name" name="projectname" >  
+								        </div>
+								       </div>
+								       <!-- Project Cagetory -->
+								       <div class="form-group">
+								        <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label>
+								        <div class="col-sm-5">
+								            <select class="form-control" ng-model="projectdetails.category">
+								            <option>Select</option>
+								            <option>IT</option>
+								            <option>MECH</option>
+								            <option>ACCOUNTS</option>
+								            <option>BPO</option>
+								           <option>MEDICAL</option>
+								            <option>HR</option>
+								        </select>
+								        </div>
+								    </div>
+								    <!-- Skills Used -->
+								    <div class="form-group">
+								        <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+								        <div class="col-sm-5">
+								          <tagger options="options" ng-model="projectdetails.skillset" placeholder="Give your Skill sets"/>
+								        </div>
+								     </div>
+								    <!--Project Description -->
+								    <div class="form-group">
+								        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label>
+								        <div class="col-sm-5">
+								           <textarea class="form-control" rows="3"  ng-model="projectdetails.description"placeholder="Profile Summary"></textarea>
+								        </div>
+								    </div>
+
+								    <button class="btn btn-success" ng-click="updateEmployeeProfileforProject('projectdetails',projectdetails,'projectPreviewMode',val,'academicprojectdetails.project')" ng-disabled="isEligibleemployeeproject{{val}}">Update</button>
+					  	   			<button class="btn btn-success" ng-click="cancelEmpProfileforArrays('projectPreviewMode')">Cancel</button>     
+								</form>
+							</div>
+									
+							</div> 
+						</div>
+
+						
+						<!-- Add Project Details -->
+						<div ng-if="employeeProjectdetails.length<3">
+							<div id="spaceforUpdateprojects"></div>
+							<button class="btn btn-info UpdateProjectButton" ng-click="updatenewProject()" ng-show="toggleProject">Add More Projects</button>
+						</div>	
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="row" ng-show="emlployeeProfileStatus.otherinfos">
+			<div class="profilecontent">			
+				<h2 class="profiletitle">Other Infos</h2>
+			</div>
+			</div>
+
+
+		</div>		
+	</div><!-- End of profile tab -->
+	<div class="othertabcontent">
+		<div class="col-md-3">
+			<div class="profilecontent">
+				<h2>Profile Complition Tab</h2>
+			</div>
+		</div>
+	</div><!-- End of other tab -->
+</div>		
+</div><!-- Main Row Ending -->
+
+ <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h2 class="modal-title">Profile Image</h2>
+        </div>
+        <div class="modal-body">
+                       
+        	<button class="btn btn-info" ng-click='changeImage()'>Change Picture</button>
+        	<br><br>
+            <div class="row">
+            	<div class="col-md-6">
+            		<div class="imgPlace" ng-style="imgSyle">
+				    	<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+				  	</div>
+            	</div>
+            	<div class="col-md-6 text-center" >
+            		<h4 >Image Preview : </h4>	  
+					  	<img ng-src="{{myCroppedImage}}" />			
+            	</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()" >Update</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+ </script>
+
+<script type="text/ng-template" id="keyskills.html">
+	<div class="addprofilecontent row">	
+		<h2 class="text-center">Key Skills {{keyskills.name}}</h2>
+		<div class="radio">
+					  <label>
+					    <input type="radio" ng-model="employeementtype" value="IT" >Information Technology    
+					  </label>
+					  <label>
+					    <input type="radio" ng-model="employeementtype" value="other" >Others    
+					  </label>
+		</div><br>
+	
+		
+		<!-- For Information Technology -->	
+		<div ng-show="employeementtype == 'IT' ">
+			<form class="form-inline" name="employeeregister" ng-show="keyskillAdd">	
+				<div class="form-group">
+				  <label for="exp" class="col-sm-3 control-label" style="text-align:left">Skill {{employeeskill}}</label>
+				  <!-- This is for normal User -->
+				  <div class="col-sm-4">
+				         <select class="form-control" ng-model="keyskills.employeeskillname" name="skillname" > 
+				        	<option ng-repeat="skill in skillset" value="{{skill}}">{{skill}}</option>
+				        </select>		
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label for="exp" class="col-sm-3 control-label" style="text-align:left">Level</label>
+				  <!-- This is for normal User -->
+				  <div class="col-sm-4">
+				        <select class="form-control" ng-model="keyskills.type" name="currentlocation"> 
+							<option value="" selected>Choose</option>
+							<option>Beginner</option> 
+							<option>Learner</option> 
+							<option>Expert</option> 
+						</select>			
+				  </div>
+				</div>
+				<button class="btn btn-success" ng-click="addEmployeeSkill('keyskills',keyskills)">Save</button>
+				<button class="btn btn-success">Cancel</button>	
+			</form>	
+			<div ng-show="isemployeeSkillReady">
+				<div ng-repeat="skill in employeeSkill">
+						{{skill}}				
+				</div>
+				<button class="btn btn-success addSkills" ng-click="addkeySkill()">Add Skills</button>
+			</div>
+			
+		</div>		
+		<!-- End of Information Technology -->		
+		<!-- For Other Technologies -->	
+		<div ng-show="employeementtype == 'other' ">				
+			<form class="form-horizontal">
+			<div class="col-md-12">
+				  <div class="form-group">
+				    <label for="exampleInputName2" class="col-sm-2 control-label" style="text-align:left">AnotherInfos</label>
+				    <div class="col-sm-5">				    	
+				    	<textarea class="form-control" rows="3" ng-model="keyskills.description" placeholder="description"></textarea>
+				    </div>
+				  </div>
+			</div>
+			<button class="btn btn-success" ng-click="check()">Save</button>
+			<button class="btn btn-success">Cancel</button>	
+			</form>	
+		</div>		
+		<!-- End of Other Technologies -->	
+
+    			   
+</script>
+
+<script type="text/ng-template" id="otherinfos.html">
+	<div class="addprofilecontent row newotherinfos">	
+		<h2 class="text-center">Other Infos</h2>
+	<form class="form-horizontal ">
+	    <div class="col-md-12">
+			  <div class="form-group">
+			    <label for="exampleInputName2" class="col-sm-2 control-label" style="text-align:left">Other activites</label>
+			    <div class="col-sm-5">
+			    <textarea class="form-control" rows="3" ng-model="otherinfos.description" placeholder="Profile Summary"></textarea>
+			    </div>
+			  </div>
+		</div>									
+			<button class="btn btn-success" ng-click="addEmployeeProfileObject('otherinfos',otherinfos,'otherinfos','otherinfos','otherinfosPreviewMode','newotherinfos')">Save</button>
+		 	<button class="btn btn-success" ng-click="unloadTemplate('newotherinfos')">Cancel</button>	
+	</form>	
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="socialnetworkprofiles.html">
+	<div class="addprofilecontent row">
+	<div class="col-md-12 text-center">
+		<h2>Add Your Social Profiles</h2>
+		<p class="bg-danger" style="padding:10px;">
+			Manage your all Social Networks In One Place.
+		</p>
+	</div>
+	<div class="col-md-12">
+	<form class="form-horizontal">
+				    	<div class="col-md-12">
+				    		<hr>
+				    	</div>
+				    	<div class="col-md-4">
+				    	<button ng-click="loginToggle()" class="btn btn-block btn-social btn-facebook"><i class="fa fa-twitter"></i>Facebook Profile</button>     
+				    	</div> 
+				    	<div class="col-md-4">       
+                            <button class="btn btn-block btn-social btn-linkedin" ng-click="linkedIn()"> <i class="fa fa-linkedin"></i>LinkedIn Profile</button>  
+                          </div>	
+						   <div class="col-md-4">  
+                            <button class="btn btn-block btn-social btn-google-plus" ng-click="googleAPI()"> <i class="fa fa-google-plus"></i>GooglePlus Profile</button>
+                           </div> 
+                        <div class="col-md-12">
+				    		<hr>
+				    	</div>           
+					</form>
+	</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="resumedetails.html">
+	<div class="addprofilecontent newresumedetils row">	
+		<h2 class="text-center">Upload Your Resume</h2>
+	<form class="form-horizontal ">
+		<div class="form-group" ng-show="!isexistsIndustryType()">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Current Industry</label>
+	      <div class="col-sm-5">
+		        <select class="form-control" ng-model="resumedetails.currentindustrytype">
+					  <option>Select</option>
+					  <option>IT</option>
+					  <option>MECH</option>
+					  <option>ACCOUNTS</option>
+					  <option>BPO</option>
+					 <option>MEDICAL</option>
+					  <option>HR</option>
+				</select>
+	      </div>
+		</div>
+	    <div class="col-md-12">
+			  <div class="form-group">
+			    <input type="file" class="form-control"  file-model="resumedetails.myFile" name="file" id="file"> 
+			  </div>
+		</div>									
+		 <button class="btn btn-success" ng-click="addEmployeeProfileResume('resumedetails',resumedetails,'resumedetails','newresumedetils')">Save</button>
+		 <button class="btn btn-success" ng-click="unloadTemplate('newresumedetils')">Cancel</button>
+	</form>	
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="personaldetails.html">
+	<div class="addprofilecontent addnewpersonaldetails row">	
+		<h2 class="text-center">Personal Details</h2>
+	<div class="col-md-10 col-md-offset-1">
+		<form class="form-horizontal" name="employeeregister">
+		  <div class="form-group">
+		    <label for="Full Name" class="col-sm-4 control-label" style="text-align:left">Full Name</label>
+		    <div class="col-sm-8">
+		      <input type="text" class="form-control" ng-model="personaldetails.fullname" name="fullname" placeholder="Enter your full name" ng-pattern="/^[a-zA-Z][a-zA-Z. ]*$/">		      
+		    </div>
+		  </div>
+		  <div class="form-group">
+		      <label for="exp" class="col-sm-4 control-label" style="text-align:left">Current Location</label>
+		      
+		      <!-- This is for normal User -->
+		      <div class="col-sm-8">
+			        <select class="form-control" ng-model="personaldetails.currentlocation" name="currentlocation">
+						  <option>Select</option>
+						  <option>Coimbatore</option>
+						  <option>Chennai</option>
+						  <option>Bangalore</option>
+						  <option>Delhi</option>	
+					</select>					
+		      </div>
+			   </div>
+		  <div class="form-group">
+		    <label for="phonenumber" class="col-sm-4 control-label" style="text-align:left">Phone Number</label>
+		    <div class="col-sm-8">
+		      <input type="number" class="form-control" ng-model="personaldetails.phonenumber" ng-maxlength="10" name="phonenumber" placeholder="Phone Number">		      
+		    </div>
+		  </div>
+		  <button class="btn btn-success" ng-click="addEmployeePersonalDetails('personaldetails',personaldetails,'personaldetails','employeePersonalDetails','addnewpersonaldetails')">Save</button>
+		 <button class="btn btn-success" ng-click="unloadTemplate('addNewCourses')">Cancel</button>	
+	</form>	
+	</div>	
+	
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="profilesummary.html">
+	<div class="addprofilecontent newprofilesummary row">	
+		<h2 class="text-center">Profile Summary</h2>
+	<div class="col-md-10 col-md-offset-1">	
+		<form class="form-horizontal" name="employeeregister">
+			  <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Resume Title</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="profilesummary.title" placeholder="Profile Description" name="resumetitle" > 	   		     
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Profile Summary</label>
+			    <div class="col-sm-5">
+			       <textarea class="form-control" rows="3" ng-model="profilesummary.summary" placeholder="Profile Summary"></textarea>
+			    </div>
+			  </div>
+			  <button class="btn btn-success" ng-click="addEmployeeProfileObject('profilesummary',profilesummary,'profilesummary','employeeProfilesummary','profilePreviewMode','newprofilesummary')">Save</button>
+		 	<button class="btn btn-success" ng-click="unloadTemplate('newprofilesummary','profilesummary')">Cancel</button>	
+		</form>									
+	</div>
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="courses.html">
+	<div class="addprofilecontent row addNewCourses">	
+		<h2 class="text-center">Courses</h2>
+	<form class="form-horizontal" name="employeeregister" class="courses">
+		  <div class="form-group">
+		    <label for="Full Name" class="col-sm-3 control-label" style="text-align:left">Course Name</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" ng-model="courses.course" name="fullname" placeholder="Course">      
+		    </div>
+		  </div>
+		  <div class="form-group">
+		      <label for="exp" class="col-sm-3 control-label" style="text-align:left">From</label>
+		      <div class="col-sm-4">
+			        <select class="form-control" ng-model="courses.from" name="currentlocation"> 
+						<option value="" selected>Choose</option>
+						<option>2002</option> 
+					</select>			
+		      </div>
+		  </div>
+		  <div class="form-group">
+		      <label for="exp" class="col-sm-3 control-label" style="text-align:left">To</label>
+		      <div class="col-sm-4">
+			        <select class="form-control" ng-model="courses.to" name="currentlocation"> 
+						<option value="" selected>Choose</option>
+						<option>2002</option> 
+					</select>			
+		      </div>
+		  </div>						
+		 <button class="btn btn-success" ng-click="addEmployeeProfileArray('othercourses.course',courses,'employeeOtherCourses','coursePreviewMode','courses','addNewCourses','course')">Save</button>
+		 <button class="btn btn-success" ng-click="unloadTemplate('addNewCourses')">Cancel</button>	
+	</form>
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="professionaldetails.html">
+	<div class="addprofilecontent newprofessionaldetails row">	
+		<h2 class="text-center">Professional Details</h2>
+		
+	<form class="form-horizontal">
+    	<h4><u>Current Employement Details</u></h4><br>
+		<!--company name -->
+	   <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" ng-model="professionaldetails.name" placeholder="Current Company Name" name="resumetitle">    	     
+		    </div>
+   	   </div>
+   	   <!-- Desigantion -->
+  	   <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" ng-model="professionaldetails.role"  placeholder="Designation" name="resumetitle" >    
+		    </div>
+  	   </div>
+  	   <!-- Annual Salary -->
+  	   <div class="form-group">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">AnnualSalary</label>
+	      <div class="col-sm-2">
+		        <select class="form-control" ng-model="professionaldetails.salarylakhs"  >
+					  <option>Select</option>
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>		  
+					  <option>4</option>		  
+					  <option>5</option>		  
+				</select>
+	      </div>
+	      <div class="col-sm-1" style="padding-left:0px;padding-right:0px;">
+	      	<p style="padding-top:6px;">Lakhs</p>
+	      </div>
+	      <div class="col-sm-2" style="padding-left:0px;">
+		      	<div class="form-group">				 
+			        <select class="form-control" ng-model="professionaldetails.salarythousands">
+						  <option>Select</option>
+						  <option>1</option>
+						  <option>2</option>
+						  <option>3</option>		  
+						  <option>4</option>		  
+						  <option>5</option>		  
+					</select>				     
+			  	</div>
+	      </div>
+	      <div class="col-sm-2">
+	      	<p style="padding-top:6px;">Thousands</p>
+	      </div>
+		   </div>
+		   <!-- Date Picker for From Date -->
+		   <div class="form-group">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+	      <div class="col-sm-3">
+		        <select class="form-control" ng-model="professionaldetails.frommonth">
+					  <option>Month</option>
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>		  
+				</select>
+	      </div>
+	      <div class="col-sm-3">
+		        <select class="form-control" ng-model="professionaldetails.fromyear">
+					  <option>Year</option>
+					  <option>2001</option>
+					  <option>2002</option>
+					  <option>2003</option>		  
+				</select>
+	      </div>
+		   </div>
+		   <!-- Date Picker for To Date -->
+		   <div class="form-group">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+	      <div class="col-sm-3">
+		        <select class="form-control"ng-model="professionaldetails.tomonth">
+					  <option>Month</option>
+					  <option>1</option>
+					  <option>2</option>
+					  <option>3</option>		  
+				</select>
+	      </div>
+	      <div class="col-sm-3">
+		        <select class="form-control" ng-model="professionaldetails.toyear">
+					  <option>Year</option>
+					  <option>2001</option>
+					  <option>2002</option>
+					  <option>2003</option>		  
+				</select>
+	      </div>
+		   </div>
+		   <!-- notice period -->
+		   <div class="form-group">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Notice Period</label>
+	      <div class="col-sm-3">
+		        <select class="form-control" ng-model="professionaldetails.noticeperiod">	  
+					  <option>1 Month</option>
+					  <option>2 Months</option>
+					  <option>3 Months</option>		  
+				</select>
+	      </div>		      
+		   </div>
+		   <!-- Job Description -->
+		   <div class="form-group">
+	      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+	      <div class="col-sm-5">
+		        <textarea class="form-control" rows="3" ng-model="professionaldetails.jobdescription"></textarea>
+	      </div>		      
+		   </div>
+
+		   <button class="btn btn-success" ng-click="addEmployeeProfessional('professionaldetails.currentcompany',professionaldetails,'currentcompanyPreviewMode')">Save</button>
+		 	<button class="btn btn-success" ng-click="unloadTemplate('newprofilesummary')">Cancel</button>
+	</form>
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="profileimage.html">
+	<div class="addprofilecontent newprofileimage row">	
+	<div class="col-md-6 col-md-offset-4">
+		<h2>Profile Image </h2>
+	</div>	
+	<div class="col-md-6 col-md-offset-4">	
+		<form class="form-horizontal ">
+		    <div class="col-md-12">
+				  <div class="profileregimg" ng-init="profileimageindex = profileimage.index" ng-click='openFile(profileimageindex)'> 
+					<img src="resources/images/profile.png" alt="Loading" class="img-circle default_profile_reg img-responsive" id="profile_image" style="float:left"/>				
+				  </div>
+			</div>
+		</form>
+	</div>	
+	</div>				   
+</script>
+
+<script type="text/ng-template" id="academicprojectdetails.html">
+	<div class="addprofilecontent newacademicprojectdetails row">
+		<form class="form-horizontal">
+			<h4><u>Academic Project Details</u></h4><br>
+			<!-- Project Details -->
+		   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label>
+			    <div class="col-sm-5">
+			      <input type="text" class="form-control" ng-model="academicprojectdetails.name" placeholder="Current Company Name" name="resumetitle" >  
+			    </div>
+			   </div>
+			   <!-- Project Cagetory -->
+			   <div class="form-group">
+		      <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label>
+		      <div class="col-sm-5">
+			        <select class="form-control" ng-model="academicprojectdetails.category">
+						  <option>Select</option>
+						  <option>IT</option>
+						  <option>MECH</option>
+						  <option>ACCOUNTS</option>
+						  <option>BPO</option>
+						 <option>MEDICAL</option>
+						  <option>HR</option>
+					</select>
+		      </div>
+			</div>
+			<!-- Skills Used -->
+			<div class="form-group">
+			    <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+			    <div class="col-sm-5">
+			      <tagger  ng-model="academicprojectdetails.skillset" options="options" placeholder="Give your Skill sets"/>
+			    </div>
+		   </div>
+			<!--Project Description -->
+			<div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label>
+			    <div class="col-sm-5">
+			       <textarea class="form-control" rows="3"  ng-model="academicprojectdetails.description"placeholder="Profile Summary"></textarea>
+			    </div>
+			</div>
+			
+			<button class="btn btn-success" ng-click="addEmployeeProfileProject('academicprojectdetails',academicprojectdetails,'academicprojectdetails','0','academicprojectdetails.project')" >Update</button>
+			<button class="btn btn-success" ng-click="unloadTemplate('newacademicprojectdetails')">Cancel</button>		
+		</form>	
+	</div>			   
+</script> 

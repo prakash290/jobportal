@@ -47,6 +47,16 @@ public class EmployeeFriendRequest implements IEmployeeFriendsRequest{
 	public JSONObject showFriends(JSONObject friendsList) {		
 		return employerFriendRequestDao.showFriendsList(friendsList);
 	}
+
+	@Override
+	public JSONObject updateEmployeeFriendsRestriction(JSONObject plan) {	
+		return employerFriendRequestDao.updateEmployeeFriendsRestriction(plan);
+	}
+
+	@Override
+	public JSONObject sendInmail(JSONObject sendmail) {		
+		return employerFriendRequestDao.sendInmail(sendmail);
+	}
 	
 	
 

@@ -1,0 +1,121 @@
+<!-- Update Project Details -->
+<form class="form-horizontal newproject">
+    <!-- Project Details -->
+     <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" ng-model="employeeUpdateProject.project'+projectLength+'.name" placeholder="Project Name" name="projectname" >  
+        </div>
+       </div>
+       <!-- Project Cagetory -->
+       <div class="form-group">
+        <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label>
+        <div class="col-sm-5">
+            <select class="form-control" ng-model="employeeUpdateProject.project'+projectLength+'.category">
+            <option>Select</option>
+            <option>IT</option>
+            <option>MECH</option>
+            <option>ACCOUNTS</option>
+            <option>BPO</option>
+           <option>MEDICAL</option>
+            <option>HR</option>
+        </select>
+        </div>
+    </div>
+    <!-- Skills Used -->
+    <div class="form-group">
+        <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label>
+        <div class="col-sm-5">
+          <tagger options="options" ng-model="employeeUpdateProject.project'+projectLength+'.skillset" placeholder="Give your Skill sets"/>
+        </div>
+     </div>
+    <!--Project Description -->
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label>
+        <div class="col-sm-5">
+           <textarea class="form-control" rows="3"  ng-model="employeeUpdateProject.project'+projectLength+'.description"placeholder="Profile Summary"></textarea>
+        </div>
+    </div>
+
+    <button class="btn btn-info" type="button" ng-click="updateProject()">Save</button>
+      <button class="btn btn-danger" type="button" ng-click="cancelProject()">Cancel</button>     
+</form>
+
+
+<form class="form-horizontal newproject"> <!-- Project Details --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Name</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeUpdateProject.project'+projectLength+'.name" placeholder="Project Name" name="projectname" > </div> </div> <!-- Project Cagetory --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">Project Category</label> <div class="col-sm-5"> <select class="form-control" ng-model="employeeUpdateProject.project'+projectLength+'.category"> <option>Select</option> <option>IT</option> <option>MECH</option> <option>ACCOUNTS</option> <option>BPO</option> <option>MEDICAL</option> <option>HR</option> </select> </div> </div> <!-- Skills Used --> <div class="form-group"> <label for="skill sets" class="col-sm-2 control-label" style="text-align:left">Skill Sets</label> <div class="col-sm-5"> <tagger options="options" placeholder="Give your Skill sets"/> </div> </div> <!--Project Description --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Project Description</label> <div class="col-sm-5"> <textarea class="form-control" rows="3"  ng-model="employeeUpdateProject.project'+projectLength+'.description"placeholder="Profile Summary"></textarea> </div> </div> <button class="btn btn-info" type="button" ng-click="updateProject()">Save</button> <button class="btn btn-danger" type="button" ng-click="cancelProject()">Cancel</button> </form>
+
+
+<!-- Update Company Details -->
+
+  <span class="PreviousCompany">
+    <form class="form-horizontal newcompany">
+         <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.name" placeholder="Company Name">                   
+          </div>
+           </div>
+           <!-- Desigantion -->
+           <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.role"  placeholder="Designation" name="resumetitle">                    
+            </div>
+           </div>
+           
+
+           <!-- Date Picker for From Date -->
+           <div class="form-group">
+            <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label>
+            <div class="col-sm-3">
+                <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.frommonth" >
+                <option>Month</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>      
+            </select>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.fromyear" >
+                <option>Year</option>
+                <option>2001</option>
+                <option>2002</option>
+                <option>2003</option>     
+            </select>
+            </div>
+           </div>
+
+           <!-- Date Picker for To Date -->
+           <div class="form-group">
+            <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label>
+            <div class="col-sm-3">
+                <select class="form-control"ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.tomonth">
+                <option>Month</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>      
+            </select>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.toyear">
+                <option>Year</option>
+                <option>2001</option>
+                <option>2002</option>
+                <option>2003</option>     
+            </select>
+            </div>
+           </div>
+
+           <!-- Job Profile -->
+           <div class="form-group">
+            <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label>
+            <div class="col-sm-5">
+                <textarea class="form-control" rows="3" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.description"></textarea>
+            </div>          
+           </div>
+           <button class="btn btn-info" type="button" ng-click="updateCompany()">Save</button>
+           <button class="btn btn-danger" type="button" ng-click="cancelCompany()">Cancel</button> 
+      </form>     
+  </span>
+
+  <form class="form-horizontal newcompany"> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Company Name</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.name" placeholder="Company Name"> </div> </div> <!-- Desigantion --> <div class="form-group"> <label for="inputPassword3" class="col-sm-2 control-label" style="text-align:left">Designation</label> <div class="col-sm-5"> <input type="text" class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.role"  placeholder="Designation" name="resumetitle"> </div> </div> <!-- Date Picker for From Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">From Date</label> <div class="col-sm-3"> <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.frommonth" > <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.fromyear" > <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Date Picker for To Date --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">To Date</label> <div class="col-sm-3"> <select class="form-control"ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.tomonth"> <option>Month</option> <option>1</option> <option>2</option> <option>3</option> </select> </div> <div class="col-sm-3"> <select class="form-control" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.toyear"> <option>Year</option> <option>2001</option> <option>2002</option> <option>2003</option> </select> </div> </div> <!-- Job Profile --> <div class="form-group"> <label for="exp" class="col-sm-2 control-label" style="text-align:left">Job Profile</label> <div class="col-sm-5"> <textarea class="form-control" rows="3" ng-model="employeeUpdateCompany.previouscompany'+companyLength+'.description"></textarea> </div> </div> <button class="btn btn-info" type="button" ng-click="updateCompany()">Save</button> <button class="btn btn-danger" type="button" ng-click="cancelCompany()">Cancel</button> </form>

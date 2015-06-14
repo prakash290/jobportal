@@ -162,3 +162,163 @@ bcloud.directive("hidedetails",[function(){
 	}
 
 }]);
+
+
+bcloud.directive('sampledir',function(){
+	var searchIcon = angular.element('<span class="glyphicon glyphicon-search" aria-hidden="true" ng-show="Onshowmouseover"></span>');
+	//var searchIcon = angular.element("<div>PPP</div>");		
+	return{
+		restrict:"A",
+		compile : function(tE,Tar){
+
+				tE.bind('mouseout',function(){
+					console.log("MouseOut");
+					searchIcon.remove();
+					//input.removeAttr( "ng-click" );
+				});
+			return function(scope,el,attrs){
+
+				el.bind('mouseover',function(){
+					console.log("MouseOvered");
+					el.append(searchIcon);					
+				});
+
+			}			
+		},
+		controller : function($scope){
+				$scope.sample = function(){
+					console.log("clik");
+				};
+			}
+	}
+});
+
+bcloud.directive('addCourse',function($compile){
+	return{
+		restrict:"E",
+		template:"<span><button class='btn btn-info' style='margin-top:20px;' >Add Course</button></span>",
+		scope:true,
+		replace:true,
+		link : function(scope,el,attrs){
+
+				el.bind('click',function(){						
+					scope.count++;
+
+					if(scope.count > 1)
+					{
+						var previousElement = angular.element(document.getElementById('currentcount'+(scope.count-1)));
+						console.log(previousElement);
+					}	
+
+					var x = angular.element(document.getElementById('course'));
+					var newq = $compile("<course count ="+scope.count+"></course>")(scope);
+					var length = angular.element(".addCourseValue").length;
+					console.log(length);
+					x.append(newq);
+					if(length == 2)
+					{
+						el.remove();
+					}		
+										
+				});
+
+		},			
+		
+		controller : function($scope){
+				$scope.sample = function(){
+					console.log("clik");
+				};
+			}
+	}
+});
+
+bcloud.directive('course',function($templateCache){
+	
+	var label = angular.element('<div>Added</div>');
+	return{
+		restrict:"E",
+		//template:"<div class='addCourseValue' style='margin-bottom:10px;'>added</div>",
+		templateUrl:'resources/views/addCourse.html',
+		replace:true,
+		scope:{
+			name :'=',
+			
+		},
+		link : function(scope,element,attr){
+			scope.employeecourses=[];
+			
+			scope.count = attr.count;
+			if(scope.count>1)
+			{
+				var previousElement = angular.element(document.getElementById('count'+(scope.count-1)));
+				console.log(previousElement);
+				previousElement.remove();
+			}
+
+			scope.saveCourse = function(){
+				console.log(scope.employeecourses);
+			};
+
+			/*scope.namess=["dd","aa"];
+			scope.add = function(nam){
+				console.log(nam);
+				scope.namess.push(nam);
+			};*/	
+		},		
+
+	}
+});
+
+
+bcloud.directive('updatecourse',function($compile){
+	return{
+		restrict :'E',
+		scope:{
+			updateCourse : '&'
+		},
+		replace:true,
+		templateUrl : 'resources/views/employee/addCourseForUpdate.html',
+		link:function (scope,element,attribute) {			
+			 scope.length = angular.element(".courses").length;
+			console.log(scope.length);
+			if(length == 1)
+			{
+				scope.toggleCourse=false;
+			}
+			$compile (element.attr('ng-model','ddd'+scope.length) ) (scope);
+			scope.updateCourse();
+		}
+
+	}
+});
+
+
+bcloud.directive('showHide',function($compile){
+	return {
+		scope:{
+			preview :'=preview'
+		},
+		restrict : 'A',		
+		link : function(scope,element,attribute){
+			console.log(scope.preview);
+			
+		}
+	
+	}
+});
+
+bcloud.directive('dynamicTemplate',function($compile,$templateCache){
+	return {
+		scope:{
+			template : "="
+		},
+		restrict : 'E',		
+		link : function(scope,element,attribute){
+			alert(scope.template)
+			var ele = $templateCache.get(scope.template);
+			alert(ele);
+		}
+	
+	}
+});
+

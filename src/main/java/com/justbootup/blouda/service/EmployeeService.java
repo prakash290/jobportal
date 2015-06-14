@@ -1,12 +1,14 @@
 package com.justbootup.blouda.service;
 
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.justbootup.blouda.dao.EmployeeDao;
 import com.justbootup.blouda.serviceApi.IEmployeeService;
 import com.mongodb.BasicDBObject;
@@ -24,9 +26,9 @@ public class EmployeeService implements IEmployeeService {
 	}
 
 	@Override
-	public net.sf.json.JSONObject saveUser(MultipartFile resume,net.sf.json.JSONObject employeeDetails) {
+	public net.sf.json.JSONObject saveUser(MultipartFile resume,net.sf.json.JSONObject employeeDetails,MultipartFile profileimage) {
 		
-		return employeeDao.saveUser(resume,employeeDetails);
+		return employeeDao.saveUser(resume,employeeDetails,profileimage);
 	}
 
 	@Override
@@ -57,6 +59,42 @@ public class EmployeeService implements IEmployeeService {
 	public JSONObject generateLinkedInAccessToken(JSONObject cookiecredentials) {
 		
 		return employeeDao.generateLinkedinAccessToken(cookiecredentials);
+	}
+
+	@Override
+	public JSONObject newEmployeeRegistration(JSONObject newEmployee) {
+		// TODO Auto-generated method stub
+		return employeeDao.newEmployeeRegister(newEmployee);
+	}
+
+	@Override
+	public HashMap<String, Object> getEmployeeProfileForUpdate(JSONObject employee) {
+		
+		return employeeDao.getEmployeeProfileForUpdate(employee);
+	}
+
+	@Override
+	public JSONObject getEmployeeProfileImage(JSONObject employee) {
+		
+		return employeeDao.getEmployeeImageProfile(employee);
+	}
+
+	@Override
+	public JSONObject updateEmployeeProfiles(JSONObject employeeProfile) {		
+		return employeeDao.updateEmployeeProfiles(employeeProfile);
+	}
+
+	@Override
+	public JSONObject updateEmployeeProfileImage(
+			net.sf.json.JSONObject employee, MultipartFile profileimage) {	
+		return employeeDao.updateEmployeeProfileImage(employee, profileimage);
+	}
+
+	@Override
+	public JSONObject updateEmployeeProfileResume(
+			net.sf.json.JSONObject employee, MultipartFile profileresume) {
+		
+		return employeeDao.updateEmployeeProfileResume(employee, profileresume);
 	}
 
 	

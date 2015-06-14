@@ -5,12 +5,11 @@
 		<span>		
 			<p>Name : {{friend.fullname}}</p>
 			<p>Location : {{friend.currentlocation}}</p>
-			<p>Company Name : <span style="color:red">{{friend.current_company_name}}</span></p>
-			<p>Experience : {{friend.experience}}</p>
+			<p>Company Name : <span style="color:red">{{friend.currentcompanyname}}</span></p>
+			<p>Experience : {{friend.employeementtype}}</p>
 			
 			<span style="float:right">
-				<button class="btn btn-success">Send Mail</button>	
-				<button class="btn btn-success">Message</button>	
+				<button class="btn btn-success" ng-click="sendMail(friend.email)">Send Mail</button>
 			</span>	
 	</div>
 	</div>
@@ -24,3 +23,45 @@
 		</div>
 	</div>
 </div>
+ <script type="text/ng-template" id="inmail.html">
+        
+        <div class="modal-header">
+            <h2 class="modal-title text-center" style="color:#337ab7">Send InMail</h2>
+        </div>
+        <div class="modal-body">
+	    <!-- Plans -->
+	    <section id="plans">
+	        <div>
+	            <div class="row">
+					<div class="col-md-12">
+						<form class="form-horizontal">
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">To</label>
+						    <div class="col-sm-10">
+						      <input type="email" class="form-control" id="inputEmail3" placeholder="To" ng-model="sendmail.to" ng-disabled="true">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">Subject</label>
+						    <div class="col-sm-10">
+						      <input type="text" class="form-control" id="inputPassword3" placeholder="Subject" ng-model="sendmail.subject">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-2 control-label">Message</label>
+						    <div class="col-sm-10">			      
+						      <textarea class="form-control" rows="3" placeholder="Message" ng-model="sendmail.message"></textarea>
+						    </div>
+						  </div>				  					 
+						</form>
+					</div>
+	            </div>
+	        </div>
+	    </section>
+	    <!-- /Plans -->
+        </div>
+        <div class="modal-footer">    
+        	<button class="btn btn-success" ng-click="sendInmail()">Send</button>        
+            <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+        </div>
+ </script>

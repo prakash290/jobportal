@@ -12,5 +12,5 @@ import org.json.simple.JSONObject;
 public interface IEmployeeBuildGraph {	
 	public void createEmployeeNode(net.sf.json.JSONObject employee);
 	public void createEmployeeProfileNode(JSONObject employeeProfile);
-	
+	public void updateEmployeeProfileNode(net.sf.json.JSONObject employee);
 }

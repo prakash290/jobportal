@@ -25,4 +25,10 @@ public class EmployeeBuildGraph implements IEmployeeBuildGraph{
 		employeebuildnode.newEmployeeProfileNode(employeeProfile);
 	}
 
+
+	@Override
+	public void updateEmployeeProfileNode(JSONObject employee) {
+		employeebuildnode.updateEmployeeProfileNode(employee);
+	}
+
 }

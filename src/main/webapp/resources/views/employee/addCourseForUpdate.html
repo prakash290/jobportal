@@ -1,0 +1,64 @@
+<span>
+<div class="row">
+		<div class="col-md-12">
+<form class="form-horizontal" name="employeeregister" class="courses">
+  <div class="form-group">
+    <label for="Full Name" class="col-sm-3 control-label" style="text-align:left">Full Name</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" ng-model="employeeInformation.personaldetails.fullname" name="fullname" placeholder="Course">      
+    </div>
+  </div>
+  <div class="form-group">
+      <label for="exp" class="col-sm-3 control-label" style="text-align:left">From</label>
+      
+			
+      <!-- This is for normal User -->
+      <div class="col-sm-4">
+	        <select class="form-control" ng-model="employeeInformation.othercourses.course.from" name="currentlocation"> 
+				<option value="" selected>Choose</option>
+				<option>2002</option> 
+			</select>			
+      </div>
+  </div>
+  <div class="form-group">
+      <label for="exp" class="col-sm-3 control-label" style="text-align:left">To</label>
+      
+			
+      <!-- This is for normal User -->
+      <div class="col-sm-4">
+	        <select class="form-control" ng-model="employeeInformation.othercourses.course.to" name="currentlocation"> 
+				<option value="" selected>Choose</option>
+				<option>2002</option> 
+			</select>			
+      </div>
+  </div>
+  <button class="btn btn-info" type="button" ng-click="updateCourse()">Save</button>
+  <button class="btn btn-danger" type="button" ng-click="updateCourse()">Cancel</button>
+  
+</form>
+		</div>
+</div>	
+<!-- <form class="form-inline">
+	<div class="courses" >
+		 <div class="form-group"> 
+			<label for="Full Name" class="control-label" style="text-align:left;width:100px;">Course Name</label> 
+			<input type="text" class="form-control" ng-model="employeeInformation.othercourses.course.course" placeholder="Enter course name"> 
+		</div> 
+		<div class="form-group"> 
+			<label for="from">From</label> 
+			<select class="form-control" ng-model="employeeInformation.othercourses.course.from" name="currentlocatio"> 
+				<option value="" selected>Choose</option>
+				<option>2001</option>
+			 </select>
+		 </div> 
+		<div class="form-group"> 
+			<label for="from">To</label> 
+			<select class="form-control" ng-model="employeeInformation.othercourses.course.to" name="currentlocation"> 
+				<option value="" selected>Choose</option>
+				<option>2002</option> 
+			</select> 
+		</div> 
+	</div>	
+</form> -->
+</span>
+

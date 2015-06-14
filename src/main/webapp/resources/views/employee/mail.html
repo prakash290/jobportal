@@ -1,0 +1,48 @@
+<h2>This is mail view</h2>
+<div class="col-md-2">
+	<p ng-init="inbox = true" ng-click="inbox = true ;send = false ">inbox</p>
+	<p ng-init="send = false" ng-click="send = true ; inbox = false">send</p>
+</div>
+<div class="col-md-10">
+	<div ng-show="inbox">
+		<div ng-show="inmails.length>0">
+			<ul>
+				<li ng-repeat="mail in inmails">
+					<span>
+					<p>{{mail.message}}</p>
+					<p ng-repeat=" reply in mail.sample">
+						{{reply.msg}}	
+					</p>
+					<p ng-click="reply(mail.id)">reply</p>
+					</span>
+					<div ng-show="ma.reply[mail.id]" ng-init="ma.reply[mail.id]=false">
+						<div class="row">
+						<form>
+						<div class="col-md-5">
+							<textarea class="form-control" rows="3" ng-model="reply.message" ></textarea>
+							<button type="button" class="btn btn-info" ng-click="sendreply(mail.id,mail.from)">Send</button>
+							<button type="button" class="btn btn-info" ng-click="cancelreply(mail.id)">Cancel</button>
+						</div>	
+						</form>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div ng-show="!(inmails.length>0)">
+			There is no inmail
+		</div>
+	</div>
+	<div ng-show="send">
+		<div ng-show="sendmails.length>0">
+			<ul>
+				<li ng-repeat="mail in sendmails">
+					<p>{{mail.message}}</p>
+				</li>
+			</ul>
+		</div>
+		<div ng-show="!(sendmails.length>0)">
+			There is no sendmail
+		</div>
+	</div>
+</div>
