@@ -36,5 +36,9 @@ public class EmployeeMailController {
 		return employeeemailservice.sendReply(employee);
 	}
 	
+	@RequestMapping(value="/reply2",method=RequestMethod.POST)	
+	public @ResponseBody JSONObject sendreply2(@RequestBody JSONObject employee){		
+		return employeeemailservice.sendReply(employee);
+	}
 	
 }
