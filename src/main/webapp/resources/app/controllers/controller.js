@@ -2209,6 +2209,41 @@ bcloud.controller('mailCtrl',['$scope','mailService','authentication','getinboxm
     $scope.cancelreply = function(id){
       $scope.ma.reply[id] = false;
     };
+      $scope.check = function(){
+    alert($scope.inmail.name);
+  };
+  $scope.inmail = {};
+  $scope.inboxConfig = {
+        "replyMsg":false,
+        "inboxpreviewmode":true
+  };
+
+    // For Directive
+
+    $scope.tabcontent = true;
+
+    $scope.toggleContent = function(){
+      $scope.tabcontent = !$scope.tabcontent;
+    };
+   
+     $scope.openMail = function(id,index){    
+        $scope.readmail = filtered[index];
+        $scope.inboxConfig.inboxpreviewmode = !$scope.inboxConfig.inboxpreviewmode;
+     };
+     $scope.sendreplyMsg = function(id,to){
+
+      var employee = {};
+      employee.email = authentication.getEmployee();
+      employee.to = to;
+      employee.msgid = id;
+      employee.message = $scope.reply.replymessage;
+      console.log(employee);       
+      var result = mailService.sendreplys(employee);
+      result.then(function(data){
+        console.log(data);
+        $scope.inboxConfig.replyMsg = false;
+      });
+    };
 
 }]);
 
@@ -2303,6 +2338,15 @@ bcloud.controller('inmailCtrl', function ($scope, $modalInstance,friendRequestSe
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
+  $scope.date = function(date){
+    var day = moment(date, "DD-MM-YYYY HH:mm:ss").format("MM-DD-YYYY HH:mm:ss");
+    console.log(day);
+    console.log(Date.parse(day));
+    return Date.parse(day);
+  };
+
+
 });
 
 function emptycheck(value){
@@ -2352,3 +2396,40 @@ function dataURItoBlob(dataURI) {
     }
     return new Blob([ab], { type: 'image/jpeg' });
 }
+
+bcloud.filter('fromNow', function($filter) {
+  return function(date) {
+    console.log(date);
+    date =parseInt(date);
+    moment.locale('en');  
+   console.log(moment.unix(date).fromNow());
+
+   return moment.unix(date).fromNow();
+  }
+});
+
+bcloud.filter('displayDate', function($filter) {
+  return function(date) {  
+    date =parseInt(date);
+    moment.locale('en'); 
+
+   return moment.unix(date).format("DD-MM-YYYY hh:mm:ss:a");
+  }
+});
+
+bcloud.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+   filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {
+     
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) filtered.reverse();
+    console.log(filtered);
+    return filtered;
+  };
+});
+

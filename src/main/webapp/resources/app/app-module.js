@@ -1,4 +1,4 @@
-var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate','tagger','ngCookies','satellizer','ngStorage','ngFacebook','ngSanitize','angular.chosen','ngImgCrop']);
+var bcloud=angular.module('bcloud',['ngRoute','ui.bootstrap','ngAnimate','tagger','ngCookies','satellizer','ngStorage','ngFacebook','ngSanitize','angular.chosen','ngImgCrop','yaru22.angular-timeago']);
 
 bcloud.config(function($routeProvider,$locationProvider){
 	//$locationProvider.html5Mode(true);

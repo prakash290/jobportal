@@ -1,6 +1,7 @@
 package com.justbootup.blouda.dao;
 
 import java.awt.List;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,14 +52,21 @@ public class EmployeeMailServiceDao {
 				sendEmail.remove("email");
 				
 				Date currentDate = new Date( );
-			    SimpleDateFormat currenDateFormat = new SimpleDateFormat ("dd-MM-yyyy hh:mm:ss");
+			    SimpleDateFormat currenDateFormat = new SimpleDateFormat ("dd-MM-yyyy hh:mm:ss a");
 			    
 			    sendEmail.put("sendAt",currenDateFormat.format(currentDate));
+			    long epoch = System.currentTimeMillis()/1000;
+			    System.out.println(epoch);
+			    
+			    String epochTime = Long.toString(epoch);
+			    
+			    sendEmail.put("epoch", epochTime);
 			    String id = RandomStringUtils.randomAlphanumeric(20);
 			    long millisStart = Calendar.getInstance().getTimeInMillis();
 			    id=id+millisStart;
 			    System.out.println("Id is : "+id);
 			    sendEmail.put("id",id);
+			    sendEmail.put("viewed", false);
 			    
 			    System.out.println("query is : "+query);
 			    System.out.println("object is : "+sendEmail);
@@ -106,6 +114,8 @@ public class EmployeeMailServiceDao {
 		
 	}
 	
+	
+	
 	public BasicDBObject getInboxMails(JSONObject employee)
 	{
 		BasicDBObject result = new BasicDBObject();
@@ -132,18 +142,27 @@ public class EmployeeMailServiceDao {
 			BasicDBObject secondmatch = new BasicDBObject();
 			secondmatch.append("$match", unwindquery);
 			
+			BasicDBObject sort = new BasicDBObject();
+			sort.append("epoch", -1);
+			
 			BasicDBObject projection = new BasicDBObject();	
 			projection.append("inMails",1);
 			
 			ArrayList<DBObject> pipeline = new ArrayList<DBObject>();
 			pipeline.add(match);
 			pipeline.add(unwind);
-			pipeline.add(secondmatch);			
+			pipeline.add(secondmatch);	
+			
+			
 			System.out.println(match);
 			System.out.println(unwind);
 			System.out.println(secondmatch);
+			System.out.println(sort);
 			System.out.println(projection);
 			pipeline.add(new BasicDBObject().append("$project",projection));
+			pipeline.add(new BasicDBObject().append("$sort",sort));
+			
+			
 			
 			AggregationOutput out = collection.aggregate(pipeline);
 			
@@ -215,6 +234,12 @@ public class EmployeeMailServiceDao {
 			employee.remove("email");
 			employee.remove("id"); 
 			employee.put("sendAt",currentDate);
+			long epoch = System.currentTimeMillis()/1000;
+		    System.out.println(epoch);
+		    
+		    String epochTime = Long.toString(epoch);
+		    
+		    employee.put("epoch", epochTime);
 			
 			BasicDBObject updateQueryValue = new BasicDBObject();
 			updateQueryValue.append("inMails.$.replys", employee);

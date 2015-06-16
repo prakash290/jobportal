@@ -227,7 +227,7 @@
 		
 		<!-- R Dependency jar -->
 		<dependency>
-			<groupId>com.rengine</groupId>
+			<groupId>com.rserve</groupId>
 			<artifactId>rengine</artifactId>
 			<version>1</version>
 		</dependency>

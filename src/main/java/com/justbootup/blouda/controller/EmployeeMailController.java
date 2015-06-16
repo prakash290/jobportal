@@ -34,8 +34,6 @@ public class EmployeeMailController {
 	@RequestMapping(value="/reply",method=RequestMethod.POST)	
 	public @ResponseBody JSONObject sendreply(@RequestBody JSONObject employee){		
 		return employeeemailservice.sendReply(employee);
-	}
-	
-	
-	
+	}	
+
 }

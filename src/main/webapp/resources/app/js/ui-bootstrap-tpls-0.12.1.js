@@ -2980,7 +2980,7 @@ angular.module('ui.bootstrap.tabs', [])
 .controller('TabsetController', ['$scope', function TabsetCtrl($scope) {
   var ctrl = this,
       tabs = ctrl.tabs = $scope.tabs = [];
-
+      $scope.tabcontent = true;
   ctrl.select = function(selectedTab) {
     angular.forEach(tabs, function(tab) {
       if (tab.active && tab !== selectedTab) {
@@ -3018,6 +3018,11 @@ angular.module('ui.bootstrap.tabs', [])
   $scope.$on('$destroy', function() {
     destroyed = true;
   });
+
+  $scope.toggleContent = function(){
+    $scope.tabcontent = !$scope.tabcontent;
+  };
+
 }])
 
 /**
@@ -3056,13 +3061,16 @@ angular.module('ui.bootstrap.tabs', [])
     transclude: true,
     replace: true,
     scope: {
-      type: '@'
+      type: '@',
+      tabcontent : '=?'
     },
     controller: 'TabsetController',
     templateUrl: 'template/tabs/tabset.html',
     link: function(scope, element, attrs) {
+      console.log(scope.tabcontent);
       scope.vertical = angular.isDefined(attrs.vertical) ? scope.$parent.$eval(attrs.vertical) : false;
       scope.justified = angular.isDefined(attrs.justified) ? scope.$parent.$eval(attrs.justified) : false;
+
     }
   };
 })
@@ -3161,8 +3169,9 @@ angular.module('ui.bootstrap.tabs', [])
                           //once it inserts the tab's content into the dom
       onDeselect: '&deselect'
     },
-    controller: function() {
-      //Empty controller so other directives can require being 'under' a tab
+    controller: function($scope) {
+      //Empty controller so other directives can require being 'under' a tab      
+
     },
     compile: function(elm, attrs, transclude) {
       return function postLink(scope, elm, attrs, tabsetCtrl) {
@@ -3188,11 +3197,13 @@ angular.module('ui.bootstrap.tabs', [])
         tabsetCtrl.addTab(scope);
         scope.$on('$destroy', function() {
           tabsetCtrl.removeTab(scope);
-        });
-
+        });     
         //We need to transclude later, once the content container is ready.
         //when this link happens, we're inside a tab heading.
         scope.$transcludeFn = transclude;
+
+        
+
       };
     }
   };
@@ -4151,15 +4162,23 @@ angular.module("template/tabs/tab.html", []).run(["$templateCache", function($te
 
 angular.module("template/tabs/tabset.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/tabs/tabset.html",
-    "<div>\n" +
+    "<div class=\"row\">\n" +
+    "<div class=\"col-md-3\" style=\"border-right:1px solid #ddd;\">\n" +
     "  <ul class=\"nav nav-{{type || 'tabs'}}\" ng-class=\"{'nav-stacked': vertical, 'nav-justified': justified}\" ng-transclude></ul>\n" +
-    "  <div class=\"tab-content\">\n" +
+    "</div>\n" +
+    "<div class=\"col-md-9\">\n" +
+    "  <div class=\"tab-content\" ng-show=\"tabcontent\">\n" +
     "    <div class=\"tab-pane\" \n" +
     "         ng-repeat=\"tab in tabs\" \n" +
     "         ng-class=\"{active: tab.active}\"\n" +
     "         tab-content-transclude=\"tab\">\n" +
     "    </div>\n" +
     "  </div>\n" +
+    "  <div ng-show=\"!tabcontent\">\n" +
+            "Ok I am visible Inside Directive\n"+
+            "<button ng-click=\"toggleContent()\">Hide Me</button>\n"+
+    "   </div>\n"+ 
+     "  </div>\n" +
     "</div>\n" +
     "");
 }]);

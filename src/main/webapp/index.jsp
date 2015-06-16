@@ -47,7 +47,8 @@
     
     <script type="text/javascript" src="resources/app/js/plugins/ng-img-crop.js" ></script>
 
-
+  
+    <script type="text/javascript" src="resources/app/js/plugins/moment.js" ></script>
     <script type="text/javascript" src="resources/app/js/angular-tagger.js" ></script>
     <script type="text/javascript" src="resources/app/js/satellizer.js" ></script>
     <script type="text/javascript" src="resources/app/js/bootstrap.js" ></script>
@@ -63,7 +64,8 @@
 
     <script type="text/javascript" src="resources/app/js/plugins/google-plus-signin.js" ></script>
 
-    <script type="text/javascript" src="resources/app/js/plugins/pusher.js" ></script>
+    <script type="text/javascript" src="ressources/app/js/plugins/pusher.js" ></script>
+  <script type="text/javascript" src="resources/app/js/plugins/timeago.js" ></script>
 
     <script type="text/javascript" src="resources/app/services/backend.js" ></script>
     <script type="text/javascript" src="resources/app/services/employeeServices.js" ></script>
@@ -110,7 +112,7 @@
               <li><a href="#/home">Home</a></li>
             	<li><a href="#/employeeLogin" ng-show="!isEmployeeLoggedIn">Employee Zone</a></li>
             	<li><a href="#/analytics">Analytics</a></li>   
-              <li><a href="#/hireme">Hire People</a></li>   
+              <!-- <li><a href="#/hireme">Hire People</a></li>    -->
               <!-- <li><a href="#/login" ng-show="!isEmployeeLoggedIn"> Login</a></li>    -->
               
               <li  ng-show="isEmployeeLoggedIn" class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{loggedUserEmail}} <span class="caret"></span></a>
